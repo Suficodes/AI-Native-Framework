@@ -1,0 +1,10 @@
+{
+  "dak_schema": 1,
+  "project_id": "a21e144f-e10d-43b0-9fa4-82eb468bd72c",
+  "name": "ai-native-control-tower",
+  "slug": "ai-native-control-tower",
+  "prefix": "AINA",
+  "created_utc": "2026-07-31T19:11:59Z",
+  "scaffold_kit_version": "4.4.1",
+  "ports": { "frontend": 3100, "backend": 8100, "db": 5432 }
+}

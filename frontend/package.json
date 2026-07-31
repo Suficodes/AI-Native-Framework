@@ -1,0 +1,27 @@
+{
+  "name": "ai-native-control-tower-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 3400",
+    "test": "vitest",
+    "validate:journey": "node scripts/validate-journey.mjs"
+  },
+  "dependencies": {
+    "@astryxdesign/core": "^0.1.2",
+    "@number-flow/react": "^0.6.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.1",
+    "marked": "^14.0.0",
+    "mermaid": "^11.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
+    "vite": "^8.1.1",
+    "vitest": "^3.0.0"
+  }
+}
