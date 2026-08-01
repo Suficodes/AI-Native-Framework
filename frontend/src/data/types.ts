@@ -491,7 +491,22 @@ export interface VRRecord {
 // ─────────────────────────── Token Economics & Observability ───────────────────────────
 
 export type TokenLevel = 'Enterprise' | 'Division' | 'Department' | 'Process' | 'Agent' | 'Harness' | 'Skill' | 'Model' | 'Transaction'
+/** The doc's Section 15 drill-down chain, outermost first. */
+export const TOKEN_LEVEL_ORDER: TokenLevel[] = [
+  'Enterprise', 'Division', 'Department', 'Process', 'Agent', 'Harness', 'Skill', 'Model', 'Transaction',
+]
 
+/** Reporting periods the token ledger covers, oldest first (`YYYY-MM`). */
+export const TOKEN_PERIODS = ['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07']
+
+/**
+ * One row of the token ledger. Rows above Transaction are **aggregates**: their
+ * figures are the exact sum of their children (the ledger is generated
+ * bottom-up), so drill-down never shows a total that disagrees with its parts.
+ * Transaction rows are individual calls — a sample kept for drill-down, not the
+ * full population, which is why aggregates carry `transactionCount` rather than
+ * relying on how many Transaction rows happen to exist.
+ */
 export interface TokenUsageRecord {
   id: ID
   level: TokenLevel
@@ -506,6 +521,12 @@ export interface TokenUsageRecord {
   retrievalCalls: number
   toolCalls: number
   retries: number
+  /** Tokens burned on retried attempts — the numerator of the retry-token ratio. */
+  retryTokens: number
+  /** Calls this row covers (1 for a Transaction row). */
+  transactionCount: number
+  /** Calls that produced an accepted business outcome — denominator for cost/tokens per outcome. */
+  successfulOutcomes: number
   latencyMs: number
   model: string
   outcome: 'Success' | 'Failure' | 'Partial'

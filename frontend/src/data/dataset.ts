@@ -42,12 +42,15 @@ export function buildDataset(): Dataset {
   const workContribution = buildWorkContribution(rng, employees, processes)
   const agentPerformance = buildAgentPerformance(rng, agents)
   const humanPerformance = buildHumanPerformance(rng, employees)
-  const vrRecords = buildValueRealization(rng, aiInitiatives, employees)
-  const tokenUsage = buildTokenUsage(rng, org.orgNodes, processes, agents, harnesses)
+  const vrRecords = buildValueRealization(rng, aiInitiatives, employees, agents, harnesses, processes)
+  // Reusable skills are built before the token ledger: the ledger's "Skill"
+  // level (Section 15's hierarchy) references the real skill registry rather
+  // than inventing parallel skill labels.
+  const reusableSkills = buildReusableSkills(rng, org.orgNodes, harnesses)
+  const tokenUsage = buildTokenUsage(rng, org.orgNodes, processes, agents, harnesses, reusableSkills)
   const budgetControls = buildBudgetControls(rng, agents, tokenUsage)
   const { agentRuns, traces, incidents, alertRules } = buildObservability(rng, agents, harnesses)
   const aiRooms = buildAIRooms(rng, employees, processes, aiInitiatives, agents, harnesses)
-  const reusableSkills = buildReusableSkills(rng, org.orgNodes, harnesses)
   const playbookLessons = buildPlaybookLessons(rng, processes, org.orgNodes)
 
   return {

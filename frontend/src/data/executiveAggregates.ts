@@ -106,7 +106,12 @@ export function computeInitiativeDeliveryStatus() {
 export function computeTokenCostByModel() {
   const { tokenUsage } = dataset
   const byModel: Record<string, number> = {}
-  for (const t of tokenUsage) byModel[t.model] = (byModel[t.model] ?? 0) + t.cost
+  // Model-level rows only. The ledger is a nesting hierarchy (Step 9), so
+  // summing every row would count the same spend once per level — and the
+  // rows above Model carry the placeholder label "All models" anyway.
+  for (const t of tokenUsage.filter((r) => r.level === 'Model')) {
+    byModel[t.model] = (byModel[t.model] ?? 0) + t.cost
+  }
   return Object.entries(byModel).map(([model, cost]) => ({ model, cost: Math.round(cost) })).sort((a, b) => b.cost - a.cost)
 }
 

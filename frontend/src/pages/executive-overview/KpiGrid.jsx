@@ -26,9 +26,9 @@ export function KpiGrid() {
         source="Process register" drillDownTo="/processes/agenticity" />
       <KpiCard label="Active AI Initiatives" value={k.activeInitiatives} tag="Observed"
         definition="Initiatives in Build, Evaluation, Probation, Production, or Scaling." source="AI Initiative portfolio" drillDownTo="/ai-initiatives" />
-      <KpiCard label="Validated Annual Value" value={k.validatedAnnualValue} prefix="AED " tag="Validated"
+      <KpiCard label="Validated Annual Value" value={k.validatedAnnualValue} currency compact tag="Validated"
         definition="Net benefit from VR records in Realized or Closed status." source="Value Realization ledger" drillDownTo="/value-realization" />
-      <KpiCard label="Total AI Cost" value={k.totalAiCost} prefix="AED " tag="Observed"
+      <KpiCard label="Total AI Cost" value={k.totalAiCost} currency compact tag="Observed"
         definition="Sum of agent operating cost across the registry." source="Digital Employee Registry" drillDownTo="/token-economics" />
       <KpiCard label="Useful Intelligence per AED" value={k.usefulIntelligencePerAed} format={{ maximumFractionDigits: 2 }} tag="Estimated"
         definition="Successful business outcomes divided by total AI cost." source="VR ledger ÷ Agent cost" drillDownTo="/value-realization" />

@@ -24,6 +24,12 @@ import D2DIntegration from "../pages/d2d-integration/D2DIntegration.jsx"
 import D2DDemandDetail from "../pages/d2d-integration/D2DDemandDetail.jsx"
 import CopilotWorkforce from "../pages/copilot-workforce/CopilotWorkforce.jsx"
 import WorkContributionLedger from "../pages/copilot-workforce/WorkContributionLedger.jsx"
+import AgentPerformance from "../pages/performance/AgentPerformance.jsx"
+import HumanPerformance from "../pages/performance/HumanPerformance.jsx"
+import ValueRealization from "../pages/value-realization/ValueRealization.jsx"
+import VRRecordDetail from "../pages/value-realization/VRRecordDetail.jsx"
+import TokenEconomics from "../pages/token-economics/TokenEconomics.jsx"
+import TransactionDetail from "../pages/token-economics/TransactionDetail.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -67,15 +73,17 @@ export const router = createHashRouter([
       { path: "copilot-workforce", element: <CopilotWorkforce /> },
       { path: "copilot-workforce/ledger", element: <WorkContributionLedger /> },
 
-      { path: "performance/agents", element: coming("Agent Performance", "KPIs and the 7-dimension Agent Performance Index.") },
-      { path: "performance/humans", element: coming("Human AI-Native Performance") },
+      { path: "performance/agents", element: <AgentPerformance /> },
+      { path: "performance/humans", element: <HumanPerformance /> },
 
-      { path: "value-realization", element: coming("Value Realization", "VR Portfolio, baselines, benefits, costs, validation, and executive analytics.") },
-      { path: "value-realization/:vrId", element: coming("VR record") },
-      { path: "value-realization/executive-analytics", element: coming("Value Realization — Executive Analytics") },
+      // "executive-analytics" is a static segment, so react-router ranks it
+      // above the :vrId pattern regardless of declaration order.
+      { path: "value-realization", element: <ValueRealization /> },
+      { path: "value-realization/executive-analytics", element: <ValueRealization /> },
+      { path: "value-realization/:vrId", element: <VRRecordDetail /> },
 
-      { path: "token-economics", element: coming("Token Economics", "Enterprise-to-transaction token hierarchy, budgets, and consumption analytics.") },
-      { path: "token-economics/transactions/:txId", element: coming("Transaction detail") },
+      { path: "token-economics", element: <TokenEconomics /> },
+      { path: "token-economics/transactions/:txId", element: <TransactionDetail /> },
 
       { path: "observability", element: coming("Observability", "AI operations and harness observability — traces, incidents, and alert rules.") },
       { path: "observability/traces/:traceId", element: coming("Trace detail") },

@@ -11,6 +11,7 @@ import { HoverCard } from '@astryxdesign/core/HoverCard'
 import { MetadataList, MetadataListItem } from '@astryxdesign/core/MetadataList'
 import { useNavigate } from 'react-router-dom'
 import { Metric } from '../dewa/Metric.jsx'
+import { Aed } from '../dewa/Aed.jsx'
 import { ValueTag } from '../dewa/ValueTag.jsx'
 
 const InfoIcon = () => (
@@ -19,9 +20,14 @@ const InfoIcon = () => (
   </svg>
 )
 
+/**
+ * `currency` renders the value as money with the real dirham glyph via <Aed>,
+ * which is what CONVENTIONS.md requires of every money figure — a `prefix="AED "`
+ * string is a violation, not a shortcut. Use `compact` for large amounts.
+ */
 export function KpiCard({
   label, value, format, suffix, prefix, sub, tag, definition, source, period = 'Q3 2026',
-  drillDownTo, trend,
+  drillDownTo, trend, currency = false, compact = false, decimals = 0,
 }) {
   const navigate = useNavigate()
   const clickable = Boolean(drillDownTo)
@@ -57,7 +63,9 @@ export function KpiCard({
           )}
         </HStack>
         <div className="kpi-value">
-          {typeof value === 'number' ? (
+          {currency && typeof value === 'number' ? (
+            <Aed aed={value} compact={compact} decimals={decimals} animated />
+          ) : typeof value === 'number' ? (
             <Metric value={value} format={format} suffix={suffix} prefix={prefix} trend={trend} />
           ) : (
             <span>{prefix}{value}{suffix}</span>

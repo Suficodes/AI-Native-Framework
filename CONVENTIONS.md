@@ -70,6 +70,8 @@ See `~/.claude/CLAUDE.md`. Summary:
 
 All money displayed to users uses `<Aed>` from `frontend/src/dewa/Aed.jsx`. Never hardcode `$` or `"AED"` strings.
 
+- In a `<KpiCard>`, pass `currency` (plus `compact` for large amounts, `decimals={2}` for sub-dirham figures) — **not** `prefix="AED "`, which renders the letters instead of the dirham glyph.
+
 ## Data layer (mock, not a real DB)
 
 - `data/seed/*.ts` run in **strict dependency order** (org → positions → employees → agents → processes → QPs → initiatives → harnesses → D2D → copilot/work-contribution → performance → VR → token/observability → strategic) sharing one in-memory ID registry — every foreign key must resolve to a real generated record. No dangling references.

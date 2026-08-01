@@ -4,17 +4,38 @@
   "tagline": "A CAIO-facing console that connects org structure, the human and agent workforce, Quality Procedures, processes, AI initiatives, harness engineering, D2D delivery, value realization and token economics into one product.",
   "updated_at": "2026-08-01T00:00:00Z",
   "hero_stats": [
-    { "value": 16, "label": "navigation modules" },
-    { "value": 24, "label": "entity types in the mock data model" },
-    { "value": 9, "label": "AI Playbook scope dimensions" },
-    { "value": 0, "label": "backend services (frontend-only prototype)" }
+    {
+      "value": 16,
+      "label": "navigation modules"
+    },
+    {
+      "value": 27,
+      "label": "entity types in the mock data model"
+    },
+    {
+      "value": 9,
+      "label": "levels in the token drill-down"
+    },
+    {
+      "value": 53,
+      "label": "data-layer tests"
+    }
   ],
   "challenge": {
-    "description": "Most AI dashboards show adoption. The requirement here was to show the whole transformation chain — organization to job to activity to Quality Procedure to process to human/agent allocation to AI initiative to agent harness to D2D delivery to performance to value realization to token economics to strategic outcome — as one connected, navigable product rather than a set of disconnected screens.",
+    "description": "Most AI dashboards show adoption. The requirement here was to show the whole transformation chain \u2014 organization to job to activity to Quality Procedure to process to human/agent allocation to AI initiative to agent harness to D2D delivery to performance to value realization to token economics to strategic outcome \u2014 as one connected, navigable product rather than a set of disconnected screens.",
     "stats": [
-      { "value": "20", "label": "business processes modelled" },
-      { "value": "15", "label": "governed agents with digital job descriptions" },
-      { "value": "15", "label": "agent harnesses" }
+      {
+        "value": "20",
+        "label": "business processes modelled"
+      },
+      {
+        "value": "15",
+        "label": "governed agents with digital job descriptions"
+      },
+      {
+        "value": "15",
+        "label": "agent harnesses"
+      }
     ]
   },
   "phases": [
@@ -26,7 +47,7 @@
     {
       "number": 2,
       "title": "Design tokens and the route shell",
-      "body": "The DEWA radius scale and 48px pill buttons layered on Astryx, the Estimated/Observed/Verified/Validated value tag, and the full route table for all 16 modules — every route real and clickable from day one."
+      "body": "The DEWA radius scale and 48px pill buttons layered on Astryx, the Estimated/Observed/Verified/Validated value tag, and the full route table for all 16 modules \u2014 every route real and clickable from day one."
     },
     {
       "number": 3,
@@ -36,12 +57,12 @@
     {
       "number": 4,
       "title": "Executive Overview",
-      "body": "All 16 KPIs and charts A–H, every number computed from the dataset rather than hardcoded, plus the Executive Attention Required panel."
+      "body": "All 16 KPIs and charts A\u2013H, every number computed from the dataset rather than hardcoded, plus the Executive Attention Required panel."
     },
     {
       "number": 5,
       "title": "Organization",
-      "body": "Two graph views — the traditional org chart and an AI-native workforce network with agent-supervision edges — over five-dimension filters and a current/target agenticity toggle."
+      "body": "Two graph views \u2014 the traditional org chart and an AI-native workforce network with agent-supervision edges \u2014 over five-dimension filters and a current/target agenticity toggle."
     },
     {
       "number": 6,
@@ -61,12 +82,17 @@
     {
       "number": 9,
       "title": "D2D Integration, Copilot and Workforce",
-      "body": "The 12-stage demand-to-delivery journey with a live per-stage demand count, and the deliberate separation of AI adoption from AI work contribution from AI business value — three different measures that are routinely conflated."
+      "body": "The 12-stage demand-to-delivery journey with a live per-stage demand count, and the deliberate separation of AI adoption from AI work contribution from AI business value \u2014 three different measures that are routinely conflated."
     },
     {
       "number": 10,
       "title": "AI Playbook",
-      "body": "A living playbook rather than a document: one scope resolver, one builder, and the same 15 sections re-derived for any of nine scopes — enterprise, division, department, section, job, process, Quality Procedure, agent, or strategic objective."
+      "body": "A living playbook rather than a document: one scope resolver, one builder, and the same 15 sections re-derived for any of nine scopes \u2014 enterprise, division, department, section, job, process, Quality Procedure, agent, or strategic objective."
+    },
+    {
+      "number": 11,
+      "title": "Performance, Value Realization and Token Economics",
+      "body": "Separate agent and human performance views built on a 7-dimension weighted index; Value Realization as eight tabs over one record set with a nine-gate approval workflow; and Token Economics rebuilt bottom-up so every level of the enterprise-to-transaction hierarchy is the exact sum of its children."
     }
   ],
   "features": [

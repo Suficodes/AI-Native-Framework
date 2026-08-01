@@ -43,12 +43,21 @@ export function buildAgentPerformance(rng: Rng, agents: Agent[]): AgentPerforman
 
 export function buildHumanPerformance(rng: Rng, employees: Employee[]): HumanAiPerformanceRecord[] {
   const sample = employees.slice(0, 25)
-  return sample.map((emp) => ({
-    id: `HPERF-${emp.id}`, employeeId: emp.id, period: 'Q3-2026',
-    aiEnabledOutputQuality: int(rng, 60, 97), effectiveCopilotAgentUse: int(rng, 40, 95),
-    capacityReleasedHours: int(rng, 10, 180), capacityRedeployedHours: int(rng, 5, 150),
-    agentSupervisionEffectiveness: int(rng, 55, 96), exceptionHandlingScore: int(rng, 60, 98),
-    processImprovementContributions: int(rng, 0, 8), knowledgeContributionScore: int(rng, 40, 95),
-    businessOutcomesScore: int(rng, 55, 97), responsibleAiCompliance: pick(rng, ['Compliant', 'Compliant', 'Compliant', 'UnderReview']),
-  }))
+  return sample.map((emp) => {
+    // Redeployed hours are a FRACTION of released hours, never an independent
+    // draw: you cannot reassign capacity that was never freed. Drawing the two
+    // separately let the fleet total redeploy more than it released, which
+    // pushed the redeployment-rate KPI above 100%.
+    const capacityReleasedHours = int(rng, 10, 180)
+    const capacityRedeployedHours = Math.round(capacityReleasedHours * (int(rng, 25, 95) / 100))
+    return {
+      id: `HPERF-${emp.id}`, employeeId: emp.id, period: 'Q3-2026',
+      aiEnabledOutputQuality: int(rng, 60, 97), effectiveCopilotAgentUse: int(rng, 40, 95),
+      capacityReleasedHours, capacityRedeployedHours,
+      agentSupervisionEffectiveness: int(rng, 55, 96), exceptionHandlingScore: int(rng, 60, 98),
+      processImprovementContributions: int(rng, 0, 8), knowledgeContributionScore: int(rng, 40, 95),
+      businessOutcomesScore: int(rng, 55, 97),
+      responsibleAiCompliance: pick(rng, ['Compliant', 'Compliant', 'Compliant', 'UnderReview']),
+    }
+  })
 }

@@ -9,6 +9,7 @@ import type {
   ID, Agent, Process, QualityProcedure, Position, Harness, AgentPerformanceRecord,
   TokenUsageRecord, VRRecord, BudgetControl, Incident, AgentRunEvent, Trace,
 } from './types'
+import { TOKEN_PERIODS } from './types'
 
 export function positionForAgent(agent: Agent): Position | undefined {
   if (!agent.orgAssignment.positionId) return undefined
@@ -40,12 +41,28 @@ export function performanceForAgent(agentId: ID): AgentPerformanceRecord | undef
   return dataset.agentPerformance.find((r) => r.agentId === agentId)
 }
 
+/**
+ * The agent's token usage for the most recent period, plus that period's
+ * harness breakdown. The ledger carries one row per agent per month
+ * (TOKEN_PERIODS), so this picks the latest rather than the first match —
+ * `find` would silently have returned the oldest month.
+ */
 export function tokenUsageForAgent(agentId: ID): { agentRecord: TokenUsageRecord | undefined; harnessRecords: TokenUsageRecord[] } {
-  const agentRecord = dataset.tokenUsage.find((t) => t.level === 'Agent' && t.refId === agentId)
+  const latestPeriod = TOKEN_PERIODS[TOKEN_PERIODS.length - 1]
+  const agentRecord = dataset.tokenUsage.find(
+    (t) => t.level === 'Agent' && t.refId === agentId && t.period === latestPeriod,
+  )
   const harnessRecords = agentRecord
     ? dataset.tokenUsage.filter((t) => t.level === 'Harness' && t.parentId === agentRecord.id)
     : []
   return { agentRecord, harnessRecords }
+}
+
+/** Every period's agent-level row, oldest first — for trend rendering. */
+export function tokenTrendForAgent(agentId: ID): TokenUsageRecord[] {
+  return dataset.tokenUsage
+    .filter((t) => t.level === 'Agent' && t.refId === agentId)
+    .sort((a, b) => a.period.localeCompare(b.period))
 }
 
 export function valueRealizationForAgent(agentId: ID): VRRecord[] {
