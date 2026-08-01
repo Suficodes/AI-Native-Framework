@@ -9,6 +9,10 @@ import EnterpriseMapShell from "../pages/enterprise-map/EnterpriseMapShell.jsx"
 import Administration from "../pages/administration/Administration.jsx"
 import ExecutiveOverview from "../pages/executive-overview/ExecutiveOverview.jsx"
 import Organization from "../pages/organization/Organization.jsx"
+import ProcessAgenticity from "../pages/processes/ProcessAgenticity.jsx"
+import ProcessDetail from "../pages/processes/ProcessDetail.jsx"
+import QualityProcedures from "../pages/processes/QualityProcedures.jsx"
+import QualityProcedureDetail from "../pages/processes/QualityProcedureDetail.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -25,10 +29,10 @@ export const router = createHashRouter([
 
       { path: "organization", element: <Organization /> },
 
-      { path: "processes/agenticity", element: coming("Process Agenticity", "Process hierarchy and step-level agenticity (L0–L6), led by the 14-step D2D process.") },
-      { path: "processes/agenticity/:processId", element: coming("Process detail") },
-      { path: "processes/quality-procedures", element: coming("Quality Procedures", "The QP register, compliance dashboard, and QP→agent-conversion view.") },
-      { path: "processes/quality-procedures/:qpId", element: coming("Quality Procedure detail") },
+      { path: "processes/agenticity", element: <ProcessAgenticity /> },
+      { path: "processes/agenticity/:processId", element: <ProcessDetail /> },
+      { path: "processes/quality-procedures", element: <QualityProcedures /> },
+      { path: "processes/quality-procedures/:qpId", element: <QualityProcedureDetail /> },
 
       { path: "ai-initiatives", element: coming("AI Initiatives", "Portfolio table and Kanban across 11 delivery stages.") },
       { path: "ai-initiatives/:initiativeId", element: coming("Initiative detail") },
