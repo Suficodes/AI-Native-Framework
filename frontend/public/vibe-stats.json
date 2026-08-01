@@ -1,7 +1,12 @@
 {
-  "total_prompts": 0,
+  "total_prompts": 2,
   "total_api_calls": 0,
-  "total_lines_written": 0,
-  "total_cost_usd": 0,
-  "updated_at": null
+  "total_lines_written": 22569,
+  "source_lines": 20854,
+  "files": 201,
+  "modules": 16,
+  "tests": 108,
+  "commits": 15,
+  "total_cost_usd": "Not tracked",
+  "updated_at": "2026-08-01"
 }
