@@ -55,6 +55,9 @@ export function buildQualityProcedures(rng: Rng, org: BuiltOrg, processes: Proce
       auditEvidence: ['Full agent trace', 'Source citations', 'Human edit diff'],
     },
   })
+  nextQpId() // burn the QP-01 slot the hand-authored record above already used,
+  // so the loop below (which calls nextQpId() for every other title) doesn't
+  // collide with it.
 
   for (let i = 1; i < QP_TITLES.length; i++) {
     const process = pick(rng, processes)
