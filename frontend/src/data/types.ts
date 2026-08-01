@@ -593,6 +593,249 @@ export interface AIRoom {
   nextActions: string[]
 }
 
+// ─────────────────────────── AI Playbook ───────────────────────────
+//
+// The playbook is a *living* artefact (requirements doc Section 10: "Do not
+// design it as a static document"). Only two of its inputs are seeded as
+// entities — ReusableSkill and PlaybookLesson, which have no home elsewhere in
+// the model. Everything else below is a **derived** shape: data/playbookAggregates.ts
+// builds one `Playbook` from a `PlaybookScope` over the existing dataset, so
+// every scope (division / department / section / job / process / QP / agent /
+// strategic objective) gets the same 15 sections from the same code path.
+
+export type PlaybookScopeType =
+  | 'enterprise' | 'division' | 'department' | 'section'
+  | 'job' | 'process' | 'qp' | 'agent' | 'objective'
+
+export const PLAYBOOK_SCOPE_LABELS: Record<PlaybookScopeType, string> = {
+  enterprise: 'Enterprise',
+  division: 'Division',
+  department: 'Department',
+  section: 'Section',
+  job: 'Job',
+  process: 'Process',
+  qp: 'Quality Procedure',
+  agent: 'Agent',
+  objective: 'Strategic objective',
+}
+
+/** Everything a scope resolves to. Each playbook section is a pure function of this. */
+export interface PlaybookScope {
+  type: PlaybookScopeType
+  id: ID
+  label: string
+  context: string
+  divisionIds: ID[]
+  sectionIds: ID[]
+  positionIds: ID[]
+  employeeIds: ID[]
+  agentIds: ID[]
+  processIds: ID[]
+  qpIds: ID[]
+  initiativeIds: ID[]
+  harnessIds: ID[]
+  demandIds: ID[]
+  objectiveIds: ID[]
+}
+
+export interface PlaybookVisionPillar {
+  name: string
+  description: string
+  currentPct: number
+  targetPct: number
+  measure: string
+}
+
+export interface PlaybookVision {
+  statement: string
+  pillars: PlaybookVisionPillar[]
+}
+
+export interface PlaybookOperatingModel {
+  principles: string[]
+  workforceMix: { type: WorkforceType; label: string; positions: number; sharePct: number }[]
+  controlPoints: { qpId: ID; title: string; indicator: QpIndicator }[]
+  humanAccountabilities: string[]
+  agentAccountabilities: string[]
+}
+
+export interface PlaybookTransformationGuidance {
+  unitId: ID
+  unitName: string
+  fromState: string
+  toState: string
+  currentAgenticity: AgenticityLevel | null
+  targetAgenticity: AgenticityLevel | null
+  aiCoveragePct: number
+  moves: string[]
+}
+
+export interface PlaybookQuickWin {
+  id: ID
+  title: string
+  processId: ID
+  processName: string
+  currentOwner: string
+  effort: 'Low' | 'Medium' | 'High'
+  timeToValueWeeks: number
+  valueOpportunity: Tagged<number>
+  rationale: string
+}
+
+export type PlaybookHorizon = 'Now' | 'Next' | 'Later'
+export const PLAYBOOK_HORIZONS: PlaybookHorizon[] = ['Now', 'Next', 'Later']
+export const PLAYBOOK_HORIZON_LABELS: Record<PlaybookHorizon, string> = {
+  Now: 'Now — 0 to 3 months',
+  Next: 'Next — 3 to 9 months',
+  Later: 'Later — 9 to 18 months',
+}
+
+export interface PlaybookAgenticityStep {
+  processId: ID
+  processName: string
+  currentAgenticity: AgenticityLevel
+  targetAgenticity: AgenticityLevel
+  levelGap: number
+  readinessScore: number
+  riskScore: number
+  horizon: PlaybookHorizon
+  blockers: string[]
+}
+
+export type SourcingDecision = 'Buy' | 'Configure' | 'Build'
+
+/** The 10 fields the requirements doc requires for every recommended agent (Section 10). */
+export interface PlaybookRecommendedAgent {
+  id: ID
+  name: string
+  problemAddressed: string
+  processSupported: string
+  processId?: ID
+  humanRoleAffected: string
+  expectedAiContributionPct: number
+  expectedAiContribution: string
+  requiredHumanControls: string[]
+  recommendedPlatform: string
+  sourcing: SourcingDecision
+  sourcingRationale: string
+  expectedValue: Tagged<number>
+  complexity: 'Low' | 'Medium' | 'High'
+  risk: 'Low' | 'Medium' | 'High'
+  deliveryPriority: 'P1' | 'P2' | 'P3'
+  maturity: 'Live' | 'In delivery' | 'Proposed'
+  agentId?: ID
+  initiativeId?: ID
+}
+
+export interface PlaybookSourcingCriterion {
+  decision: SourcingDecision
+  whenToUse: string[]
+  platforms: string[]
+  recommendedCount: number
+}
+
+export interface PlaybookRequiredData {
+  name: string
+  purpose: string
+  sourceSystem: string
+  readinessPct: number
+  status: 'Available' | 'Needs preparation' | 'Gap'
+}
+
+export type HarnessRequirementCategory =
+  | 'Structure' | 'Guardrails' | 'HumanControl' | 'Evaluation' | 'Observability' | 'CostControl'
+
+export interface PlaybookHarnessRequirement {
+  requirement: string
+  category: HarnessRequirementCategory
+  status: 'Met' | 'Partial' | 'NotMet'
+  evidence: string
+}
+
+export interface PlaybookGovernance {
+  rules: { area: string; rule: string }[]
+  approvalGates: string[]
+  accountableRoles: { role: string; responsibility: string }[]
+  complianceSnapshot: { label: string; value: number; suffix: string; tag: ValueTagKind }[]
+  openRisks: string[]
+}
+
+export interface PlaybookValueOpportunity {
+  processOpportunity: Tagged<number>
+  initiativeExpectedValue: Tagged<number>
+  realizedNetBenefit: Tagged<number>
+  totalAiCost: number
+  benefitRealizationPct: number
+  byBenefitType: { type: BenefitCategory; amount: number }[]
+}
+
+export interface PlaybookTokenBudget {
+  periodCost: number
+  inputTokens: number
+  outputTokens: number
+  cachedTokens: number
+  annualBudget: number
+  monthlyBudget: number
+  utilizationPct: number
+  costPerVerifiedHourReleased: number
+  guidance: string[]
+}
+
+export interface PlaybookRoadmapItem {
+  initiativeId: ID
+  title: string
+  horizon: PlaybookHorizon
+  stage: InitiativeStage
+  status: string
+  goLiveDate?: string
+  expectedValue: Tagged<number>
+  dependencies: string[]
+}
+
+export interface PlaybookLesson {
+  id: ID
+  title: string
+  context: string
+  lesson: string
+  recommendation: string
+  sourceType: 'Delivery' | 'Incident' | 'Evaluation' | 'Adoption'
+  appliesToProcessIds: ID[]
+  appliesToDivisionIds: ID[]
+}
+
+export interface ReusableSkill {
+  id: ID
+  name: string
+  description: string
+  category: 'Document' | 'Analysis' | 'Retrieval' | 'Validation' | 'Integration' | 'Communication'
+  ownerSectionId: ID
+  maturity: 'Pilot' | 'Approved' | 'Standard'
+  approvedForAutonomy: AgenticityLevel
+  usedByHarnessIds: ID[]
+  reuseCount: number
+  avgTokenCostPerCall: number
+}
+
+/** The assembled playbook — the 15 sections of requirements doc Section 10, in order. */
+export interface Playbook {
+  scope: PlaybookScope
+  vision: PlaybookVision
+  operatingModel: PlaybookOperatingModel
+  transformationGuidance: PlaybookTransformationGuidance[]
+  quickWins: PlaybookQuickWin[]
+  agenticityRoadmap: PlaybookAgenticityStep[]
+  recommendedAgents: PlaybookRecommendedAgent[]
+  sourcingCriteria: PlaybookSourcingCriterion[]
+  requiredData: PlaybookRequiredData[]
+  harnessRequirements: PlaybookHarnessRequirement[]
+  governance: PlaybookGovernance
+  valueOpportunity: PlaybookValueOpportunity
+  tokenBudget: PlaybookTokenBudget
+  implementationRoadmap: PlaybookRoadmapItem[]
+  lessonsLearned: PlaybookLesson[]
+  reusableSkills: ReusableSkill[]
+}
+
 // ─────────────────────────── The full dataset shape ───────────────────────────
 
 export interface Dataset {
@@ -621,4 +864,6 @@ export interface Dataset {
   strategicObjectives: StrategicObjective[]
   excellenceCriteria: ExcellenceCriterion[]
   aiRooms: AIRoom[]
+  reusableSkills: ReusableSkill[]
+  playbookLessons: PlaybookLesson[]
 }

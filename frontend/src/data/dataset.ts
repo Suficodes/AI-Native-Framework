@@ -21,6 +21,7 @@ import { buildCopilotUsage, buildWorkContribution } from './seed/workContributio
 import { buildAgentPerformance, buildHumanPerformance } from './seed/performance.seed'
 import { buildValueRealization } from './seed/valueRealization.seed'
 import { buildTokenUsage, buildBudgetControls, buildObservability } from './seed/tokenUsage.seed'
+import { buildReusableSkills, buildPlaybookLessons } from './seed/playbook.seed'
 
 const SEED = 42
 
@@ -43,15 +44,17 @@ export function buildDataset(): Dataset {
   const humanPerformance = buildHumanPerformance(rng, employees)
   const vrRecords = buildValueRealization(rng, aiInitiatives, employees)
   const tokenUsage = buildTokenUsage(rng, org.orgNodes, processes, agents, harnesses)
-  const budgetControls = buildBudgetControls(rng, agents)
+  const budgetControls = buildBudgetControls(rng, agents, tokenUsage)
   const { agentRuns, traces, incidents, alertRules } = buildObservability(rng, agents, harnesses)
   const aiRooms = buildAIRooms(rng, employees, processes, aiInitiatives, agents, harnesses)
+  const reusableSkills = buildReusableSkills(rng, org.orgNodes, harnesses)
+  const playbookLessons = buildPlaybookLessons(rng, processes, org.orgNodes)
 
   return {
     orgNodes: org.orgNodes, jobDescriptions, positions, employees, agents,
     processes, processSteps, qualityProcedures, aiInitiatives, harnesses, d2dDemands,
     copilotUsage, workContribution, agentPerformance, humanPerformance, vrRecords,
     tokenUsage, budgetControls, agentRuns, traces, incidents, alertRules,
-    strategicObjectives, excellenceCriteria, aiRooms,
+    strategicObjectives, excellenceCriteria, aiRooms, reusableSkills, playbookLessons,
   }
 }

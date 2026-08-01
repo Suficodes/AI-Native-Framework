@@ -40,7 +40,10 @@ export function buildOrgIndex(): OrgIndex {
   return cachedIndex
 }
 
-function descendantSectionIds(nodeId: ID, index: OrgIndex): ID[] {
+/** Every Section under `nodeId` (or the node itself if it already is one). Exported
+ *  because data/playbookScope.ts resolves an org scope the same way — grepped for
+ *  before writing a second copy (CONVENTIONS.md "convention before creation"). */
+export function descendantSectionIds(nodeId: ID, index: OrgIndex = buildOrgIndex()): ID[] {
   const node = index.nodesById[nodeId]
   if (!node) return []
   if (node.level === 'Section') return [nodeId]

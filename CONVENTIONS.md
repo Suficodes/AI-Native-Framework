@@ -20,7 +20,7 @@
 - **TS data/logic modules:** `camelCase.ts` (e.g. `mockApi.ts`, `calc.ts`) or `PascalCase.ts` for pure type files (`types.ts` is the one exception, kept lowercase by convention)
 - **Route paths:** kebab-case, nouns (`/ai-initiatives`, `/harness-engineering`, `/value-realization`)
 - **CSS classes:** `kebab-case`, no BEM (rely on scoped styles / Astryx tokens)
-- **Mock entity IDs:** stable, human-readable prefixes — `DIV-`, `SD-`, `DPT-`, `SEC-`, `POS-`, `EMP-`, `AGT-`, `PROC-`, `QP-`, `INIT-`, `HAR-`, `DEM-`, `VR-`, `SO-`, `EC-`, `ROOM-`, `ROLE-`, `TX-`. The two required worked examples use **fixed, memorable IDs** rather than sequential ones: `POS-BA-D2D-01` (Senior Business Analyst), `AGT-D2D-DOC-01` / `HAR-D2D-BRD-01` (D2D Documentation Agent + its harness), `PROC-D2D` (the 14-step D2D process).
+- **Mock entity IDs:** stable, human-readable prefixes — `DIV-`, `SD-`, `DPT-`, `SEC-`, `POS-`, `EMP-`, `AGT-`, `PROC-`, `QP-`, `INIT-`, `HAR-`, `DEM-`, `VR-`, `SO-`, `EC-`, `ROOM-`, `ROLE-`, `TX-`, `SKILL-`, `LES-`. The two required worked examples use **fixed, memorable IDs** rather than sequential ones: `POS-BA-D2D-01` (Senior Business Analyst), `AGT-D2D-DOC-01` / `HAR-D2D-BRD-01` (D2D Documentation Agent + its harness), `PROC-D2D` (the 14-step D2D process).
 
 ## File structure
 
@@ -87,6 +87,7 @@ All money displayed to users uses `<Aed>` from `frontend/src/dewa/Aed.jsx`. Neve
 - **Every button** imports `dewa/DewaButton.jsx`, never the raw Astryx `Button` (Astryx's `Button` has no 48px pill size — DEWA's `DESIGN.md` requires one on every button; `DewaButton` is the wrapper that enforces it).
 - **Every important value** (benefit, cost, coverage %, capacity released, etc.) is tagged `Estimated | Observed | Verified | Validated` via `dewa/ValueTag.jsx` (a DEWA-brand primitive, alongside `Aed.jsx`/`Metric.jsx` — not an app-domain component) — this is a hard requirement from the spec's UX section, not optional polish.
 - **The Enterprise Map (`/enterprise-map`) is one shared graph dataset + a pure `applyLens(lens, graph)` function per lens** — never build a lens as its own independent screen/dataset. This is the single most important architectural rule in the whole app; breaking it turns 10 lenses into 10 diverging, inconsistent implementations.
+- **The AI Playbook (`/ai-playbook`) follows the same rule in its own shape:** one `resolvePlaybookScope(type, id)` → one `PlaybookScope` (a set of entity IDs) → one `buildPlaybook(scope)` deriving all 15 sections. Nine scope dimensions, one code path — never a per-scope screen and never per-scope content. Section copy that is genuinely enterprise doctrine (vision, principles, governance rules, sourcing criteria) lives in `data/seed/playbook.seed.ts`; everything numeric is derived for the active scope.
 - **No modals for primary content** — use `components/SidePanel.jsx` (slide-in). `Dialog`/`AlertDialog` from Astryx are for confirmations only (e.g. "Approve this VR record?").
 - RTL/Arabic is out of scope for this pass — DESIGN.md's Arabic tokens exist in the CSS but are unused. Don't build RTL-specific logic.
 - Timezone: Asia/Dubai (for any date formatting).

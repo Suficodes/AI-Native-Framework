@@ -19,6 +19,7 @@ import Agents from "../pages/agents/Agents.jsx"
 import AgentProfile from "../pages/agents/AgentProfile.jsx"
 import HarnessRegistry from "../pages/harness-engineering/HarnessRegistry.jsx"
 import HarnessDesigner from "../pages/harness-engineering/HarnessDesigner.jsx"
+import AIPlaybook from "../pages/ai-playbook/AIPlaybook.jsx"
 import D2DIntegration from "../pages/d2d-integration/D2DIntegration.jsx"
 import D2DDemandDetail from "../pages/d2d-integration/D2DDemandDetail.jsx"
 import CopilotWorkforce from "../pages/copilot-workforce/CopilotWorkforce.jsx"
@@ -53,9 +54,12 @@ export const router = createHashRouter([
       { path: "harness-engineering", element: <HarnessRegistry /> },
       { path: "harness-engineering/:harnessId", element: <HarnessDesigner /> },
 
-      { path: "ai-playbook", element: coming("AI Playbook", "The living, scope-filtered enterprise AI Playbook.") },
-      { path: "ai-playbook/:scopeType/:scopeId", element: coming("Playbook — filtered view") },
-      { path: "ai-playbook/example/d2d", element: coming("AI Playbook — D2D department example") },
+      // The static "example/d2d" segment is declared before the :scopeType/:scopeId
+      // pattern for readability; react-router ranks static segments above dynamic
+      // ones regardless of order, so the example route always wins.
+      { path: "ai-playbook", element: <AIPlaybook /> },
+      { path: "ai-playbook/example/d2d", element: <AIPlaybook exampleD2D /> },
+      { path: "ai-playbook/:scopeType/:scopeId", element: <AIPlaybook /> },
 
       { path: "d2d-integration", element: <D2DIntegration /> },
       { path: "d2d-integration/demands/:demandId", element: <D2DDemandDetail /> },

@@ -79,17 +79,34 @@ export function buildTokenUsage(rng: Rng, orgNodes: OrgNode[], processes: Proces
   return records
 }
 
-export function buildBudgetControls(rng: Rng, agents: Agent[]): BudgetControl[] {
-  return agents.map((agent) => ({
-    agentId: agent.id,
-    annualBudget: int(rng, 50_000, 300_000),
-    monthlyBudget: int(rng, 4_000, 25_000),
-    perTransactionLimit: int(rng, 1, 20),
-    retryLimit: int(rng, 1, 3),
-    approvedModels: [agent.model],
-    alertLevelPct: 80,
-    suspensionThresholdPct: 100,
-  }))
+/**
+ * Budgets are DERIVED from each agent's recorded consumption, not drawn from an
+ * independent range. Hand-picked 50k–300k budgets sat two orders of magnitude
+ * above the cost the token records actually produce (cost is realistic
+ * per-million-token pricing), so every budget-utilization figure in the app
+ * rounded to 0% — a defect the AI Playbook's token-budget section surfaced by
+ * putting the two side by side for the first time.
+ *
+ * Records cover one quarter (`period: 'Q3-2026'`), so the annual budget is four
+ * quarters of observed spend plus 25–80% headroom.
+ */
+export function buildBudgetControls(rng: Rng, agents: Agent[], tokenUsage: TokenUsageRecord[]): BudgetControl[] {
+  return agents.map((agent) => {
+    const quarterCost = tokenUsage
+      .filter((t) => t.level === 'Agent' && t.refId === agent.id)
+      .reduce((sum, t) => sum + t.cost, 0)
+    const annualBudget = Math.max(1200, Math.round(quarterCost * 4 * (int(rng, 125, 180) / 100)))
+    return {
+      agentId: agent.id,
+      annualBudget,
+      monthlyBudget: Math.round(annualBudget / 12),
+      perTransactionLimit: int(rng, 1, 20),
+      retryLimit: int(rng, 1, 3),
+      approvedModels: [agent.model],
+      alertLevelPct: 80,
+      suspensionThresholdPct: 100,
+    }
+  })
 }
 
 // The worked trace example (Section 16 of the requirements doc), reproduced

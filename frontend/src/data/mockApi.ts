@@ -14,7 +14,8 @@ import type {
   QualityProcedure, AIInitiative, Harness, D2DDemand, CopilotUsageRecord,
   WorkContributionRecord, AgentPerformanceRecord, HumanAiPerformanceRecord,
   VRRecord, TokenUsageRecord, BudgetControl, AgentRunEvent, Trace, Incident,
-  AlertRule, StrategicObjective, ExcellenceCriterion, AIRoom,
+  AlertRule, StrategicObjective, ExcellenceCriterion, AIRoom, ReusableSkill,
+  PlaybookLesson, Playbook, PlaybookScopeType, ID,
 } from './types'
 
 const DATASET = buildDataset()
@@ -48,7 +49,20 @@ export const getAlertRules = () => mockDelay(DATASET.alertRules)
 export const getStrategicObjectives = () => mockDelay(DATASET.strategicObjectives)
 export const getExcellenceCriteria = () => mockDelay(DATASET.excellenceCriteria)
 export const getAIRooms = () => mockDelay(DATASET.aiRooms)
+export const getReusableSkills = () => mockDelay(DATASET.reusableSkills)
+export const getPlaybookLessons = () => mockDelay(DATASET.playbookLessons)
 export const getRoles = () => mockDelay(ROLES)
+
+/**
+ * The AI Playbook for one scope. Assembled on demand rather than stored —
+ * the playbook is a live view over the dataset, not a document (Section 10).
+ * Imported lazily so mockApi stays free of a cycle: playbookAggregates.ts and
+ * everything under it read `dataset` from this module.
+ */
+export async function getPlaybook(scopeType: PlaybookScopeType, scopeId: ID): Promise<Playbook | null> {
+  const { buildPlaybook } = await import('./playbookAggregates')
+  return mockDelay(buildPlaybook(scopeType, scopeId))
+}
 
 // Synchronous accessor — for code that already has data loaded (e.g. cross-
 // referencing within a page that awaited the async getters above) and needs
@@ -61,4 +75,5 @@ export type {
   WorkContributionRecord, AgentPerformanceRecord, HumanAiPerformanceRecord,
   VRRecord, TokenUsageRecord, BudgetControl, AgentRunEvent, Trace, Incident,
   AlertRule, StrategicObjective, ExcellenceCriterion, AIRoom, Role,
+  ReusableSkill, PlaybookLesson, Playbook, PlaybookScopeType,
 }

@@ -1,15 +1,90 @@
 {
   "schema_version": 1,
-  "project_name": "My Project",
-  "tagline": "One-line description of what this project does and why it matters.",
-  "updated_at": "2026-06-14T00:00:00Z",
-  "hero_stats": [],
+  "project_name": "AI-Native Enterprise Control Tower",
+  "tagline": "A CAIO-facing console that connects org structure, the human and agent workforce, Quality Procedures, processes, AI initiatives, harness engineering, D2D delivery, value realization and token economics into one product.",
+  "updated_at": "2026-08-01T00:00:00Z",
+  "hero_stats": [
+    { "value": 16, "label": "navigation modules" },
+    { "value": 24, "label": "entity types in the mock data model" },
+    { "value": 9, "label": "AI Playbook scope dimensions" },
+    { "value": 0, "label": "backend services (frontend-only prototype)" }
+  ],
+  "challenge": {
+    "description": "Most AI dashboards show adoption. The requirement here was to show the whole transformation chain — organization to job to activity to Quality Procedure to process to human/agent allocation to AI initiative to agent harness to D2D delivery to performance to value realization to token economics to strategic outcome — as one connected, navigable product rather than a set of disconnected screens.",
+    "stats": [
+      { "value": "20", "label": "business processes modelled" },
+      { "value": "15", "label": "governed agents with digital job descriptions" },
+      { "value": "15", "label": "agent harnesses" }
+    ]
+  },
   "phases": [
     {
       "number": 1,
-      "title": "Project scaffolded",
-      "body": "Started from the DAK template via `dak init`. Vue 3 + FastAPI + Postgres + Docker, with the four auto-pages wired from day one."
+      "title": "Scaffolded and re-stacked",
+      "body": "Started from the DAK template via `dak init`, then stripped it to this project's actual stack: React 19 + Vite + the Astryx/DEWA theme, frontend-only, no backend. Added recharts, @xyflow/react and dagre for the graph views, and TypeScript for the data layer."
+    },
+    {
+      "number": 2,
+      "title": "Design tokens and the route shell",
+      "body": "The DEWA radius scale and 48px pill buttons layered on Astryx, the Estimated/Observed/Verified/Validated value tag, and the full route table for all 16 modules — every route real and clickable from day one."
+    },
+    {
+      "number": 3,
+      "title": "The mock data model",
+      "body": "24 entity interfaces, one seed file per entity in strict foreign-key order, and the requirements doc's formulas implemented once in lib/calc.ts. Verified by smoke script: exact required volumes, zero dangling foreign keys, and both worked examples reproducing the doc's own figures."
+    },
+    {
+      "number": 4,
+      "title": "Executive Overview",
+      "body": "All 16 KPIs and charts A–H, every number computed from the dataset rather than hardcoded, plus the Executive Attention Required panel."
+    },
+    {
+      "number": 5,
+      "title": "Organization",
+      "body": "Two graph views — the traditional org chart and an AI-native workforce network with agent-supervision edges — over five-dimension filters and a current/target agenticity toggle."
+    },
+    {
+      "number": 6,
+      "title": "Processes and Quality Procedures",
+      "body": "The process register with per-step ownership, contribution split and automation level, and the QP register with a compliance dashboard and the panel showing how a Quality Procedure converts into an agent-executable workflow."
+    },
+    {
+      "number": 7,
+      "title": "AI Initiatives and Agents",
+      "body": "The initiative portfolio as a table and an 11-stage Kanban, plus the Digital Employee Registry and a nine-tab Agent Profile covering the digital job description, process assignments, harnesses, performance, tokens, value, risk and audit history."
+    },
+    {
+      "number": 8,
+      "title": "Harness Engineering",
+      "body": "The Agent = Model + Instructions + Context + Knowledge + Tools + Workflow + Guardrails + Evaluations + Human checkpoints + Observability + Cost controls formula, and a visual Harness Designer whose 11 workflow blocks each open their real configuration."
+    },
+    {
+      "number": 9,
+      "title": "D2D Integration, Copilot and Workforce",
+      "body": "The 12-stage demand-to-delivery journey with a live per-stage demand count, and the deliberate separation of AI adoption from AI work contribution from AI business value — three different measures that are routinely conflated."
+    },
+    {
+      "number": 10,
+      "title": "AI Playbook",
+      "body": "A living playbook rather than a document: one scope resolver, one builder, and the same 15 sections re-derived for any of nine scopes — enterprise, division, department, section, job, process, Quality Procedure, agent, or strategic objective."
     }
   ],
-  "features": []
+  "features": [
+    {
+      "title": "One graph, many lenses",
+      "description": "The Enterprise Map is a single shared dataset with a pure lens function per view, never ten independent screens. The AI Playbook follows the same rule with one scope resolver and one builder."
+    },
+    {
+      "title": "Derive, never hardcode",
+      "description": "Every displayed number comes from a formula in lib/calc.ts or an aggregate module reading real foreign keys. Seed gaps are filled at read time rather than hand-authored, so the worked examples fall out of generic rendering with no special-casing."
+    },
+    {
+      "title": "Every value is tagged",
+      "description": "Benefits, costs, coverage percentages and released capacity all carry an Estimated, Observed, Verified or Validated tag, so an estimate is never read as a validated benefit."
+    },
+    {
+      "title": "Browser verification in the loop",
+      "description": "Each module is clicked through in a real browser before it ships. That practice has caught rendering and seed-data defects that the type checker, the bundler and the unit tests all missed."
+    }
+  ]
 }
