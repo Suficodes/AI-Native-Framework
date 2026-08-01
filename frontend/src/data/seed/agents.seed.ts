@@ -3,7 +3,7 @@
 // (Manager: IT Lead, Business Owner: DBE Manager, Technical Owner: AI
 // Platform Team, Risk Owner: Information Security — from the requirements
 // doc's Section 8 example).
-import type { Agent, AgentStatus, AgentType, Employee } from '../types'
+import type { Agent, AgentStatus, AgentType, Employee, ProcessStep, QualityProcedure } from '../types'
 import { nextAgentId } from '../ids'
 import { type Rng, bool, float, int, isoDate, pick } from '../rng'
 import type { BuiltOrg } from './organization.seed'
@@ -113,4 +113,37 @@ export function buildAgents(rng: Rng, org: BuiltOrg, employees: Employee[]): Age
   }
 
   return agents
+}
+
+/**
+ * Backfill each agent's process and Quality Procedure assignments from the real
+ * references made downstream. Agents are built BEFORE processes and QPs (they
+ * have to be — process steps name their agent), so the agent cannot know its
+ * own assignments at construction time. Run once in dataset.ts after both exist.
+ *
+ * Without this, `Agent.assignedProcessIds` stayed `[]` for every generated
+ * agent and every consumer had to re-derive the union itself, or silently show
+ * nothing (see PROJECT.md, Step 10).
+ */
+export function backfillAgentAssignments(
+  agents: Agent[], processSteps: ProcessStep[], qualityProcedures: QualityProcedure[],
+): void {
+  for (const agent of agents) {
+    const fromSteps = processSteps.filter((s) => s.assignedAgentId === agent.id).map((s) => s.processId)
+    const fromQps = qualityProcedures.filter((q) => q.assignedAgentIds.includes(agent.id)).map((q) => q.id)
+    const ownQpProcesses = qualityProcedures
+      .filter((q) => q.assignedAgentIds.includes(agent.id))
+      .map((q) => q.relatedProcessId)
+
+    agent.assignedProcessIds = [...new Set([...agent.assignedProcessIds, ...fromSteps, ...ownQpProcesses])]
+
+    // An agent that executes steps of a process also operates inside whatever
+    // Quality Procedures govern that process — that is what a QP *is*, the
+    // control boundary for the work. Deriving it here is what gives most
+    // agents a boundary at all; only QP-01 names its agents by hand.
+    const governingQps = qualityProcedures
+      .filter((q) => agent.assignedProcessIds.includes(q.relatedProcessId))
+      .map((q) => q.id)
+    agent.assignedQpIds = [...new Set([...agent.assignedQpIds, ...fromQps, ...governingQps])]
+  }
 }

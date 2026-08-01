@@ -415,11 +415,52 @@ const WORKED_TRACE_STEPS: Array<{ label: string; step: HarnessBlockType; actor: 
   { label: 'VR ledger updated', step: 'ValueUpdate', actor: 'Agent' },
 ]
 
+const TOOL_NAMES = [
+  'Read D2D demand', 'Retrieve approved knowledge', 'Identify duplicates', 'Query SAP S/4HANA',
+  'Write to demand portal', 'Search document store', 'Call asset registry', 'Post to VR ledger',
+]
+const APPROVERS = ['Senior Business Analyst', 'Section Manager', 'IT Lead', 'Risk Officer', 'Finance Validator']
+const GUARDRAILS = [
+  'Blocked unsourced claim', 'Masked restricted field', 'Refused to approve own output',
+  'Stopped after repeated failure', 'Escalated conflicting requirement',
+]
+const SECURITY_EVENTS = [
+  'Access denied to unapproved data source', 'Prompt-injection pattern detected in input',
+  'Attempted call to unapproved endpoint', 'Classified content blocked from output',
+]
+
+/** Enrich a run event with the extra detail its step type makes meaningful. */
+function decorateStep(rng: Rng, ev: AgentRunEvent): AgentRunEvent {
+  if (ev.step === 'ToolCall') ev.toolName = pick(rng, TOOL_NAMES)
+  if (ev.step === 'QualityEvaluation') {
+    ev.evaluationScorePct = ev.status === 'Failure' ? int(rng, 45, 79) : int(rng, 80, 99)
+  }
+  if (ev.step === 'HumanApproval') {
+    ev.approver = pick(rng, APPROVERS)
+    ev.approvalDecision = ev.status === 'Failure' ? 'Rejected' : pick(rng, ['Approved', 'Approved', 'Edited'] as const)
+  }
+  // A guardrail firing is the control working, so it is recorded as a signal
+  // rather than a failure — Section 16 counts the two separately.
+  if (ev.step === 'Validation' && bool(rng, 0.18)) {
+    ev.signal = 'GuardrailTriggered'
+    ev.details = pick(rng, GUARDRAILS)
+  } else if (ev.step === 'ContextRetrieval' && bool(rng, 0.06)) {
+    ev.signal = 'SecurityEvent'
+    ev.details = pick(rng, SECURITY_EVENTS)
+  } else if (ev.step === 'Reasoning' && bool(rng, 0.07)) {
+    ev.signal = bool(rng, 0.5) ? 'TokenAnomaly' : 'CostAnomaly'
+    ev.details = ev.signal === 'TokenAnomaly'
+      ? 'Context window consumption 4.2x the rolling median'
+      : 'Single-run cost exceeded the per-transaction limit'
+  }
+  return ev
+}
+
 export function buildObservability(rng: Rng, agents: Agent[], harnesses: Harness[]): { agentRuns: AgentRunEvent[]; traces: Trace[]; incidents: Incident[]; alertRules: AlertRule[] } {
   const agentRuns: AgentRunEvent[] = []
   const traces: Trace[] = []
 
-  // Worked example trace.
+  // Worked example trace (Section 16, reproduced verbatim).
   const workedTraceId = 'TRACE-001'
   const workedSteps: AgentRunEvent[] = WORKED_TRACE_STEPS.map((s, i) => {
     const ev: AgentRunEvent = {
@@ -427,30 +468,73 @@ export function buildObservability(rng: Rng, agents: Agent[], harnesses: Harness
       timestamp: `2026-07-28T${String(9 + Math.floor(i / 3)).padStart(2, '0')}:${String((i * 7) % 60).padStart(2, '0')}:00Z`,
       step: s.step, status: 'Success', latencyMs: int(rng, 200, 3000), details: s.label,
     }
+    // The worked example's own labels are the doc's, so only the structured
+    // extras are added — decorateStep would overwrite the wording.
+    if (s.step === 'ToolCall') ev.toolName = pick(rng, TOOL_NAMES)
+    if (s.step === 'QualityEvaluation') ev.evaluationScorePct = 94
+    if (s.step === 'HumanApproval') {
+      ev.approver = 'Senior Business Analyst'
+      ev.approvalDecision = s.label === 'Output edited' ? 'Edited' : 'Approved'
+    }
     agentRuns.push(ev)
     return ev
   })
   traces.push({ id: workedTraceId, demandId: 'DEM-2026-0001', agentId: 'AGT-D2D-DOC-01', steps: workedSteps, outcome: 'Success' })
+  // Burn the first generated ID: the hand-authored trace above takes 'TRACE-001'
+  // without advancing the counter, so the loop's first nextTraceId() would
+  // collide with it and shadow the doc's worked example. Same defect as the
+  // QP-01 collision fixed in Step 5 — a hardcoded ID beside a generator.
+  nextTraceId()
 
-  // Additional synthetic traces across other agents.
-  for (let t = 0; t < 24; t++) {
+  // Synthetic traces across a 30-day window. Volume matters here: the Section
+  // 16 time-series charts need enough runs per day to show a shape rather than
+  // a sparse scatter.
+  for (let t = 0; t < 70; t++) {
     const agent = pick(rng, agents)
     const harness = harnesses.find((h) => h.assignedAgentId === agent.id) ?? pick(rng, harnesses)
     const traceId = nextTraceId()
-    const stepCount = int(rng, 4, HARNESS_FLOW.length)
+    // A few traces are still running — that is what "active agent runs" counts.
+    const inProgress = t >= 66
+    const stepCount = inProgress ? int(rng, 2, 6) : int(rng, 4, HARNESS_FLOW.length)
+    const day = inProgress ? 30 : int(rng, 1, 30)
+    const startHour = int(rng, 6, 20)
     const steps: AgentRunEvent[] = []
+
     for (let i = 0; i < stepCount; i++) {
-      const status = i === stepCount - 1 && bool(rng, 0.15) ? pick(rng, ['Failure', 'Escalated'] as const) : 'Success'
-      const ev: AgentRunEvent = {
+      const isLast = i === stepCount - 1
+      const stepType = HARNESS_FLOW[i].type
+      // Tool calls and retrieval are where real harnesses actually fail, so
+      // failures are injected there rather than only at the terminal step —
+      // otherwise the tool-call and retrieval failure counters read zero and
+      // the ops view has nothing to show.
+      const fragileStep = stepType === 'ToolCall' || stepType === 'ContextRetrieval'
+      const status: AgentRunEvent['status'] = inProgress && isLast
+        ? 'Running'
+        : fragileStep && bool(rng, 0.12)
+          ? 'Failure'
+          : stepType === 'QualityEvaluation' && bool(rng, 0.10)
+            ? 'Failure'
+            : isLast && bool(rng, 0.3)
+              ? pick(rng, ['Failure', 'Escalated', 'Escalated'] as const)
+              : bool(rng, 0.06) ? 'Retry' : 'Success'
+      const ev = decorateStep(rng, {
         id: nextAgentRunId(), agentId: agent.id, harnessId: harness.id, traceId,
-        timestamp: new Date(Date.UTC(2026, 6, int(rng, 1, 30), int(rng, 6, 20), int(rng, 0, 59))).toISOString(),
-        step: HARNESS_FLOW[i].type, status, latencyMs: int(rng, 150, 5000), details: HARNESS_FLOW[i].label,
-      }
+        timestamp: new Date(Date.UTC(2026, 6, day, startHour, (i * int(rng, 1, 9)) % 60)).toISOString(),
+        step: HARNESS_FLOW[i].type, status, latencyMs: int(rng, 150, 7000), details: HARNESS_FLOW[i].label,
+      })
       steps.push(ev)
       agentRuns.push(ev)
     }
+
+    // A trace fails if ANY step failed, not just its last one — a tool call
+    // that failed mid-run is not a successful trace.
     const last = steps[steps.length - 1]
-    traces.push({ id: traceId, agentId: agent.id, steps, outcome: last.status === 'Success' ? 'Success' : last.status === 'Escalated' ? 'HumanOverride' : 'Failure' })
+    const outcome: Trace['outcome'] = inProgress
+      ? 'InProgress'
+      : steps.some((s) => s.status === 'Failure')
+        ? 'Failure'
+        : last.status === 'Escalated' ? 'HumanOverride' : 'Success'
+    traces.push({ id: traceId, agentId: agent.id, steps, outcome })
   }
 
   const incidents: Incident[] = Array.from({ length: 6 }, () => {

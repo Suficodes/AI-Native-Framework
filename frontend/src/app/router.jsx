@@ -30,6 +30,11 @@ import ValueRealization from "../pages/value-realization/ValueRealization.jsx"
 import VRRecordDetail from "../pages/value-realization/VRRecordDetail.jsx"
 import TokenEconomics from "../pages/token-economics/TokenEconomics.jsx"
 import TransactionDetail from "../pages/token-economics/TransactionDetail.jsx"
+import Observability from "../pages/observability/Observability.jsx"
+import TraceDetail from "../pages/observability/TraceDetail.jsx"
+import StrategicAlignment from "../pages/strategic-alignment/StrategicAlignment.jsx"
+import AIRooms from "../pages/strategic-alignment/AIRooms.jsx"
+import AIRoomDetail from "../pages/strategic-alignment/AIRoomDetail.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -85,12 +90,12 @@ export const router = createHashRouter([
       { path: "token-economics", element: <TokenEconomics /> },
       { path: "token-economics/transactions/:txId", element: <TransactionDetail /> },
 
-      { path: "observability", element: coming("Observability", "AI operations and harness observability — traces, incidents, and alert rules.") },
-      { path: "observability/traces/:traceId", element: coming("Trace detail") },
+      { path: "observability", element: <Observability /> },
+      { path: "observability/traces/:traceId", element: <TraceDetail /> },
 
-      { path: "strategic-alignment", element: coming("Strategic Alignment", "The strategy map from objective to realized value, and the 8 AI Rooms.") },
-      { path: "strategic-alignment/ai-rooms", element: coming("AI Rooms") },
-      { path: "strategic-alignment/ai-rooms/:roomId", element: coming("AI Room detail") },
+      { path: "strategic-alignment", element: <StrategicAlignment /> },
+      { path: "strategic-alignment/ai-rooms", element: <AIRooms /> },
+      { path: "strategic-alignment/ai-rooms/:roomId", element: <AIRoomDetail /> },
 
       { path: "administration", element: <Administration /> },
       { path: "administration/:screen", element: <Administration /> },

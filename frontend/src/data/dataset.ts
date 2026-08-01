@@ -10,7 +10,7 @@ import type { Dataset } from './types'
 
 import { buildOrganization } from './seed/organization.seed'
 import { buildPositions } from './seed/positions.seed'
-import { buildAgents } from './seed/agents.seed'
+import { buildAgents, backfillAgentAssignments } from './seed/agents.seed'
 import { buildProcesses } from './seed/processes.seed'
 import { buildQualityProcedures } from './seed/qualityProcedures.seed'
 import { buildStrategy, buildAIRooms } from './seed/strategy.seed'
@@ -34,6 +34,9 @@ export function buildDataset(): Dataset {
   const agents = buildAgents(rng, org, employees)
   const { processes, processSteps } = buildProcesses(rng, org, agents)
   const qualityProcedures = buildQualityProcedures(rng, org, processes)
+  // Agents are constructed before processes and QPs exist (process steps name
+  // their agent), so their own assignment lists are filled in here once both do.
+  backfillAgentAssignments(agents, processSteps, qualityProcedures)
   const { strategicObjectives, excellenceCriteria } = buildStrategy()
   const aiInitiatives = buildAIInitiatives(rng, org, processes, qualityProcedures, strategicObjectives, excellenceCriteria, employees)
   const harnesses = buildHarnesses(rng, agents, employees)

@@ -546,6 +546,21 @@ export interface BudgetControl {
   suspensionThresholdPct: number
 }
 
+/**
+ * Notable signals an individual run step can raise. Section 16 asks for
+ * guardrail triggers, security events, token anomalies and cost anomalies as
+ * first-class observability counters, so they are recorded on the run event
+ * rather than inferred from a failure status (a guardrail firing correctly is
+ * not a failure — it is the control working).
+ */
+export type RunSignal = 'GuardrailTriggered' | 'SecurityEvent' | 'TokenAnomaly' | 'CostAnomaly'
+export const RUN_SIGNAL_LABELS: Record<RunSignal, string> = {
+  GuardrailTriggered: 'Guardrail triggered',
+  SecurityEvent: 'Security event',
+  TokenAnomaly: 'Token anomaly',
+  CostAnomaly: 'Cost anomaly',
+}
+
 export interface AgentRunEvent {
   id: ID
   agentId: ID
@@ -553,9 +568,17 @@ export interface AgentRunEvent {
   traceId: ID
   timestamp: string
   step: HarnessBlockType
-  status: 'Success' | 'Failure' | 'Retry' | 'Escalated'
+  status: 'Success' | 'Failure' | 'Retry' | 'Escalated' | 'Running'
   latencyMs: number
   details: string
+  signal?: RunSignal
+  /** Named tool invoked, on ToolCall steps — the tool-call log needs it. */
+  toolName?: string
+  /** Evaluation score, on QualityEvaluation steps — the evaluation log needs it. */
+  evaluationScorePct?: number
+  /** Approver and decision, on HumanApproval steps — the human approval log needs them. */
+  approver?: string
+  approvalDecision?: 'Approved' | 'Edited' | 'Rejected'
 }
 
 export interface Trace {
@@ -563,7 +586,8 @@ export interface Trace {
   demandId?: ID
   agentId: ID
   steps: AgentRunEvent[]
-  outcome: 'Success' | 'Failure' | 'HumanOverride'
+  /** 'InProgress' is what makes the "active agent runs" counter meaningful. */
+  outcome: 'Success' | 'Failure' | 'HumanOverride' | 'InProgress'
 }
 
 export interface Incident {
@@ -597,6 +621,14 @@ export interface ExcellenceCriterion {
   id: ID
   name: string
   strategicObjectiveId: ID
+  /** Section 17 asks for "excellence improvement", which needs something to improve
+   *  against — a criterion with no baseline cannot show contribution. */
+  unit: string
+  baselineScore: number
+  currentScore: number
+  targetScore: number
+  /** Whether a higher number is better; grid reliability improves upward, leakage downward. */
+  higherIsBetter: boolean
 }
 
 export interface AIRoom {

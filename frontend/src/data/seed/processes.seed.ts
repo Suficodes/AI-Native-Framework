@@ -82,10 +82,20 @@ export function buildProcesses(rng: Rng, org: BuiltOrg, agents: Agent[]): BuiltP
       readinessScore: int(rng, 35, 92), riskScore: int(rng, 10, 70),
       estimatedBenefit: { value: int(rng, 40_000, 900_000), tag: pick(rng, ['Estimated', 'Observed', 'Validated']) },
     })
+    // Agents that sit in the section owning this process are the ones that
+    // would actually run its steps. Without this, only the four hand-authored
+    // D2D steps named an agent, leaving 14 of 15 agents with no process link
+    // at all — which emptied the agent layer of the strategy map, the Agents
+    // module's Process Assignments tab, and the playbook's agent resolution.
+    const sectionAgents = agents.filter((a) => a.orgAssignment.sectionId === sectionId)
     const stepCount = int(rng, 4, 8)
     for (let i = 0; i < stepCount; i++) {
       const stepId = nextProcessStepId()
       const futureOwner = pick(rng, ['Human', 'Agent', 'Human+Agent'] as ProcessStep['futureOwner'][])
+      // A step only gets an agent if an agent will actually own part of it.
+      const assignedAgentId = futureOwner !== 'Human' && sectionAgents.length > 0
+        ? pick(rng, sectionAgents).id
+        : undefined
       processSteps.push({
         id: stepId, processId, order: i + 1, name: `${name} — step ${i + 1}`,
         currentOwner: pick(rng, ['Human', 'Human+Agent'] as ProcessStep['currentOwner'][]),
@@ -96,6 +106,10 @@ export function buildProcesses(rng: Rng, org: BuiltOrg, agents: Agent[]): BuiltP
         controlRequirement: pick(rng, ['H', 'H+A', 'A+H', 'A', 'C', 'E'] as QpIndicator[]),
         avgProcessingTimeMins: int(rng, 10, 300), slaMins: int(rng, 60, 600),
         qualityScore: int(rng, 70, 99), exceptionRatePct: int(rng, 0, 18),
+        assignedAgentId,
+        assignedHarnessId: assignedAgentId
+          ? agents.find((a) => a.id === assignedAgentId)?.harnessId
+          : undefined,
         valueOpportunity: { value: int(rng, 5_000, 150_000), tag: pick(rng, ['Estimated', 'Observed']) },
       })
     }

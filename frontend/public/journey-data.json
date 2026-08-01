@@ -9,7 +9,7 @@
       "label": "navigation modules"
     },
     {
-      "value": 27,
+      "value": 29,
       "label": "entity types in the mock data model"
     },
     {
@@ -17,7 +17,7 @@
       "label": "levels in the token drill-down"
     },
     {
-      "value": 53,
+      "value": 83,
       "label": "data-layer tests"
     }
   ],
@@ -93,6 +93,11 @@
       "number": 11,
       "title": "Performance, Value Realization and Token Economics",
       "body": "Separate agent and human performance views built on a 7-dimension weighted index; Value Realization as eight tabs over one record set with a nine-gate approval workflow; and Token Economics rebuilt bottom-up so every level of the enterprise-to-transaction hierarchy is the exact sum of its children."
+    },
+    {
+      "number": 12,
+      "title": "Observability and Strategic Alignment",
+      "body": "A Grafana-shaped AI operations view over one run-event stream \u2014 14 counters, time-series, tool-call, evaluation and approval logs, traces and harness-version comparison \u2014 plus the strategy map that draws every AI initiative back to the enterprise objective it derives from, and the eight AI Rooms."
     }
   ],
   "features": [
