@@ -1,8 +1,9 @@
-import puppeteer from 'puppeteer-core'
-const b = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--no-sandbox'] })
+import { launch, requireServer, BASE_URL } from './browser.mjs'
+await requireServer()
+const b = await launch()
 const page = await b.newPage(); await page.setViewport({width:1680,height:1050})
 const wait=(ms=900)=>new Promise(r=>setTimeout(r,ms))
-const go=async(r,ms=1000)=>{await page.goto(`http://localhost:3400/#${r}`,{waitUntil:'networkidle0'});await wait(ms)}
+const go=async(r,ms=1000)=>{await page.goto(`${BASE_URL}/#${r}`,{waitUntil:'networkidle0'});await wait(ms)}
 let fails=0
 const check=(l,c,d='')=>{const ok=!!c;if(!ok)fails++;console.log(`  ${ok?'✓':'✗'} ${l}${d?' — '+d:''}`)}
 

@@ -23,6 +23,7 @@ npm run dev          # http://localhost:3400
 | `npm run preview` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` over the TypeScript data layer |
 | `npx vitest run` | 108 data-layer tests |
+| `npm run verify:all` | 5 browser-driven suites: 45 step checks, the UX checklist, accessibility, responsiveness, keyboard (needs `npm run dev` running) |
 | `npm run validate:journey` | Validate `public/journey-data.json` |
 
 No backend, no database, no Docker, no API keys, no paid dependencies. Everything runs from mock data in the browser.

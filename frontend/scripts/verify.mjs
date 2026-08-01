@@ -1,12 +1,13 @@
-import puppeteer from 'puppeteer-core'
-const b = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--no-sandbox'] })
+import { launch, requireServer, BASE_URL } from './browser.mjs'
+await requireServer()
+const b = await launch()
 const page = await b.newPage()
 await page.setViewport({ width: 1680, height: 1050 })
 const errors = []
 page.on('console', m => { if (m.type()==='error' && !m.text().includes('favicon')) errors.push(m.text().slice(0,100)) })
 page.on('pageerror', e => errors.push('PAGEERROR: ' + e.message))
 const wait = (ms=1000) => new Promise(r=>setTimeout(r,ms))
-const go = async (r, ms=1000) => { await page.goto(`http://localhost:3400/#${r}`,{waitUntil:'networkidle0'}); await wait(ms) }
+const go = async (r, ms=1000) => { await page.goto(`${BASE_URL}/#${r}`,{waitUntil:'networkidle0'}); await wait(ms) }
 const clickText = (t, tag='button') => page.evaluate((t,tag)=>{const el=[...document.querySelectorAll(tag)].find(x=>x.textContent.includes(t)); if(el){el.click();return true} return false},t,tag)
 const stat = () => page.evaluate(()=>({
   h1: document.querySelector('h1')?.textContent?.slice(0,34) ?? 'NO H1',
