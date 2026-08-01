@@ -54,6 +54,9 @@ dist-ssr/
 *.swo
 .DS_Store
 
+# Claude Code worktree scratch space
+.claude/worktrees/
+
 # Logs
 *.log
 logs/

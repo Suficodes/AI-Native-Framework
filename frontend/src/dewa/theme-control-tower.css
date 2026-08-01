@@ -1,0 +1,33 @@
+/* theme-control-tower.css — this project's DESIGN.md radius/spacing scale,
+   layered on top of theme-dewa.css (loaded after it in main.jsx).
+
+   DESIGN.md's radius rule: 5px inputs, 7px small elements (tags/badges),
+   15px standard cards, 20px hero containers, 100px/pill buttons.
+
+   Mapped onto Astryx's five radius slots (--radius-none/-inner/-element/
+   -container/-page/-full) by closest semantic fit — Astryx doesn't expose a
+   1:1 "input" or "hero" slot, so this is a documented approximation, not an
+   exact per-component audit of all ~100 Astryx components:
+     --radius-none      (smallest slot)      -> 5px  (DESIGN: input fields)
+     --radius-inner      (badges/tags/chips)  -> 7px  (DESIGN: small elements)
+     --radius-element    (buttons/most controls, most-used token) -> 15px (DESIGN: standard cards)
+     --radius-container   (card/panel containers)                  -> 15px (DESIGN: standard cards)
+     --radius-page        (page-level hero sections)                -> 20px (DESIGN: hero containers)
+     --radius-full         (pills — already 9999px, untouched)
+
+   Buttons get their pill radius from DewaButton.jsx setting --_button-radius
+   per-instance (the same officially-supported hook Astryx's own Carousel/Chat
+   components use for pill buttons) — not from this file. */
+
+[data-astryx-theme="dewa"] {
+  --radius-none: 5px;
+  --radius-inner: 7px;
+  --radius-element: 15px;
+  --radius-container: 15px;
+  --radius-page: 20px;
+}
+
+/* DESIGN.md spacing scale (4/8/12/16/20/24/32/40/48/56/64) — Astryx's own
+   --spacing-1..12 scale (4/8/12/16/20/24/28/32/36/40/44/48) already matches
+   DESIGN's scale closely through --spacing-8 (32px); left as Astryx defaults
+   beyond that point rather than fighting the token names 1:1. */

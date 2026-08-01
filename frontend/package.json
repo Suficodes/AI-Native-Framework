@@ -8,19 +8,26 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 3400",
     "test": "vitest",
+    "typecheck": "tsc --noEmit",
     "validate:journey": "node scripts/validate-journey.mjs"
   },
   "dependencies": {
     "@astryxdesign/core": "^0.1.2",
+    "@dagrejs/dagre": "^1.1.4",
     "@number-flow/react": "^0.6.1",
+    "@xyflow/react": "^12.11.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
+    "recharts": "^3.10.1",
     "marked": "^14.0.0",
     "mermaid": "^11.0.0"
   },
   "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.3",
+    "typescript": "^5.7.3",
     "vite": "^8.1.1",
     "vitest": "^3.0.0"
   }

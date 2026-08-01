@@ -20,11 +20,7 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 3400,
     fs: { allow: [".", PM_DIR] },
-    proxy: {
-      "/api":     "http://backend:8000",
-      "/healthz": "http://backend:8000",
-      "/readyz":  "http://backend:8000",
-    },
+    // No backend in this prototype — all data comes from src/data/mockApi.ts.
   },
   resolve: {
     // Array form so @pmlog can use a regex: a string alias only matches

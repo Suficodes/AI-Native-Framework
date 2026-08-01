@@ -1,5 +1,6 @@
 // useFetch — the DAK-standard tiny data hook. GET a same-origin JSON URL with
-// loading/error/data state. Extend this (don't duplicate fetch logic per page).
+// loading/error/data state. Used by the DAK meta pages (Journey/Architecture/
+// VibeCode) to load their static public/*.json files — no backend involved.
 import { useEffect, useState } from "react"
 
 export function useFetch(url, { deps = [] } = {}) {
