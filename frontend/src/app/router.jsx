@@ -8,6 +8,7 @@ import PmLog from "../pages/PmLog.jsx"
 import EnterpriseMapShell from "../pages/enterprise-map/EnterpriseMapShell.jsx"
 import Administration from "../pages/administration/Administration.jsx"
 import ExecutiveOverview from "../pages/executive-overview/ExecutiveOverview.jsx"
+import Organization from "../pages/organization/Organization.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -22,7 +23,7 @@ export const router = createHashRouter([
     children: [
       { index: true, element: <ExecutiveOverview /> },
 
-      { path: "organization", element: coming("Organization", "Traditional org chart and AI-native workforce network, with section/position drill-down panels.") },
+      { path: "organization", element: <Organization /> },
 
       { path: "processes/agenticity", element: coming("Process Agenticity", "Process hierarchy and step-level agenticity (L0–L6), led by the 14-step D2D process.") },
       { path: "processes/agenticity/:processId", element: coming("Process detail") },
