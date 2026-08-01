@@ -26,6 +26,7 @@ export function buildAgents(rng: Rng, org: BuiltOrg, employees: Employee[]): Age
     id: 'AGT-D2D-DOC-01',
     name: 'D2D Documentation Agent',
     digitalJobTitle: 'D2D Intake and BRD Agent',
+    purpose: 'Generate structured BRDs, identify missing information, retrieve relevant standards and prepare documents for human validation.',
     orgAssignment: { divisionId: digitalInnovationDivisionId, sectionId: org.sectionIdByName['Demand-to-Delivery Section'], positionId: 'POS-BA-D2D-01' },
     managerEmployeeId: findEmployeeByPosition(employees, 'POS-IT-LEAD-01'),
     businessOwnerEmployeeId: findEmployeeByPosition(employees, 'POS-DBE-MGR-01'),
@@ -55,21 +56,21 @@ export function buildAgents(rng: Rng, org: BuiltOrg, employees: Employee[]): Age
   })
 
   // ── 14 more agents spread across divisions/sections/processes ──────────
-  const AGENT_DEFS: Array<{ name: string; title: string; sectionName: string; agentType: AgentType; autonomy: Agent['autonomyLevel'] }> = [
-    { name: 'Demand Classification Agent', title: 'D2D Classification Agent', sectionName: 'Demand-to-Delivery Section', agentType: 'TaskAgent', autonomy: 'L3' },
-    { name: 'Duplicate Demand Detection Agent', title: 'D2D Duplicate Screening Agent', sectionName: 'Demand-to-Delivery Section', agentType: 'TaskAgent', autonomy: 'L4' },
-    { name: 'Stakeholder Identification Agent', title: 'D2D Stakeholder Agent', sectionName: 'Demand-to-Delivery Section', agentType: 'TaskAgent', autonomy: 'L2' },
-    { name: 'Invoice Validation Agent', title: 'Billing Invoice Validation Agent', sectionName: 'Billing Operations Section', agentType: 'TaskAgent', autonomy: 'L4' },
-    { name: 'Management Reporting Copilot', title: 'Executive Reporting Copilot', sectionName: 'Financial Planning Section', agentType: 'Copilot', autonomy: 'L2' },
-    { name: 'Quality Procedure Compliance Agent', title: 'QP Compliance Agent', sectionName: 'Regulatory Compliance Section', agentType: 'TaskAgent', autonomy: 'L3' },
-    { name: 'Value Realization Validation Agent', title: 'VR Validation Agent', sectionName: 'Financial Planning Section', agentType: 'TaskAgent', autonomy: 'L2' },
-    { name: 'Revenue Leakage Detection Agent', title: 'Revenue Assurance Agent', sectionName: 'Revenue Assurance Section', agentType: 'TaskAgent', autonomy: 'L4' },
-    { name: 'Customer Complaint Triage Agent', title: 'Contact Center Triage Agent', sectionName: 'Contact Center Section', agentType: 'TaskAgent', autonomy: 'L3' },
-    { name: 'Grid Anomaly Detection Agent', title: 'Grid Anomaly Monitoring Agent', sectionName: 'Grid Control Section', agentType: 'AutonomousAgent', autonomy: 'L5' },
-    { name: 'Asset Maintenance Scheduling Agent', title: 'Predictive Maintenance Agent', sectionName: 'Asset Reliability Section', agentType: 'TaskAgent', autonomy: 'L3' },
-    { name: 'Vendor Onboarding Agent', title: 'Procurement Onboarding Agent', sectionName: 'Vendor Management Section', agentType: 'TaskAgent', autonomy: 'L2' },
-    { name: 'HR Policy Copilot', title: 'HR Policy Assistant Copilot', sectionName: 'Talent & Workforce Section', agentType: 'Copilot', autonomy: 'L1' },
-    { name: 'Enterprise Risk Scoring Agent', title: 'Risk Scoring Agent', sectionName: 'Enterprise Risk Section', agentType: 'TaskAgent', autonomy: 'L3' },
+  const AGENT_DEFS: Array<{ name: string; title: string; purpose: string; sectionName: string; agentType: AgentType; autonomy: Agent['autonomyLevel'] }> = [
+    { name: 'Demand Classification Agent', title: 'D2D Classification Agent', purpose: 'Classify incoming D2D demands by type, urgency, and target process to route them correctly.', sectionName: 'Demand-to-Delivery Section', agentType: 'TaskAgent', autonomy: 'L3' },
+    { name: 'Duplicate Demand Detection Agent', title: 'D2D Duplicate Screening Agent', purpose: 'Screen new demands against prior approved demands to flag likely duplicates before estimation.', sectionName: 'Demand-to-Delivery Section', agentType: 'TaskAgent', autonomy: 'L4' },
+    { name: 'Stakeholder Identification Agent', title: 'D2D Stakeholder Agent', purpose: 'Identify and recommend the correct stakeholders for a demand based on process and business unit.', sectionName: 'Demand-to-Delivery Section', agentType: 'TaskAgent', autonomy: 'L2' },
+    { name: 'Invoice Validation Agent', title: 'Billing Invoice Validation Agent', purpose: 'Validate incoming invoices against purchase orders and billing rules, flagging exceptions for human review.', sectionName: 'Billing Operations Section', agentType: 'TaskAgent', autonomy: 'L4' },
+    { name: 'Management Reporting Copilot', title: 'Executive Reporting Copilot', purpose: 'Assist finance leadership in assembling and narrating recurring management reports.', sectionName: 'Financial Planning Section', agentType: 'Copilot', autonomy: 'L2' },
+    { name: 'Quality Procedure Compliance Agent', title: 'QP Compliance Agent', purpose: 'Monitor Quality Procedure adherence and flag deviations from approved controls.', sectionName: 'Regulatory Compliance Section', agentType: 'TaskAgent', autonomy: 'L3' },
+    { name: 'Value Realization Validation Agent', title: 'VR Validation Agent', purpose: 'Validate benefit and cost evidence submitted for Value Realization records before approval.', sectionName: 'Financial Planning Section', agentType: 'TaskAgent', autonomy: 'L2' },
+    { name: 'Revenue Leakage Detection Agent', title: 'Revenue Assurance Agent', purpose: 'Detect billing and metering anomalies indicative of revenue leakage.', sectionName: 'Revenue Assurance Section', agentType: 'TaskAgent', autonomy: 'L4' },
+    { name: 'Customer Complaint Triage Agent', title: 'Contact Center Triage Agent', purpose: 'Triage inbound customer complaints by severity and route them to the right resolution team.', sectionName: 'Contact Center Section', agentType: 'TaskAgent', autonomy: 'L3' },
+    { name: 'Grid Anomaly Detection Agent', title: 'Grid Anomaly Monitoring Agent', purpose: 'Continuously monitor grid telemetry to detect and flag anomalous conditions in real time.', sectionName: 'Grid Control Section', agentType: 'AutonomousAgent', autonomy: 'L5' },
+    { name: 'Asset Maintenance Scheduling Agent', title: 'Predictive Maintenance Agent', purpose: 'Recommend preventive maintenance schedules based on asset condition and failure risk.', sectionName: 'Asset Reliability Section', agentType: 'TaskAgent', autonomy: 'L3' },
+    { name: 'Vendor Onboarding Agent', title: 'Procurement Onboarding Agent', purpose: 'Guide new vendors through onboarding and compliance documentation checks.', sectionName: 'Vendor Management Section', agentType: 'TaskAgent', autonomy: 'L2' },
+    { name: 'HR Policy Copilot', title: 'HR Policy Assistant Copilot', purpose: 'Answer employee questions about HR policy and point to the relevant policy documents.', sectionName: 'Talent & Workforce Section', agentType: 'Copilot', autonomy: 'L1' },
+    { name: 'Enterprise Risk Scoring Agent', title: 'Risk Scoring Agent', purpose: 'Score enterprise and AI initiative risk based on standardized risk criteria.', sectionName: 'Enterprise Risk Section', agentType: 'TaskAgent', autonomy: 'L3' },
   ]
 
   for (const def of AGENT_DEFS) {
@@ -82,6 +83,7 @@ export function buildAgents(rng: Rng, org: BuiltOrg, employees: Employee[]): Age
       id,
       name: def.name,
       digitalJobTitle: def.title,
+      purpose: def.purpose,
       orgAssignment: { divisionId, sectionId },
       managerEmployeeId: anyEmployee(),
       businessOwnerEmployeeId: anyEmployee(),

@@ -13,6 +13,10 @@ import ProcessAgenticity from "../pages/processes/ProcessAgenticity.jsx"
 import ProcessDetail from "../pages/processes/ProcessDetail.jsx"
 import QualityProcedures from "../pages/processes/QualityProcedures.jsx"
 import QualityProcedureDetail from "../pages/processes/QualityProcedureDetail.jsx"
+import AIInitiatives from "../pages/ai-initiatives/AIInitiatives.jsx"
+import InitiativeDetail from "../pages/ai-initiatives/InitiativeDetail.jsx"
+import Agents from "../pages/agents/Agents.jsx"
+import AgentProfile from "../pages/agents/AgentProfile.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -34,11 +38,11 @@ export const router = createHashRouter([
       { path: "processes/quality-procedures", element: <QualityProcedures /> },
       { path: "processes/quality-procedures/:qpId", element: <QualityProcedureDetail /> },
 
-      { path: "ai-initiatives", element: coming("AI Initiatives", "Portfolio table and Kanban across 11 delivery stages.") },
-      { path: "ai-initiatives/:initiativeId", element: coming("Initiative detail") },
+      { path: "ai-initiatives", element: <AIInitiatives /> },
+      { path: "ai-initiatives/:initiativeId", element: <InitiativeDetail /> },
 
-      { path: "agents", element: coming("Agents", "The Digital Employee Registry.") },
-      { path: "agents/:agentId", element: coming("Agent profile") },
+      { path: "agents", element: <Agents /> },
+      { path: "agents/:agentId", element: <AgentProfile /> },
 
       { path: "harness-engineering", element: coming("Harness Engineering", "The Harness Registry and the visual, click-to-configure Harness Designer.") },
       { path: "harness-engineering/:harnessId", element: coming("Harness Designer") },

@@ -112,6 +112,7 @@ export interface Agent {
   id: ID
   name: string
   digitalJobTitle: string
+  purpose: string
   orgAssignment: { divisionId: ID; sectionId: ID; positionId?: ID }
   managerEmployeeId: ID
   businessOwnerEmployeeId: ID
