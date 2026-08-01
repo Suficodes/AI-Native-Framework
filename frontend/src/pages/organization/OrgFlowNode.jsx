@@ -13,7 +13,11 @@ const LEVEL_LABEL = {
 
 const cardStyle = (isDimmed, extra) => ({
   width: 220, padding: '10px 12px', borderRadius: 'var(--radius-container)',
-  border: '1px solid var(--color-border)', background: 'var(--color-background-surface)',
+  borderTop: '1px solid var(--color-border)',
+  borderRight: '1px solid var(--color-border)',
+  borderBottom: '1px solid var(--color-border)',
+  borderLeft: '1px solid var(--color-border)',
+  background: 'var(--color-background-surface)',
   cursor: 'pointer', opacity: isDimmed ? 0.4 : 1, transition: 'opacity 0.2s ease-out',
   ...extra,
 })

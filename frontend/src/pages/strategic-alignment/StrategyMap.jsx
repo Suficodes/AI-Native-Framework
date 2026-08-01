@@ -36,7 +36,9 @@ function StrategyNodeCard({ data }) {
       style={{
         width: 210, minHeight: 62, padding: '10px 12px', boxSizing: 'border-box',
         background: 'var(--color-background-surface)',
-        border: '1px solid var(--color-border)',
+        borderTop: '1px solid var(--color-border)',
+        borderRight: '1px solid var(--color-border)',
+        borderBottom: '1px solid var(--color-border)',
         borderLeft: `4px solid ${style.accent}`,
         borderRadius: 8, cursor: data.href ? 'pointer' : 'default',
       }}

@@ -6,18 +6,18 @@
   "hero_stats": [
     {
       "value": 16,
-      "label": "navigation modules"
+      "label": "navigation modules, all real"
     },
     {
-      "value": 29,
-      "label": "entity types in the mock data model"
+      "value": 10,
+      "label": "lenses over one shared graph"
     },
     {
-      "value": 9,
-      "label": "levels in the token drill-down"
+      "value": 403,
+      "label": "nodes in the enterprise map"
     },
     {
-      "value": 83,
+      "value": 106,
       "label": "data-layer tests"
     }
   ],
@@ -98,6 +98,11 @@
       "number": 12,
       "title": "Observability and Strategic Alignment",
       "body": "A Grafana-shaped AI operations view over one run-event stream \u2014 14 counters, time-series, tool-call, evaluation and approval logs, traces and harness-version comparison \u2014 plus the strategy map that draws every AI initiative back to the enterprise objective it derives from, and the eight AI Rooms."
+    },
+    {
+      "number": 13,
+      "title": "The AI-Native Enterprise Map",
+      "body": "One 403-node graph of the whole transformation cycle, viewed through ten lenses that are pure functions over it \u2014 no lens builds its own dataset. Progressive disclosure lifts hidden relationships up to their nearest visible ancestor, so collapsing a division still shows the value flowing out of it. Plus a fourteen-step executive Story Mode and a presentation mode."
     }
   ],
   "features": [

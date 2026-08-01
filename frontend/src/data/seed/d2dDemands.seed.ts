@@ -37,9 +37,15 @@ export function buildD2DDemands(rng: Rng, org: BuiltOrg, processes: Process[], s
     const stage = pick(rng, D2D_STAGE_ORDER.map((s) => s.stage))
     const divisionId = pick(rng, org.orgNodes.filter((n) => n.level === 'Division')).id
     const isLive = stage === 'GoLive' || stage === 'PerformanceMonitoring' || stage === 'VRValidation' || stage === 'PlaybookUpdate'
+    // The demand targets the business process it will change, in its own
+    // division. D2D is the pipeline the demand flows THROUGH, not the process
+    // it changes — pointing every demand at PROC-D2D collapsed that
+    // distinction and lost the demand→process relationship entirely.
+    const divisionProcesses = processes.filter((p) => p.divisionId === divisionId && p.id !== d2dProcess.id)
+    const targetProcess = divisionProcesses.length > 0 ? pick(rng, divisionProcesses) : d2dProcess
     demands.push({
       id: nextDemandId(), title, divisionId, submitterEmployeeId: pick(rng, employees).id,
-      processId: d2dProcess.id, strategicObjectiveId: pick(rng, strategicObjectives).id,
+      processId: targetProcess.id, strategicObjectiveId: pick(rng, strategicObjectives).id,
       aiOpportunity: 'AI/agent support for demand intake, classification, or documentation.',
       agentProposedId: bool(rng, 0.6) ? 'AGT-D2D-DOC-01' : undefined,
       harnessProposedId: bool(rng, 0.6) ? 'HAR-D2D-BRD-01' : undefined,
