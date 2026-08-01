@@ -75,7 +75,7 @@ export function PositionPanel({ positionId, onClose }) {
             <Text weight="semibold" size="sm" style={{ marginBottom: 'var(--spacing-2)' }}>Activities — AI contribution</Text>
             <VStack gap={2}>
               {jobDescription.activities.map((a) => (
-                <HStack key={a.id} justify="space-between" align="center">
+                <HStack key={a.id} justify="between" align="center">
                   <Text size="sm">{a.name}</Text>
                   <Badge
                     label={`${a.aiContributionPct}%`}

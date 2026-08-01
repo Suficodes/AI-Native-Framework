@@ -128,7 +128,7 @@ export default function ProcessDetail() {
             <VStack gap={2}>
               {qps.map((qp) => (
                 <HStack
-                  key={qp.id} justify="space-between" align="center"
+                  key={qp.id} justify="between" align="center"
                   onClick={() => navigate(`/processes/quality-procedures/${qp.id}`)}
                   role="button" tabIndex={0}
                   onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/processes/quality-procedures/${qp.id}`) }}

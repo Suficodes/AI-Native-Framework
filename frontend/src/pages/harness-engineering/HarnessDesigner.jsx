@@ -143,7 +143,7 @@ export default function HarnessDesigner() {
           <Card padding={4}>
             <VStack gap={3}>
               {harness.releaseHistory.map((r) => (
-                <HStack key={r.version} justify="space-between" align="flex-start">
+                <HStack key={r.version} justify="between" align="flex-start">
                   <div>
                     <Text weight="medium" size="sm" style={{ display: 'block' }}>v{r.version}</Text>
                     <Text size="sm" color="secondary">{r.notes}</Text>

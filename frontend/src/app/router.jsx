@@ -19,6 +19,10 @@ import Agents from "../pages/agents/Agents.jsx"
 import AgentProfile from "../pages/agents/AgentProfile.jsx"
 import HarnessRegistry from "../pages/harness-engineering/HarnessRegistry.jsx"
 import HarnessDesigner from "../pages/harness-engineering/HarnessDesigner.jsx"
+import D2DIntegration from "../pages/d2d-integration/D2DIntegration.jsx"
+import D2DDemandDetail from "../pages/d2d-integration/D2DDemandDetail.jsx"
+import CopilotWorkforce from "../pages/copilot-workforce/CopilotWorkforce.jsx"
+import WorkContributionLedger from "../pages/copilot-workforce/WorkContributionLedger.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -53,11 +57,11 @@ export const router = createHashRouter([
       { path: "ai-playbook/:scopeType/:scopeId", element: coming("Playbook — filtered view") },
       { path: "ai-playbook/example/d2d", element: coming("AI Playbook — D2D department example") },
 
-      { path: "d2d-integration", element: coming("D2D Integration", "The 12-stage business-need-to-playbook-update journey and demand register.") },
-      { path: "d2d-integration/demands/:demandId", element: coming("Demand detail") },
+      { path: "d2d-integration", element: <D2DIntegration /> },
+      { path: "d2d-integration/demands/:demandId", element: <D2DDemandDetail /> },
 
-      { path: "copilot-workforce", element: coming("Copilot & Workforce", "Microsoft Copilot adoption and the Work Contribution Ledger.") },
-      { path: "copilot-workforce/ledger", element: coming("Work Contribution Ledger") },
+      { path: "copilot-workforce", element: <CopilotWorkforce /> },
+      { path: "copilot-workforce/ledger", element: <WorkContributionLedger /> },
 
       { path: "performance/agents", element: coming("Agent Performance", "KPIs and the 7-dimension Agent Performance Index.") },
       { path: "performance/humans", element: coming("Human AI-Native Performance") },

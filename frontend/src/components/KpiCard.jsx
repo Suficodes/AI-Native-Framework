@@ -35,7 +35,7 @@ export function KpiCard({
       style={clickable ? { cursor: 'pointer' } : undefined}
     >
       <VStack gap={2}>
-        <HStack align="center" justify="space-between">
+        <HStack align="center" justify="between">
           <Text size="sm" color="secondary" weight="medium">{label}</Text>
           {definition && (
             <HoverCard
@@ -63,7 +63,7 @@ export function KpiCard({
             <span>{prefix}{value}{suffix}</span>
           )}
         </div>
-        <HStack align="center" justify="space-between">
+        <HStack align="center" justify="between">
           {sub && <Text size="sm" color="secondary">{sub}</Text>}
           {tag && <ValueTag tag={tag} />}
         </HStack>

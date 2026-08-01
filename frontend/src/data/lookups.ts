@@ -16,6 +16,11 @@ export function processName(id: ID | undefined): string | null {
   return dataset.processes.find((p) => p.id === id)?.name ?? null
 }
 
+export function positionTitle(id: ID | undefined): string | null {
+  if (!id) return null
+  return dataset.positions.find((p) => p.id === id)?.title ?? null
+}
+
 export function qpTitle(id: ID | undefined): string | null {
   if (!id) return null
   return dataset.qualityProcedures.find((q) => q.id === id)?.title ?? null

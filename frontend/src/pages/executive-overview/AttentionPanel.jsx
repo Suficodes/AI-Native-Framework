@@ -33,7 +33,7 @@ export function AttentionPanel() {
         <VStack gap={0}>
           {rows.map((r, i) => (
             <HStack
-              key={r.key} align="center" justify="space-between"
+              key={r.key} align="center" justify="between"
               onClick={() => navigate(r.to)} role="button" tabIndex={0}
               onKeyDown={(e) => { if (e.key === 'Enter') navigate(r.to) }}
               style={{
