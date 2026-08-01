@@ -26,7 +26,12 @@ export default function D2DIntegration() {
     {
       key: 'title', header: 'Demand', width: proportional(2.4, { minWidth: 220 }),
       renderCell: (row) => (
-        <Text weight="medium" color="accent" onClick={() => navigate(`/d2d-integration/demands/${row.id}`)} style={{ cursor: 'pointer' }}>
+        <Text
+          weight="medium" color="accent" role="button" tabIndex={0}
+          style={{ cursor: 'pointer', display: 'block' }}
+          onClick={() => navigate(`/d2d-integration/demands/${row.id}`)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/d2d-integration/demands/${row.id}`) } }}
+        >
           {row.title}
         </Text>
       ),
@@ -43,7 +48,7 @@ export default function D2DIntegration() {
     },
     {
       key: 'estimatedValue', header: 'Estimated value', width: pixel(150),
-      renderCell: (row) => <Text size="sm"><Aed usd={row.estimatedValue.value} compact /> <ValueTag tag={row.estimatedValue.tag} /></Text>,
+      renderCell: (row) => <Text size="sm"><Aed aed={row.estimatedValue.value} compact /> <ValueTag tag={row.estimatedValue.tag} /></Text>,
     },
     {
       key: 'goLiveStatus', header: 'Go-live', width: pixel(90),

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { VStack } from '@astryxdesign/core/VStack'
@@ -66,6 +67,9 @@ export default function QualityProcedures() {
         <span className="eyebrow">Control Tower</span>
         <Heading level={1} type="display-3">Processes & Quality Procedures</Heading>
         <Text color="secondary" size="lg">The Quality Procedure register, compliance dashboard, and QP → agent-conversion view.</Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="quality-procedures" columns={[{key:'id',header:'ID'},{key:'title',header:'Quality Procedure'},{key:'status',header:'Status'},{key:'indicator',header:'Indicator'},{key:'version',header:'Version'},{key:'reviewDate',header:'Review date'}]} rows={rows} />
+        </div>
       </div>
 
       <div style={{ marginBottom: 'var(--spacing-5)' }}>

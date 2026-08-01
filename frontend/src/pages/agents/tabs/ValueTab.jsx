@@ -19,9 +19,9 @@ export function ValueTab({ agent }) {
     <VStack gap={5}>
       <Card padding={4}>
         <MetadataList columns={3}>
-          <MetadataListItem label="Cost"><Aed usd={agent.cost.value} /> <ValueTag tag={agent.cost.tag} /></MetadataListItem>
-          <MetadataListItem label="Value generated"><Aed usd={agent.valueGenerated.value} /> <ValueTag tag={agent.valueGenerated.tag} /></MetadataListItem>
-          <MetadataListItem label="Net value"><Aed usd={netValue} signed /></MetadataListItem>
+          <MetadataListItem label="Cost"><Aed aed={agent.cost.value} /> <ValueTag tag={agent.cost.tag} /></MetadataListItem>
+          <MetadataListItem label="Value generated"><Aed aed={agent.valueGenerated.value} /> <ValueTag tag={agent.valueGenerated.tag} /></MetadataListItem>
+          <MetadataListItem label="Net value"><Aed aed={netValue} signed /></MetadataListItem>
         </MetadataList>
       </Card>
 
@@ -37,7 +37,7 @@ export function ValueTab({ agent }) {
               >
                 <Text size="sm">{v.benefitType}</Text>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <Text size="sm" color="secondary"><Aed usd={v.netBenefit} /></Text>
+                  <Text size="sm" color="secondary"><Aed aed={v.netBenefit} /></Text>
                   <Badge label={v.validationStatus} variant="neutral" />
                 </div>
               </div>

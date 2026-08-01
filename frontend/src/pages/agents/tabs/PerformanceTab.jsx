@@ -51,10 +51,10 @@ export function PerformanceTab({ agent }) {
           <MetadataListItem label="Exception rate">{record.exceptionRatePct}%</MetadataListItem>
           <MetadataListItem label="Escalation rate">{record.escalationRatePct}%</MetadataListItem>
           <MetadataListItem label="Token efficiency">{record.tokenEfficiency}%</MetadataListItem>
-          <MetadataListItem label="Cost per successful outcome"><Aed usd={record.costPerSuccessfulOutcome} /></MetadataListItem>
+          <MetadataListItem label="Cost per successful outcome"><Aed aed={record.costPerSuccessfulOutcome} /></MetadataListItem>
           <MetadataListItem label="Compliance score">{record.complianceScore}</MetadataListItem>
           <MetadataListItem label="Value generated">
-            <Aed usd={record.valueGenerated.value} /> <ValueTag tag={record.valueGenerated.tag} />
+            <Aed aed={record.valueGenerated.value} /> <ValueTag tag={record.valueGenerated.tag} />
           </MetadataListItem>
         </MetadataList>
       </Card>

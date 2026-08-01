@@ -43,6 +43,47 @@ a { color: inherit; text-decoration: none; }
   .page-band, .page-band--wide { padding: var(--spacing-4) var(--spacing-3) var(--spacing-8); }
 }
 
+/* ── Accessibility ──────────────────────────────────────────────────
+   Keyboard users hit the 16-item side nav before the page content on every
+   navigation; the skip link jumps straight past it. Visible only on focus. */
+.skip-link {
+  position: absolute; left: var(--spacing-3); top: -100px; z-index: 100;
+  padding: var(--spacing-2) var(--spacing-4); border-radius: 8px;
+  background: var(--color-accent); color: #fff;
+  font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold);
+  transition: top 0.15s ease-out;
+}
+.skip-link:focus { top: var(--spacing-3); }
+
+/* A visible focus ring everywhere. Several interactive elements in this app are
+   divs and spans with role="button" (graph nodes, clickable table cells), which
+   get no focus styling from the browser or from Astryx. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+[role="button"]:focus-visible,
+.react-flow__node:focus-visible,
+.react-flow__node > div:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Respect the OS reduced-motion setting: the view transitions, the map's
+   opacity fades and the skip link all animate by default. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
 /* AI Playbook — sticky section rail beside a long scrolling document.
    The rail is the only way to navigate 15 sections without endless scrolling;
    it collapses above the content below the shell's own breakpoint. */

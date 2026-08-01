@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { VStack } from '@astryxdesign/core/VStack'
@@ -68,6 +69,9 @@ export default function AgentPerformance() {
         <span className="eyebrow">Control Tower</span>
         <Heading level={1} type="display-3">Performance</Heading>
         <Text color="secondary" size="lg">How the digital workforce is performing, and against which weighted dimensions.</Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="agent-performance" columns={[{key:'agentId',header:'Agent ID'},{key:'agentName',header:'Agent'},{key:'result',header:'Result'},{key:'successfulCompletionRatePct',header:'Completion %'},{key:'accuracyPct',header:'Accuracy %'},{key:'slaCompliancePct',header:'SLA %'},{key:'humanOverrideRatePct',header:'Override %'},{key:'costPerSuccessfulOutcome',header:'Cost per outcome'}]} rows={rows} />
+        </div>
       </div>
 
       <div style={{ marginBottom: 'var(--spacing-5)' }}><PerformanceTabs active="agents" /></div>
@@ -100,7 +104,7 @@ export default function AgentPerformance() {
           </div>
 
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Agent performance register</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Agent performance register</Heading>
             <Card padding={0}>
               <div style={{ overflowX: 'auto' }}>
                 <Table data={rows} columns={columns} idKey="id" hasHover density="compact" />

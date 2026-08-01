@@ -67,7 +67,7 @@ export default function D2DDemandDetail() {
             <MetadataListItem label="BRD status"><Badge label={demand.brdStatus} variant="neutral" /></MetadataListItem>
             <MetadataListItem label="Go-live status"><Badge label={demand.goLiveStatus === 'Live' ? 'Live' : 'Not live'} variant={demand.goLiveStatus === 'Live' ? 'success' : 'neutral'} /></MetadataListItem>
             <MetadataListItem label="VR status">{demand.vrStatus}</MetadataListItem>
-            <MetadataListItem label="Estimated value"><Aed usd={demand.estimatedValue.value} /> <ValueTag tag={demand.estimatedValue.tag} /></MetadataListItem>
+            <MetadataListItem label="Estimated value"><Aed aed={demand.estimatedValue.value} /> <ValueTag tag={demand.estimatedValue.tag} /></MetadataListItem>
             <MetadataListItem label="Token budget">{demand.tokenBudget.toLocaleString()}</MetadataListItem>
             <MetadataListItem label="Process">
               <Text color="accent" onClick={() => navigate(`/processes/agenticity/${demand.processId}`)} role="button" tabIndex={0} style={{ cursor: 'pointer' }}>

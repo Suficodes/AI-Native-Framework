@@ -4,6 +4,7 @@
 // page: the nine dimensions are all about output, supervision, and outcomes.
 import { useEffect, useState } from 'react'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { VStack } from '@astryxdesign/core/VStack'
@@ -48,6 +49,9 @@ export default function HumanPerformance() {
         <span className="eyebrow">Control Tower</span>
         <Heading level={1} type="display-3">Performance</Heading>
         <Text color="secondary" size="lg">How people perform in an AI-native operating model — supervision, judgement, and outcomes.</Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="human-performance" columns={[{key:'employeeName',header:'Employee'},{key:'positionTitle',header:'Position'},{key:'aiEnabledOutputQuality',header:'Output quality'},{key:'capacityReleasedHours',header:'Released hours'},{key:'capacityRedeployedHours',header:'Redeployed hours'},{key:'responsibleAiCompliance',header:'Responsible AI'}]} rows={rows} />
+        </div>
       </div>
 
       <div style={{ marginBottom: 'var(--spacing-5)' }}><PerformanceTabs active="humans" /></div>
@@ -80,7 +84,7 @@ export default function HumanPerformance() {
           <CapacityChart data={capacity} />
 
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Human AI-native performance register</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Human AI-native performance register</Heading>
             <Card padding={0}>
               <div style={{ overflowX: 'auto' }}>
                 <Table data={rows} columns={columns} idKey="id" hasHover density="compact" />

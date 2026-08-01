@@ -50,7 +50,7 @@ function IncidentsAndAlerts() {
   return (
     <div className="auto-grid" style={{ '--min': '420px' }}>
       <div>
-        <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Incidents</Heading>
+        <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Incidents</Heading>
         <Card padding={0}>
           <div style={{ overflowX: 'auto' }}>
             <Table data={incidents} columns={incidentColumns} idKey="id" hasHover density="compact" />
@@ -58,7 +58,7 @@ function IncidentsAndAlerts() {
         </Card>
       </div>
       <div>
-        <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Alert rules</Heading>
+        <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Alert rules</Heading>
         <Card padding={0}>
           <div style={{ overflowX: 'auto' }}>
             <Table data={dataset.alertRules} columns={alertColumns} idKey="id" hasHover density="compact" />
@@ -136,19 +136,19 @@ export default function Observability() {
       {view === 'logs' && (
         <VStack gap={6}>
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Tool-call log</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Tool-call log</Heading>
             <ToolCallLog rows={toolCallLog()} />
           </div>
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Evaluation log</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Evaluation log</Heading>
             <EvaluationLog rows={evaluationLog()} />
           </div>
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Human approval log</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Human approval log</Heading>
             <HumanApprovalLog rows={humanApprovalLog()} />
           </div>
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-3)' }}>Control signals</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-3)' }}>Control signals</Heading>
             <SignalLog rows={signalLog()} />
           </div>
         </VStack>

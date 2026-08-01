@@ -61,12 +61,12 @@ export default function InitiativeDetail() {
             <MetadataListItem label="Harness readiness">{initiative.harnessReadiness}%</MetadataListItem>
             <MetadataListItem label="Token budget">{initiative.tokenBudget.toLocaleString()}</MetadataListItem>
             <MetadataListItem label="Expected value">
-              <Aed usd={initiative.expectedValue.value} /> <ValueTag tag={initiative.expectedValue.tag} />
+              <Aed aed={initiative.expectedValue.value} /> <ValueTag tag={initiative.expectedValue.tag} />
             </MetadataListItem>
             <MetadataListItem label="Realized value">
-              <Aed usd={initiative.realizedValue.value} /> <ValueTag tag={initiative.realizedValue.tag} />
+              <Aed aed={initiative.realizedValue.value} /> <ValueTag tag={initiative.realizedValue.tag} />
             </MetadataListItem>
-            <MetadataListItem label="Total cost"><Aed usd={initiative.totalCost} /></MetadataListItem>
+            <MetadataListItem label="Total cost"><Aed aed={initiative.totalCost} /></MetadataListItem>
           </MetadataList>
         </Card>
 

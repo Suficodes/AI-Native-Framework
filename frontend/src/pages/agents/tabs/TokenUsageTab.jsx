@@ -28,7 +28,7 @@ export function TokenUsageTab({ agent }) {
           <MetadataListItem label="Tool calls">{agentRecord.toolCalls}</MetadataListItem>
           <MetadataListItem label="Retries">{agentRecord.retries}</MetadataListItem>
           <MetadataListItem label="Latency">{agentRecord.latencyMs} ms</MetadataListItem>
-          <MetadataListItem label="Cost"><Aed usd={agentRecord.cost} /></MetadataListItem>
+          <MetadataListItem label="Cost"><Aed aed={agentRecord.cost} /></MetadataListItem>
         </MetadataList>
       </Card>
 
@@ -39,7 +39,7 @@ export function TokenUsageTab({ agent }) {
             {harnessRecords.map((r) => (
               <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Text size="sm">{r.refLabel}</Text>
-                <Text size="sm" color="secondary"><Aed usd={r.cost} /> · {(r.inputTokens + r.outputTokens).toLocaleString()} tokens</Text>
+                <Text size="sm" color="secondary"><Aed aed={r.cost} /> · {(r.inputTokens + r.outputTokens).toLocaleString()} tokens</Text>
               </div>
             ))}
           </VStack>

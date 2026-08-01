@@ -3,6 +3,7 @@
 // sorts first (buildProcesses() already seeds it as the first record).
 import { useEffect, useState } from 'react'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { Card } from '@astryxdesign/core/Card'
@@ -48,7 +49,7 @@ export default function ProcessAgenticity() {
       key: 'estimatedBenefit', header: 'Estimated benefit', width: pixel(160),
       renderCell: (row) => (
         <span>
-          <Aed usd={row.estimatedBenefit.value} compact /> <ValueTag tag={row.estimatedBenefit.tag} />
+          <Aed aed={row.estimatedBenefit.value} compact /> <ValueTag tag={row.estimatedBenefit.tag} />
         </span>
       ),
     },
@@ -64,6 +65,9 @@ export default function ProcessAgenticity() {
         <Text color="secondary" size="lg">
           Process hierarchy and step-level agenticity (L0–L6), led by the 14-step Demand-to-Delivery process.
         </Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="processes" columns={[{key:'id',header:'ID'},{key:'name',header:'Process'},{key:'division',header:'Division'},{key:'currentAgenticity',header:'Current'},{key:'targetAgenticity',header:'Target'},{key:'readinessScore',header:'Readiness'},{key:'riskScore',header:'Risk'}]} rows={rows} />
+        </div>
       </div>
 
       <div style={{ marginBottom: 'var(--spacing-5)' }}>

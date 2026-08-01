@@ -82,7 +82,7 @@ export default function ProcessDetail() {
     {
       key: 'valueOpportunity', header: 'Value opportunity', width: pixel(150),
       renderCell: (row) => (
-        <Text size="sm"><Aed usd={row.valueOpportunity.value} compact /> <ValueTag tag={row.valueOpportunity.tag} /></Text>
+        <Text size="sm"><Aed aed={row.valueOpportunity.value} compact /> <ValueTag tag={row.valueOpportunity.tag} /></Text>
       ),
     },
   ]
@@ -105,7 +105,7 @@ export default function ProcessDetail() {
             <MetadataListItem label="Readiness score">{process.readinessScore}</MetadataListItem>
             <MetadataListItem label="Risk score">{process.riskScore}</MetadataListItem>
             <MetadataListItem label="Estimated benefit">
-              <Aed usd={process.estimatedBenefit.value} /> <ValueTag tag={process.estimatedBenefit.tag} />
+              <Aed aed={process.estimatedBenefit.value} /> <ValueTag tag={process.estimatedBenefit.tag} />
             </MetadataListItem>
             <MetadataListItem label="Process steps">{steps.length}</MetadataListItem>
           </MetadataList>

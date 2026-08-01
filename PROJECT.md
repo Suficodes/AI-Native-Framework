@@ -1,6 +1,6 @@
 ---
 project_id: a21e144f-e10d-43b0-9fa4-82eb468bd72c
-status: building          # building | live | paused | archived
+status: live              # building | live | paused | archived
 goal: "High-fidelity interactive prototype of an AI-Native Enterprise Control Tower for DEWA — connects org structure, human/agent workforce, Quality Procedures, processes, AI initiatives, harness engineering, D2D delivery, value realization and token economics into one CAIO-facing console."
 domain: enterprise-ai-governance
 audience: "CAIO, CIO, EVP, and senior DEWA management (executive demo/prototype audience)"
@@ -14,7 +14,7 @@ audience: "CAIO, CIO, EVP, and senior DEWA management (executive demo/prototype 
 
 _2026-07-31_ — scaffolded via `dak init`, then converted from the DAK default (Vue + FastAPI + Postgres) to this project's actual stack: **React 19 + Vite + Astryx/dewa theme, frontend-only, no backend.** Building all 16 navigation modules per `Protoype_requirements.docx` (see `/Users/sufimac/Desktop/AI Native Framework/Protoype_requirements.docx`), following its own 12-step build sequence.
 
-_2026-08-01_ — **All 16 modules real.** Remaining: polish, accessibility pass, README and deliverables (Step 12).
+_2026-08-01_ — **Complete.** All 16 modules real, all 12 build steps done, all 12 deliverables produced. Verified end to end: typecheck, production build, 108 data-layer tests, 45 automated UI checks across every step, the full Section 24 UX checklist, zero accessibility findings on 12 routes, and no horizontal overflow from 1680px down to 390px.
 
 ## Goals
 
@@ -171,3 +171,21 @@ Built to CONVENTIONS.md's central rule, literally: **one graph, one `applyLens()
 - **Department and division nodes reported zero headcount** on the drill-down panel: employees are assigned to sections, so counting direct members only gives zero everywhere above. Fixed by reusing `organizationAggregates.headcountRollup` rather than re-deriving it — the rollup already existed and the map should have called it from the start.
 - **A React shorthand/longhand style bug in three files.** `border` and `borderLeft` in one style object makes React warn on every rerender; the map rerenders on every hover and selection, so it produced ~50 console errors in a single click-through. The same pattern had been sitting in `OrgFlowNode.jsx` since Step 4 and never fired, because the org chart does not rerender its node styles. Worth noting the browser pass only surfaced it once a component rerendered often enough — a latent bug of this shape can sit dormant for six steps.
 - **Story Mode floods the canvas unless it is scoped.** Eleven of the fourteen beats overrode the lens depth and rendered 79–114 nodes — the readability bound the default lens views are held to did not cover story overrides. Fixed by scoping the deep beats to the division that owns the D2D worked example, which is also the better narrative: a walkthrough is more persuasive drilling into one concrete division than gesturing at the whole enterprise at leaf level. The test now enforces the bound on story steps too.
+
+### Phase 2 — Step 12: Polish, accessibility, README and deliverables (2026-08-01)
+
+The refinement step, plus the full end-to-end verification of steps 1–12.
+
+**Administration stopped being a placeholder.** All 19 configuration screens rendered "Coming soon" — 19 of the app's screens, and a direct violation of Section 25's "avoid placeholder-only screens". They are now real registers over the live dataset, driven by one config list and one generic component, each with search, a record count and CSV export. Editing stays out of scope and the screens say "Read-only" rather than offering a Save button that would silently do nothing. **Integration Status** became the Section 22 Integration Architecture view: every SAP, Neptune, D2D, Microsoft and enterprise system, what it provides, and which module consumes it.
+
+**UX checklist gaps closed:** breadcrumbs (derived from the route in `App.jsx`, so they cannot drift from the router), CSV export on the primary registers plus a shared `utils/exportCsv.js`, a skip link, visible focus rings, and a reduced-motion block.
+
+**Deliverables:** the README was still the untouched DAK template describing Vue + FastAPI + Docker. It is now the real thing — all twelve Section 26 deliverables including a mermaid architecture diagram, an ER diagram of the data model, the SAP Neptune implementation mapping, the integration mapping, screenshot guidance, nine known limitations, eight future enhancements and eight production recommendations.
+
+**Lessons**
+
+- **The verification pass found the worst bug in the project.** `<Aed usd={…}>` converts USD→AED by multiplying by 3.6725, but every figure in this dataset is already in dirhams. **23 occurrences across 12 files** — all from Steps 4–8, before `aed=` became the habit in Step 9 — were inflating money by 3.67×. The Agents registry, Processes, D2D, AI Initiatives and every agent-profile money tab disagreed with Value Realization, Token Economics and the Playbook **about the same underlying number**. In a CAIO-facing financial console that is the most damaging class of defect there is, and no test, typecheck or screenshot had caught it in eight steps. Fixed everywhere, with `dewa/Aed.spec.jsx` now failing the build if the prop ever reappears.
+- **The UX checklist caught an accessibility bug the accessibility audit missed.** Four registers used `<Text onClick>` with no `role` or `tabIndex` for their primary drill-down, so the main action on the Agents, AI Initiatives, Harness and D2D pages was unreachable by keyboard. My a11y probe only checked that buttons and links had accessible names — it never asked whether the *primary interaction* was focusable at all. Two different checklists, two different blind spots.
+- **Astryx's `CommandPalette` does not forward its `label` to the input it renders**, leaving global search with no accessible name on every page. Labelled from the app side, since fixing it properly needs a design-system change.
+- Three pages jumped `h1 → h3`, and Administration had no `h1` at all.
+- Verification is now scripted and repeatable: `verify.mjs` (45 checks across all 12 steps), `uxcheck.mjs` (the Section 24 checklist and both worked examples), `a11y.mjs`, `responsive.mjs` and `keyboard.mjs`.

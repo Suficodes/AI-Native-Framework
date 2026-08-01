@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { Card } from '@astryxdesign/core/Card'
@@ -29,7 +30,12 @@ export default function AIInitiatives() {
     {
       key: 'title', header: 'Initiative', width: proportional(2.2, { minWidth: 200 }),
       renderCell: (row) => (
-        <Text weight="medium" color="accent" onClick={() => navigate(`/ai-initiatives/${row.id}`)} style={{ cursor: 'pointer' }}>
+        <Text
+          weight="medium" color="accent" role="button" tabIndex={0}
+          style={{ cursor: 'pointer', display: 'block' }}
+          onClick={() => navigate(`/ai-initiatives/${row.id}`)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/ai-initiatives/${row.id}`) } }}
+        >
           {row.title}
         </Text>
       ),
@@ -43,7 +49,7 @@ export default function AIInitiatives() {
     { key: 'riskLevel', header: 'Risk', width: pixel(80), renderCell: (row) => <Badge label={row.riskLevel} variant={RISK_VARIANT[row.riskLevel]} /> },
     {
       key: 'realizedValue', header: 'Realized value', width: pixel(150),
-      renderCell: (row) => <Text size="sm"><Aed usd={row.realizedValue.value} compact /> <ValueTag tag={row.realizedValue.tag} /></Text>,
+      renderCell: (row) => <Text size="sm"><Aed aed={row.realizedValue.value} compact /> <ValueTag tag={row.realizedValue.tag} /></Text>,
     },
   ]
 
@@ -55,6 +61,9 @@ export default function AIInitiatives() {
         <span className="eyebrow">Control Tower</span>
         <Heading level={1} type="display-3">AI Initiatives</Heading>
         <Text color="secondary" size="lg">Portfolio and Kanban across the 11 delivery stages, from Idea to Retired.</Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="initiatives" columns={[{key:'id',header:'ID'},{key:'title',header:'Initiative'},{key:'division',header:'Division'},{key:'stage',header:'Stage'},{key:'status',header:'Status'},{key:'riskLevel',header:'Risk'}]} rows={rows} />
+        </div>
       </div>
 
       {!initiatives ? (

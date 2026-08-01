@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { Card } from '@astryxdesign/core/Card'
@@ -27,7 +28,12 @@ export default function Agents() {
     {
       key: 'name', header: 'Agent', width: proportional(2, { minWidth: 200 }),
       renderCell: (row) => (
-        <Text weight="medium" color="accent" onClick={() => navigate(`/agents/${row.id}`)} style={{ cursor: 'pointer' }}>
+        <Text
+          weight="medium" color="accent" role="button" tabIndex={0}
+          style={{ cursor: 'pointer', display: 'block' }}
+          onClick={() => navigate(`/agents/${row.id}`)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/agents/${row.id}`) } }}
+        >
           {row.name}
         </Text>
       ),
@@ -41,7 +47,7 @@ export default function Agents() {
     { key: 'performanceScore', header: 'Performance', width: pixel(100) },
     {
       key: 'valueGenerated', header: 'Value generated', width: pixel(150),
-      renderCell: (row) => <Text size="sm"><Aed usd={row.valueGenerated.value} compact /> <ValueTag tag={row.valueGenerated.tag} /></Text>,
+      renderCell: (row) => <Text size="sm"><Aed aed={row.valueGenerated.value} compact /> <ValueTag tag={row.valueGenerated.tag} /></Text>,
     },
   ]
 
@@ -53,6 +59,9 @@ export default function Agents() {
         <span className="eyebrow">Control Tower</span>
         <Heading level={1} type="display-3">Agents</Heading>
         <Text color="secondary" size="lg">The enterprise Digital Employee Registry — every agent, its owners, and its standing.</Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="agents" columns={[{key:'id',header:'ID'},{key:'name',header:'Agent'},{key:'digitalJobTitle',header:'Digital job title'},{key:'division',header:'Division'},{key:'agentType',header:'Type'},{key:'model',header:'Model'},{key:'autonomyLevel',header:'Autonomy'},{key:'status',header:'Status'},{key:'performanceScore',header:'Performance'}]} rows={rows} />
+        </div>
       </div>
 
       {!agents ? (

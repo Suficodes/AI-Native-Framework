@@ -29,9 +29,9 @@ export function RiskComplianceTab({ agent }) {
         <Card padding={4}>
           <Text weight="semibold" size="sm" style={{ marginBottom: 'var(--spacing-3)' }}>Budget controls</Text>
           <MetadataList columns={3}>
-            <MetadataListItem label="Annual budget"><Aed usd={budget.annualBudget} /></MetadataListItem>
-            <MetadataListItem label="Monthly budget"><Aed usd={budget.monthlyBudget} /></MetadataListItem>
-            <MetadataListItem label="Per-transaction limit"><Aed usd={budget.perTransactionLimit} /></MetadataListItem>
+            <MetadataListItem label="Annual budget"><Aed aed={budget.annualBudget} /></MetadataListItem>
+            <MetadataListItem label="Monthly budget"><Aed aed={budget.monthlyBudget} /></MetadataListItem>
+            <MetadataListItem label="Per-transaction limit"><Aed aed={budget.perTransactionLimit} /></MetadataListItem>
             <MetadataListItem label="Retry limit">{budget.retryLimit}</MetadataListItem>
             <MetadataListItem label="Alert level">{budget.alertLevelPct}%</MetadataListItem>
             <MetadataListItem label="Suspension threshold">{budget.suspensionThresholdPct}%</MetadataListItem>

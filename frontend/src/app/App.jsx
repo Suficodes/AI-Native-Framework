@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { AppShell } from "@astryxdesign/core/AppShell"
 import { SideNav, SideNavSection, SideNavItem, SideNavHeading } from "@astryxdesign/core/SideNav"
@@ -13,6 +13,7 @@ import { createStaticSource } from "@astryxdesign/core/Typeahead"
 import { DewaMark } from "../dewa/DewaLogo.jsx"
 import { getMode, toggleMode } from "../lib/theme.js"
 import { RoleSwitcher } from "../components/RoleSwitcher.jsx"
+import { Breadcrumbs } from "../components/Breadcrumbs.jsx"
 import { ROLES } from "../data/roles.ts"
 import { CONTROL_TOWER_NAV, PROJECT_NAV, ALL_NAV } from "./nav.jsx"
 
@@ -52,6 +53,15 @@ export default function App() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [roleId, setRoleId] = useState(ROLES[0].id)
   const [period, setPeriod] = useState("Q3-2026")
+
+  // Astryx's CommandPalette does not forward its `label` prop to the input it
+  // renders, so the global search box reaches assistive tech with no accessible
+  // name (only a "Search..." placeholder). Labelling it from here is the only
+  // fix available without forking the component.
+  useEffect(() => {
+    const input = document.querySelector('.astryx-command-palette-input input')
+    if (input && !input.getAttribute("aria-label")) input.setAttribute("aria-label", "Global search")
+  }, [searchOpen])
 
   // Hover-overlay rail (DEWA default): on hover-capable devices the menu is a
   // narrow icon lane that expands as an OVERLAY on hover/focus (content never
@@ -100,7 +110,9 @@ export default function App() {
   )
 
   return (
-    <AppShell height="fill" contentPadding={0} sideNav={rail}
+    <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <AppShell height="fill" contentPadding={0} sideNav={rail}
       mobileNav={{ isOpen: navOpen, onOpenChange: setNavOpen, hasToggle: false, breakpoint: "lg" }}>
       <div className="content-col">
         <div className="topbar">
@@ -132,8 +144,18 @@ export default function App() {
               onClick={() => setMode(toggleMode())} />
           </HStack>
         </div>
+        {/* Breadcrumbs live here rather than in each page: derived from the
+            route, they cannot drift out of step with the router. The index
+            route is the root, so it has nothing to trail back to. */}
         <div className="page-scroll" key={pathname}>
-          <Outlet />
+          <main id="main-content" tabIndex={-1}>
+            {pathname !== "/" && (
+              <div className="page-band page-band--wide" style={{ paddingBottom: 0, paddingTop: "var(--spacing-4)" }}>
+                <Breadcrumbs />
+              </div>
+            )}
+            <Outlet />
+          </main>
         </div>
       </div>
       <CommandPalette
@@ -143,6 +165,7 @@ export default function App() {
         searchSource={searchSource}
         onValueChange={(id) => { setSearchOpen(false); navigate(id, { viewTransition: true }) }}
       />
-    </AppShell>
+      </AppShell>
+    </>
   )
 }

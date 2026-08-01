@@ -46,7 +46,7 @@ export default function ExecutiveOverview() {
           <KpiGrid />
 
           <div>
-            <Heading level={3} style={{ margin: '0 0 var(--spacing-4)' }}>Enterprise Charts</Heading>
+            <Heading level={2} type="display-4" style={{ margin: '0 0 var(--spacing-4)' }}>Enterprise Charts</Heading>
             <div className="auto-grid" style={{ '--min': '420px' }}>
               <WorkforceDistributionChart />
               <AgenticityByDivisionChart />

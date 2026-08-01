@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Heading } from '@astryxdesign/core/Heading'
+import { ExportButton } from '../../components/ExportButton.jsx'
 import { Text } from '@astryxdesign/core/Text'
 import { Skeleton } from '@astryxdesign/core/Skeleton'
 import { VStack } from '@astryxdesign/core/VStack'
@@ -30,7 +31,12 @@ export default function HarnessRegistry() {
     {
       key: 'name', header: 'Harness', width: proportional(2, { minWidth: 200 }),
       renderCell: (row) => (
-        <Text weight="medium" color="accent" onClick={() => navigate(`/harness-engineering/${row.id}`)} style={{ cursor: 'pointer' }}>
+        <Text
+          weight="medium" color="accent" role="button" tabIndex={0}
+          style={{ cursor: 'pointer', display: 'block' }}
+          onClick={() => navigate(`/harness-engineering/${row.id}`)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/harness-engineering/${row.id}`) } }}
+        >
           {row.name}
         </Text>
       ),
@@ -72,6 +78,9 @@ export default function HarnessRegistry() {
           concrete instance of the formula below, deployed through {HARNESS_DEPLOYMENT_GATES.length} gates
           from {HARNESS_DEPLOYMENT_GATES[0]} to {HARNESS_DEPLOYMENT_GATES[HARNESS_DEPLOYMENT_GATES.length - 1]}.
         </Text>
+        <div style={{ marginTop: 'var(--spacing-3)' }}>
+          <ExportButton filename="harnesses" columns={[{key:'id',header:'ID'},{key:'name',header:'Harness'},{key:'version',header:'Version'},{key:'status',header:'Status'}]} rows={rows} />
+        </div>
       </div>
 
       {!harnesses ? (

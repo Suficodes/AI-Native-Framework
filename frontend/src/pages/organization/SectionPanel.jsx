@@ -67,10 +67,10 @@ export function SectionPanel({ sectionId, onClose, agenticityMode }) {
             {agenticity ?? 'No processes assigned'}
           </MetadataListItem>
           <MetadataListItem label="Realized value">
-            <Aed usd={realizedValue} /> <ValueTag tag="Validated" />
+            <Aed aed={realizedValue} /> <ValueTag tag="Validated" />
           </MetadataListItem>
           <MetadataListItem label="Token cost">
-            <Aed usd={tokenCost} /> <ValueTag tag="Observed" />
+            <Aed aed={tokenCost} /> <ValueTag tag="Observed" />
           </MetadataListItem>
         </MetadataList>
 

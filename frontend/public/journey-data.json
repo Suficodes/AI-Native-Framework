@@ -13,12 +13,12 @@
       "label": "lenses over one shared graph"
     },
     {
-      "value": 403,
-      "label": "nodes in the enterprise map"
+      "value": 108,
+      "label": "data-layer tests"
     },
     {
-      "value": 106,
-      "label": "data-layer tests"
+      "value": 0,
+      "label": "accessibility findings"
     }
   ],
   "challenge": {
@@ -103,6 +103,11 @@
       "number": 13,
       "title": "The AI-Native Enterprise Map",
       "body": "One 403-node graph of the whole transformation cycle, viewed through ten lenses that are pure functions over it \u2014 no lens builds its own dataset. Progressive disclosure lifts hidden relationships up to their nearest visible ancestor, so collapsing a division still shows the value flowing out of it. Plus a fourteen-step executive Story Mode and a presentation mode."
+    },
+    {
+      "number": 14,
+      "title": "Polish, accessibility and deliverables",
+      "body": "Administration's 19 placeholder screens became real master-data registers with search and CSV export, and Integration Status became the platform integration architecture. Breadcrumbs, export, a skip link, focus rings and reduced-motion support closed the UX checklist. The end-to-end verification pass found a currency bug that had been inflating money by 3.67x across twelve files since Step 4."
     }
   ],
   "features": [
