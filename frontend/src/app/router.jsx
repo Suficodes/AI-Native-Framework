@@ -17,6 +17,8 @@ import AIInitiatives from "../pages/ai-initiatives/AIInitiatives.jsx"
 import InitiativeDetail from "../pages/ai-initiatives/InitiativeDetail.jsx"
 import Agents from "../pages/agents/Agents.jsx"
 import AgentProfile from "../pages/agents/AgentProfile.jsx"
+import HarnessRegistry from "../pages/harness-engineering/HarnessRegistry.jsx"
+import HarnessDesigner from "../pages/harness-engineering/HarnessDesigner.jsx"
 
 // Route table. Every module route below is real (clickable, no 404) from
 // Step 1 onward — ComingSoon is a temporary element for routes this build
@@ -44,8 +46,8 @@ export const router = createHashRouter([
       { path: "agents", element: <Agents /> },
       { path: "agents/:agentId", element: <AgentProfile /> },
 
-      { path: "harness-engineering", element: coming("Harness Engineering", "The Harness Registry and the visual, click-to-configure Harness Designer.") },
-      { path: "harness-engineering/:harnessId", element: coming("Harness Designer") },
+      { path: "harness-engineering", element: <HarnessRegistry /> },
+      { path: "harness-engineering/:harnessId", element: <HarnessDesigner /> },
 
       { path: "ai-playbook", element: coming("AI Playbook", "The living, scope-filtered enterprise AI Playbook.") },
       { path: "ai-playbook/:scopeType/:scopeId", element: coming("Playbook — filtered view") },

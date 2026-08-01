@@ -12,11 +12,11 @@ export function DigitalJobDescriptionTab({ agent }) {
       <Card padding={4}>
         <VStack gap={4}>
           <div>
-            <Text weight="semibold" size="sm" style={{ marginBottom: 'var(--spacing-2)' }}>Digital job title</Text>
+            <Text weight="semibold" size="sm" style={{ display: 'block', marginBottom: 'var(--spacing-2)' }}>Digital job title</Text>
             <Text>{agent.digitalJobTitle}</Text>
           </div>
           <div>
-            <Text weight="semibold" size="sm" style={{ marginBottom: 'var(--spacing-2)' }}>Purpose</Text>
+            <Text weight="semibold" size="sm" style={{ display: 'block', marginBottom: 'var(--spacing-2)' }}>Purpose</Text>
             <Text color="secondary">{agent.purpose}</Text>
           </div>
         </VStack>
