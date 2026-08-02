@@ -4,7 +4,8 @@ const browser = await launch()
 const page = await browser.newPage()
 await page.setViewport({ width: 1440, height: 950 })
 const ROUTES = ['/', '/organization', '/processes/agenticity', '/agents', '/agents/AGT-D2D-DOC-01', '/ai-playbook',
-  '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/administration', '/performance/agents']
+  '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/administration', '/performance/agents',
+  '/agent-constellation']
 let total = 0
 for (const r of ROUTES) {
   await page.goto(`${BASE_URL}/#${r}`, { waitUntil: 'networkidle0' })

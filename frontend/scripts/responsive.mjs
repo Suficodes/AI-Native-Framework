@@ -2,7 +2,7 @@ import { launch, requireServer, BASE_URL } from './browser.mjs'
 await requireServer()
 const browser = await launch()
 const VIEWPORTS = [[1680,1050,'desktop-xl'],[1280,900,'desktop'],[1024,800,'laptop'],[768,1024,'tablet'],[390,844,'mobile']]
-const ROUTES = ['/', '/organization', '/agents', '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/ai-playbook', '/administration']
+const ROUTES = ['/', '/organization', '/agents', '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/ai-playbook', '/administration', '/agent-constellation']
 for (const [w,h,name] of VIEWPORTS) {
   const page = await browser.newPage()
   await page.setViewport({ width: w, height: h })
