@@ -23,7 +23,7 @@ npm run dev          # http://localhost:3400
 | `npm run build:artifact` | One self-contained `frontend/dist-artifact/artifact.html` — the whole prototype in a single file, no external requests (see `scripts/artifact/`) |
 | `npm run preview` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` over the TypeScript data layer |
-| `npx vitest run` | 130 data-layer tests |
+| `npx vitest run` | 138 data-layer tests |
 | `npm run verify:all` | 5 browser-driven suites: 45 step checks, the UX checklist, accessibility, responsiveness, keyboard (needs `npm run dev` running) |
 | `npm run validate:journey` | Validate `public/journey-data.json` |
 

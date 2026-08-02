@@ -12,6 +12,7 @@ import { useChartMode } from '../../lib/useChartMode.js'
 import { useReducedMotionSafe } from '../../dewa/useReducedMotionSafe.js'
 import { gridColor } from '../../lib/chartColors.js'
 import { CORE_ID } from '../../data/constellationGraph.ts'
+import { branchOf, matchesFor } from '../../data/constellationSelectors.ts'
 
 const VIEW_W = 1200
 const VIEW_H = 780
@@ -24,25 +25,6 @@ const RING_GUIDES = [
   { tier: 'agent', label: 'AI AGENTS' },
   { tier: 'leaf', label: 'PROCESSES & QUALITY PROCEDURES' },
 ]
-
-/** Ancestors + descendants of `id` — the branch a hover lights up. */
-function branchOf(graph, id) {
-  if (!id) return null
-  const branch = new Set([id])
-  let cursor = graph.byId.get(id)
-  while (cursor?.parentId) {
-    branch.add(cursor.parentId)
-    cursor = graph.byId.get(cursor.parentId)
-  }
-  const walk = (nodeId) => {
-    for (const child of graph.childrenOf.get(nodeId) ?? []) {
-      branch.add(child.id)
-      walk(child.id)
-    }
-  }
-  walk(id)
-  return branch
-}
 
 export function ConstellationCanvas({
   graph,
@@ -74,15 +56,7 @@ export function ConstellationCanvas({
     [graph, hoveredId, selectedId],
   )
 
-  const matches = useMemo(() => {
-    const q = query?.trim().toLowerCase()
-    if (!q) return null
-    return new Set(
-      graph.nodes
-        .filter((n) => `${n.label} ${n.sublabel ?? ''}`.toLowerCase().includes(q))
-        .map((n) => n.id),
-    )
-  }, [graph, query])
+  const matches = useMemo(() => matchesFor(graph, query), [graph, query])
 
   const focusDomain = focusDomainId ? graph.byId.get(focusDomainId) : null
 

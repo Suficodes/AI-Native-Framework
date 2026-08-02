@@ -16,7 +16,7 @@ _2026-07-31_ — scaffolded via `dak init`, then converted from the DAK default 
 
 _2026-08-01_ — **Complete.** All 16 modules real, all 12 build steps done, all 12 deliverables produced. Verified end to end: typecheck, production build, 108 data-layer tests, 45 automated UI checks across every step, the full Section 24 UX checklist, zero accessibility findings on 12 routes, and no horizontal overflow from 1680px down to 390px.
 
-_2026-08-02_ — **Agent Constellation added** (`/agent-constellation`), a 17th module: a presentation-first radial/neural view of the agent workforce, built on its own tested graph and geometry layer. 130 data-layer tests, zero accessibility findings on 13 routes.
+_2026-08-02_ — **Agent Constellation added** (`/agent-constellation`), a 17th module: a presentation-first radial/neural view of the agent workforce, built on its own tested graph and geometry layer. 138 data-layer tests, zero accessibility findings on 13 routes.
 
 ## Goals
 
