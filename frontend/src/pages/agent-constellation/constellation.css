@@ -1,0 +1,386 @@
+/* Agent Constellation. All motion here is CSS and stops dead under
+   prefers-reduced-motion — the repo's verification scripts screenshot this
+   canvas in headless Chrome and need it to settle deterministically (see
+   PROJECT.md on rAF not advancing under --virtual-time-budget). */
+
+/* ── Layout shell ─────────────────────────────────────────────── */
+
+.cn-shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr) 264px;
+  gap: var(--spacing-3);
+  align-items: start;
+}
+
+.cn-shell.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  padding: var(--spacing-4);
+  background: var(--color-background-body);
+  align-content: stretch;
+}
+
+.cn-stage {
+  position: relative;
+  min-height: 620px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  background: var(--color-background-surface);
+  overflow: hidden;
+}
+
+.cn-shell.is-fullscreen .cn-stage {
+  min-height: 0;
+  height: 100%;
+}
+
+.cn-stage-controls {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.cn-carousel {
+  position: absolute;
+  left: 50%;
+  bottom: var(--spacing-3);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: 4px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-background-body);
+}
+
+.cn-carousel-label {
+  min-width: 190px;
+  text-align: center;
+}
+
+/* ── Canvas ───────────────────────────────────────────────────── */
+
+.cn-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cn-viewport {
+  transition: transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.cn-ring-guide {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+  opacity: 0.75;
+}
+
+.cn-ring-label {
+  font-family: var(--font-family-code);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  fill: var(--color-text-secondary);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.cn-core-ring {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  opacity: 0.7;
+}
+
+.cn-core-mark {
+  opacity: 0.55;
+  animation: cn-breathe 6s ease-in-out infinite;
+}
+
+.cn-core-mark-static {
+  opacity: 0.55;
+}
+
+@keyframes cn-breathe {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.cn-link {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+  transition:
+    opacity 320ms ease-out,
+    stroke 320ms ease-out;
+}
+
+.cn-link-lit {
+  stroke-width: 1.6;
+}
+
+.cn-link-core {
+  stroke-dasharray: 2 6;
+  animation: cn-flow 3.4s linear infinite;
+}
+
+@keyframes cn-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+.cn-node {
+  transition:
+    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 320ms ease-out;
+  cursor: pointer;
+}
+
+.cn-node:focus {
+  outline: none;
+}
+
+.cn-node:focus-visible .cn-node-mark {
+  stroke: var(--color-accent);
+  stroke-width: 3;
+}
+
+.cn-node-mark {
+  transition:
+    r 260ms ease-out,
+    opacity 320ms ease-out;
+}
+
+.cn-dim {
+  opacity: 0.14;
+}
+
+.cn-muted {
+  opacity: 0.4;
+}
+
+.cn-label {
+  font-family: var(--font-family-code);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  fill: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.cn-label-domain {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  fill: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cn-label-count {
+  font-family: var(--font-family-code);
+  font-size: 9px;
+  fill: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.cn-focus-title {
+  font-family: var(--font-family-code);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--color-text-primary);
+}
+
+.cn-focus-sub {
+  font-family: var(--font-family-code);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  fill: var(--color-text-secondary);
+}
+
+.cn-grid {
+  stroke-width: 1;
+  opacity: 0.3;
+}
+
+/* ── Side panels ──────────────────────────────────────────────── */
+
+.cn-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  background: var(--color-background-surface);
+  max-height: 720px;
+  overflow-y: auto;
+}
+
+.cn-shell.is-fullscreen .cn-panel {
+  max-height: none;
+  height: 100%;
+}
+
+.cn-stat-row {
+  display: flex;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-2);
+}
+
+.cn-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.cn-stat b {
+  font-family: var(--font-family-code);
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+}
+
+.cn-stat span {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.cn-bars,
+.cn-legend,
+.cn-roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cn-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: 3px 0;
+}
+
+.cn-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  flex: none;
+}
+
+.cn-bar-row,
+.cn-roster-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-container);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.cn-bar-row:hover,
+.cn-roster-row:hover {
+  border-color: var(--color-border);
+}
+
+.cn-bar-row.is-active,
+.cn-roster-row.is-active {
+  border-color: var(--color-accent);
+}
+
+.cn-bar-row:focus-visible,
+.cn-roster-row:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.cn-bar-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.cn-bar-track {
+  width: 62px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  overflow: hidden;
+  flex: none;
+}
+
+.cn-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.cn-bar-value {
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-xs);
+  min-width: 16px;
+  text-align: right;
+  color: var(--color-text-secondary);
+}
+
+.cn-roster-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cn-empty-note {
+  padding: var(--spacing-2);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-container);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+
+@media (max-width: 1180px) {
+  .cn-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cn-panel {
+    max-height: 340px;
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-viewport,
+  .cn-node,
+  .cn-node-mark,
+  .cn-link {
+    transition: none;
+  }
+
+  .cn-core-mark,
+  .cn-link-core {
+    animation: none;
+  }
+
+  .cn-core-mark {
+    opacity: 0.55;
+  }
+}

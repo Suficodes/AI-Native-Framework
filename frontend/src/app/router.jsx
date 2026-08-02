@@ -6,6 +6,7 @@ import Architecture from "../pages/Architecture.jsx"
 import VibeCode from "../pages/VibeCode.jsx"
 import PmLog from "../pages/PmLog.jsx"
 import EnterpriseMapShell from "../pages/enterprise-map/EnterpriseMapShell.jsx"
+import AgentConstellation from "../pages/agent-constellation/AgentConstellation.jsx"
 import Administration from "../pages/administration/Administration.jsx"
 import ExecutiveOverview from "../pages/executive-overview/ExecutiveOverview.jsx"
 import Organization from "../pages/organization/Organization.jsx"
@@ -96,6 +97,8 @@ export const router = createHashRouter([
       { path: "strategic-alignment", element: <StrategicAlignment /> },
       { path: "strategic-alignment/ai-rooms", element: <AIRooms /> },
       { path: "strategic-alignment/ai-rooms/:roomId", element: <AIRoomDetail /> },
+
+      { path: "agent-constellation", element: <AgentConstellation /> },
 
       { path: "administration", element: <Administration /> },
       { path: "administration/:screen", element: <Administration /> },

@@ -4,7 +4,7 @@
 // switching mode is an interpolation rather than a rebuild.
 import { CORE_ID } from '../data/constellationGraph.ts'
 
-export const RADII = { domain: 190, agent: 330, leaf: 470 }
+export const RADII = { domain: 210, agent: 340, leaf: 470 }
 
 const TAU = Math.PI * 2
 // Start at -90° so the first division sits at the top of the ring.
@@ -98,19 +98,28 @@ export function radialLayout(graph, focusDomainId = null) {
   })
 
   const focusDomain = focusDomainId ? graph.byId.get(focusDomainId) : null
-  const framed = focusDomain
-    ? graph.nodes
-        .filter((n) => n.domainId === focusDomain.domainId)
-        .map((n) => positions.get(n.id))
-        .filter(Boolean)
-        .concat([{ x: 0, y: 0 }])
-    : [...positions.values()]
 
-  return { positions, sectors, viewBox: boundingViewBox(framed, 90) }
+  if (focusDomain) {
+    const framed = graph.nodes
+      .filter((n) => n.domainId === focusDomain.domainId)
+      .map((n) => positions.get(n.id))
+      .filter(Boolean)
+      .concat([{ x: 0, y: 0 }])
+    return { positions, sectors, viewBox: boundingViewBox(framed, 90) }
+  }
+
+  // Unfocused, the frame is deliberately symmetric about the origin rather than
+  // fitted to the points: sectors are weighted, so a fitted box would push the
+  // core off-centre and the tiers would stop reading as concentric rings.
+  const extent = RADII.leaf + 46
+  return { positions, sectors, viewBox: { x: -extent, y: -extent, w: extent * 2, h: extent * 2 } }
 }
 
-const ROWS = { leaf: 0, agent: 260, domain: 480, core: 660 }
-const COLUMN_GAP = 120
+// Neural mode renders one division at a time (see neuralLayout) — laying four
+// divisions side by side degenerates into an unreadable 5:1 strip.
+const ROWS = { leaf: 0, agent: 300, domain: 560, core: 760 }
+const COLUMN_GAP = 64
+const AGENT_MIN_COLUMNS = 3
 
 export function neuralLayout(graph, focusDomainId = null) {
   const positions = new Map()
@@ -132,7 +141,9 @@ export function neuralLayout(graph, focusDomainId = null) {
       leaves.forEach((leaf, i) => positions.set(leaf.id, { x: leafXs[i], y: ROWS.leaf }))
       const agentX = leaves.length > 0 ? (leafXs[0] + leafXs.at(-1)) / 2 : cursor
       positions.set(agent.id, { x: agentX, y: ROWS.agent })
-      cursor += Math.max(leaves.length, 1) * COLUMN_GAP + COLUMN_GAP
+      // Every agent claims at least AGENT_MIN_COLUMNS of width whether or not it
+      // has leaves, so agent labels have room and never overlap their neighbour.
+      cursor += Math.max(leaves.length, AGENT_MIN_COLUMNS) * COLUMN_GAP + COLUMN_GAP
     }
 
     const blockEnd = Math.max(blockStart, cursor - COLUMN_GAP * 2)

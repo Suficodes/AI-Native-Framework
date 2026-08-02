@@ -21,6 +21,7 @@ const Icons = {
   observability: icon(<path key="a" d="M3 17l4-6 4 3 4-8 6 11" />),
   strategic: icon(<circle key="a" cx="12" cy="12" r="8" />, <circle key="b" cx="12" cy="12" r="4" />, <circle key="c" cx="12" cy="12" r="0.6" fill="currentColor" />),
   map: icon(<path key="a" d="M9 3v15M15 6v15" />, <path key="b" d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z" />),
+  constellation: icon(<circle key="a" cx="12" cy="12" r="1.6" fill="currentColor" />, <circle key="b" cx="12" cy="12" r="5.4" strokeDasharray="1.5 2.5" />, <circle key="c" cx="12" cy="12" r="9.4" strokeDasharray="1.5 3" />, <circle key="d" cx="17.4" cy="12" r="1.5" />, <circle key="e" cx="8.5" cy="4.6" r="1.3" />),
   admin: icon(<circle key="a" cx="12" cy="12" r="2.6" />, <path key="b" d="M19.4 13.5a7.5 7.5 0 0 0 0-3l2-1.4-2-3.4-2.3.8a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.5 2.5a7.6 7.6 0 0 0-2.6 1.5l-2.3-.8-2 3.4 2 1.4a7.5 7.5 0 0 0 0 3l-2 1.4 2 3.4 2.3-.8a7.6 7.6 0 0 0 2.6 1.5l.5 2.5h4l.5-2.5a7.6 7.6 0 0 0 2.6-1.5l2.3.8 2-3.4z" />),
   journey: icon(<path key="a" d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z" />, <path key="b" d="M9 4v14M15 6v14" />),
   architecture: icon(<circle key="a" cx="5" cy="6" r="2" />, <circle key="b" cx="19" cy="6" r="2" />, <circle key="c" cx="12" cy="18" r="2" />, <path key="d" d="M7 7l4 9M17 7l-4 9M7 6h10" />),
@@ -45,6 +46,7 @@ export const CONTROL_TOWER_NAV = [
   { path: '/token-economics', label: 'Token Economics', icon: Icons.tokens },
   { path: '/observability', label: 'Observability', icon: Icons.observability },
   { path: '/strategic-alignment', label: 'Strategic Alignment', icon: Icons.strategic },
+  { path: '/agent-constellation', label: 'Agent Constellation', icon: Icons.constellation },
   { path: '/enterprise-map', label: 'Final Enterprise Map', icon: Icons.map },
   { path: '/administration', label: 'Administration', icon: Icons.admin },
 ]
