@@ -20,6 +20,7 @@ npm run dev          # http://localhost:3400
 |---|---|
 | `npm run dev` | Vite dev server on port 3400 |
 | `npm run build` | Production bundle into `frontend/dist` |
+| `npm run build:artifact` | One self-contained `frontend/dist-artifact/artifact.html` — the whole prototype in a single file, no external requests (see `scripts/artifact/`) |
 | `npm run preview` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` over the TypeScript data layer |
 | `npx vitest run` | 108 data-layer tests |
