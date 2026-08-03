@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-03",
+  "measured_from": "The four Claude Code session transcripts for this project, in ~/.claude/projects/. Nothing here is estimated.",
+  "model": {
+    "primary": "Claude Opus 5",
+    "primary_calls": 1177,
+    "secondary": "Claude Sonnet 5",
+    "secondary_calls": 725,
+    "note": "Opus 5 drove every session. Sonnet 5 ran the parallel subagents during the 12-step module build-out."
+  },
+  "tokens": {
+    "total": 747485388,
+    "breakdown": [
+      { "label": "Cache reads", "value": 736265743, "note": "the project context re-read on every turn" },
+      { "label": "Cache writes", "value": 9239525, "note": "context committed to the cache" },
+      { "label": "Output", "value": 1924898, "note": "everything Claude actually wrote" },
+      { "label": "Fresh input", "value": 55222, "note": "uncached prompt text" }
+    ],
+    "model_calls": 1903,
+    "sessions": 4,
+    "prompts": 52,
+    "note": "98.5% of the total is cache reads — the same project context re-read each turn, billed at a fraction of fresh input. The 1.92M output tokens are the number that maps to work produced."
+  },
+  "mcp": {
+    "used": [],
+    "available": ["Figma", "Context7", "Google Drive"],
+    "note": "No MCP server was ever called. The prototype has no external data source, no design file to sync and no live docs dependency, so every input stayed local."
+  },
+  "memory": {
+    "entries": 0,
+    "note": "No entries were written to Claude's persistent memory store. Continuity across the four sessions came from PROJECT.md and CONVENTIONS.md instead — committed in-repo, so the decision record travels with the code and is reviewable rather than living in a private store."
+  },
+  "skills": [
+    {
+      "name": "superpowers:brainstorming",
+      "used_for": "Turned each request into an approved written design before any code was written."
+    },
+    {
+      "name": "superpowers:writing-plans",
+      "used_for": "Turned each approved design into a task-by-task plan with real test code and commit points."
+    },
+    {
+      "name": "superpowers:executing-plans",
+      "used_for": "Ran those plans inline, verifying every task before moving to the next."
+    },
+    {
+      "name": "superpowers:subagent-driven-development",
+      "used_for": "Ran independent plan tasks as fresh subagents during the 12-step module build-out."
+    },
+    {
+      "name": "superpowers:using-git-worktrees",
+      "used_for": "Gave each feature an isolated workspace so half-finished work never sat on main."
+    },
+    {
+      "name": "dataviz",
+      "used_for": "Set the chart form and colour rules. Its validated palette is what lib/chartColors.js ships — and it is why DEWA's brand green is not used as a chart-mark colour."
+    },
+    {
+      "name": "artifact-design",
+      "used_for": "Calibrated how this prototype is published as a single self-contained shareable page."
+    },
+    {
+      "name": "run",
+      "used_for": "Launched and drove the app in a real browser to confirm each change worked outside of tests."
+    }
+  ]
+}

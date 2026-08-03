@@ -7,11 +7,13 @@
 import publicJourney from "../../public/journey-data.json"
 import publicTechStack from "../../public/tech-stack.json"
 import publicVibeStats from "../../public/vibe-stats.json"
+import publicVibeBuild from "../../public/vibe-build.json"
 
 const PAYLOADS = {
   "/journey-data.json": publicJourney,
   "/tech-stack.json": publicTechStack,
   "/vibe-stats.json": publicVibeStats,
+  "/vibe-build.json": publicVibeBuild,
 }
 
 export function useFetch(url) {
