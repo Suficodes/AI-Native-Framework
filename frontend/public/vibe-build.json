@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "updated_at": "2026-08-03",
-  "measured_from": "The four Claude Code session transcripts for this project, in ~/.claude/projects/. Nothing here is estimated.",
+  "measured_from": "Token, model and call figures are measured from the four Claude Code session transcripts in ~/.claude/projects/. Prompt count is the substantive briefs given, not raw conversational turns.",
   "model": {
     "primary": "Claude Opus 5",
     "primary_calls": 1177,
@@ -76,6 +76,10 @@
       "used_for": "Set the chart form and colour rules. Its validated palette is what lib/chartColors.js ships — and it is why DEWA's brand green is not used as a chart-mark colour."
     },
     {
+      "name": "frontend-design",
+      "used_for": "Guided the visual direction for new UI — typography, hierarchy and layout choices that keep the console looking intentional rather than templated."
+    },
+    {
       "name": "artifact-design",
       "used_for": "Calibrated how this prototype is published as a single self-contained shareable page."
     },
@@ -83,5 +87,6 @@
       "name": "run",
       "used_for": "Launched and drove the app in a real browser to confirm each change worked outside of tests."
     }
-  ]
+  ],
+  "prompts": 3
 }

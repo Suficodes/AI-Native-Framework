@@ -15,18 +15,19 @@ import "./vibe-code/vibe-code.css"
 // Never hardcode these numbers into the component.
 const fmt = (v) => (typeof v === "number" ? v.toLocaleString("en-US") : v)
 const LABELS = {
-  sessions: "Sessions", lines_written: "Lines written",
+  sessions: "Sessions", prompts: "Prompts", lines_written: "Lines written",
   total_lines: "Lines written", total_lines_written: "Lines written", cost: "Cost",
   total_cost: "Cost", total_cost_usd: "Cost", files: "Files", source_lines: "Source lines",
   modules: "Modules", tests: "Tests", commits: "Commits", updated_at: "Updated",
 }
 
-// Prompt counts are dropped rather than displayed: the raw total counts every
-// "continue" and every unrelated aside, so it reads as effort when it is mostly
-// turn-taking. Anything the hook reports as untracked is dropped too — an empty
-// stat is worse than no stat. Both are filtered on the value, not just removed
-// from the JSON, because the leaderboard hook rewrites vibe-stats.json wholesale
-// after every session and would otherwise reintroduce them.
+// The hook's own prompt count is suppressed: it counts every "continue" and
+// unrelated aside, so it reads as effort when it is mostly turn-taking. The
+// figure shown instead is the substantive-brief count from vibe-build.json.
+// Anything the hook reports as untracked is dropped too — an empty stat is
+// worse than no stat. Both are filtered on the value, not just removed from the
+// JSON, because the leaderboard hook rewrites vibe-stats.json wholesale after
+// every session and would otherwise reintroduce them.
 const HIDDEN_KEYS = new Set(["total_prompts", "prompts"])
 const UNTRACKED = /^(not tracked|untracked|n\/a|none|unknown|[-—])$/i
 
@@ -42,6 +43,13 @@ export default function VibeCode() {
         .filter(isShown)
     : []
 
+  // Sits next to Sessions, where a prompt count belongs.
+  const cards = [...stats]
+  if (build?.prompts != null) {
+    const afterSessions = cards.findIndex(([k]) => k === "sessions")
+    cards.splice(afterSessions + 1, 0, ["prompts", build.prompts])
+  }
+
   return (
     <div className="page-band">
       <span className="eyebrow">Project</span>
@@ -50,8 +58,8 @@ export default function VibeCode() {
 
       <div className="auto-grid" style={{ marginTop: "var(--spacing-6)" }}>
         {loading && <Text color="secondary">Loading…</Text>}
-        {!loading && stats.length === 0 && <Text color="secondary">No stats yet — they appear after your first session.</Text>}
-        {stats.map(([k, v]) => (
+        {!loading && cards.length === 0 && <Text color="secondary">No stats yet — they appear after your first session.</Text>}
+        {cards.map(([k, v]) => (
           <Card key={k} padding={4}>
             <VStack gap={1}>
               <Text size="sm" color="secondary" weight="medium">{LABELS[k] || k.replace(/_/g, " ")}</Text>
