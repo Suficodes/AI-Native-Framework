@@ -4,7 +4,7 @@ A high-fidelity, interactive prototype of a CAIO-facing console for DEWA. It sho
 
 > organization → job → activity → Quality Procedure → process → human/agent allocation → AI initiative → agent harness → D2D delivery → performance → value realization → token economics → strategic outcomes
 
-Built against `Protoype_requirements.docx`. All 18 navigation modules are real — there are no placeholder screens.
+Built against `Protoype_requirements.docx`. All 19 navigation modules are real — there are no placeholder screens.
 
 ---
 
@@ -149,9 +149,10 @@ Both required examples render through the same generic pages as everything else:
 | 13 | Observability | `/observability` | Ops view, traces, logs, harness versions |
 | 14 | Strategic Alignment | `/strategic-alignment` | Strategy map + 8 AI Rooms |
 | 15 | **AI Capability Library** | `/capability-library` | Reusable skills, call volume, shared memory, MCP connectors, rebuild cost avoided |
-| 16 | **Agent Constellation** | `/agent-constellation` | Radial + neural views of the agent workforce, per-division focus |
-| 17 | **AI-Native Enterprise Map** | `/enterprise-map` | Full-screen, 10 lenses, Story Mode |
-| 18 | Administration | `/administration` | 19 master-data screens |
+| 16 | **Version Control & GitHub** | `/version-control` | Source-control guide: what gets committed, repo topology, branching, merge gates, promotion |
+| 17 | **Agent Constellation** | `/agent-constellation` | Radial + neural views of the agent workforce, per-division focus |
+| 18 | **AI-Native Enterprise Map** | `/enterprise-map` | Full-screen, 10 lenses, Story Mode |
+| 19 | Administration | `/administration` | 19 master-data screens |
 
 Plus four project pages: `/journey`, `/architecture`, `/vibe-code`, `/pm-log`.
 

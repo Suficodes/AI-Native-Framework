@@ -5,7 +5,7 @@
   "updated_at": "2026-08-03T00:00:00Z",
   "hero_stats": [
     {
-      "value": 18,
+      "value": 19,
       "label": "navigation modules, all real"
     },
     {
@@ -118,6 +118,11 @@
       "number": 16,
       "title": "AI Capability Library",
       "body": "The platform-leverage view: what DEWA builds once and reuses everywhere. The twelve reusable skills were already in the dataset but buried at section 15 of the AI Playbook — this module gives them their own surface with call volume, the reuse multiplier taken from real harness usage, and the rebuild cost each reuse avoids. Plus the four shared memory stores agents recall from and the eight governed MCP connectors they reach enterprise systems through."
+    },
+    {
+      "number": 17,
+      "title": "Version Control & GitHub",
+      "body": "A short guide to how DEWA's AI projects are kept under source control: what gets committed (definitions, never operational data), how dozens of initiatives sit under one GitHub organization over a shared platform and capability layer, the branching model, the checks that gate main, and how one tagged build is promoted to production unchanged. All four diagrams are hand-authored SVG rather than mermaid, because the artifact build stubs mermaid out and diagrams would have shipped as source blocks."
     }
   ],
   "features": [
@@ -144,6 +149,10 @@
     {
       "title": "AI Capability Library",
       "description": "Reusable skills, shared memory and MCP connectors, with rebuild cost avoided priced at the same token rate Token Economics uses."
+    },
+    {
+      "title": "Version Control & GitHub",
+      "description": "Source-control guidance for DEWA AI projects, with hand-drawn SVG diagrams that render identically in the app and the single-file artifact."
     }
   ]
 }

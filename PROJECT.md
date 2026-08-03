@@ -16,6 +16,8 @@ _2026-07-31_ — scaffolded via `dak init`, then converted from the DAK default 
 
 _2026-08-01_ — **Complete.** All 16 modules real, all 12 build steps done, all 12 deliverables produced. Verified end to end: typecheck, production build, 108 data-layer tests, 45 automated UI checks across every step, the full Section 24 UX checklist, zero accessibility findings on 12 routes, and no horizontal overflow from 1680px down to 390px.
 
+_2026-08-03_ — **Version Control & GitHub added** (`/version-control`), a 19th module: a source-control guide for DEWA's AI projects, with four hand-authored SVG diagrams.
+
 _2026-08-03_ — **AI Capability Library added** (`/capability-library`), an 18th module: reusable skills with call volume and rebuild cost avoided, four shared memory stores, and eight MCP connectors. 149 data-layer tests, zero accessibility findings on 14 routes.
 
 _2026-08-02_ — **Agent Constellation added** (`/agent-constellation`), a 17th module: a presentation-first radial/neural view of the agent workforce, built on its own tested graph and geometry layer. 138 data-layer tests, zero accessibility findings on 13 routes.
@@ -237,3 +239,16 @@ The platform-leverage story a CAIO presentation needs: what the enterprise build
 - **A period metric and a lifetime metric are not the same metric.** The seeded `reuseCount` runs 10–120 (lifetime). Quarterly call volume needed to sit in a 15–20 band. Overwriting the seed would have silently changed the AI Playbook's section 15 and its tests, so `callsThisQuarter` was added alongside rather than replacing it.
 - **Three Astryx API mismatches cost a round-trip each**, all caught by rendering rather than by types: `Table` takes `data`/`idKey` (not `rows`/`getRowId`), `Banner` takes `status`/`description` (not `variant`/children), and `ProgressBar` has no label props. `.jsx` UI with untyped props means the browser is the type checker — worth remembering before adding a fourth graph library or component wrapper.
 - **Astryx `<Text>` is inline.** Two stacked `<Text>` elements ran together into one paragraph until the wrapper got `display: flex; flex-direction: column`. Easy to miss in code review, obvious in a screenshot.
+
+
+### Phase 5 — Version Control & GitHub (2026-08-03)
+
+A concise guide to how the projects DEWA runs are kept under source control — deliberately *not* about how this prototype was built, which is `/vibe-code`'s job.
+
+Six sections: why it matters, what actually gets pushed, many projects under one organization, branching, the gate on `main`, and promotion to production. Content lives in `data/versionControlGuide.ts` rather than in JSX.
+
+**Lessons**
+
+- **The artifact build stubs mermaid out, which decided the whole approach.** Mermaid pulls ~3.4MB of lazy diagram chunks that a single-file page would have to inline, so `scripts/artifact/mermaid.js` replaces it with a stub that renders fences as source blocks — fine for `/pm-log`, fatal for a section whose entire point is diagrams. All four diagrams are therefore hand-authored SVG components: no dependency, identical output in the dev app and the artifact, theme-aware through `chartColors`, and better-looking than mermaid's defaults. Worth checking what a build strips before designing around a library.
+- **An SVG scaled to container width turns 11px labels into headlines.** The diagrams needed an explicit `max-width` — without one they filled a 1680px monitor and the type read as a poster. Capped at 940px and centred.
+- **The correction the section exists to make:** "how does data get pushed to GitHub" has the answer "it does not". Source control carries definitions; secrets go to a vault, PII to the data platform, weights to a model registry, logs to observability. The in-git / never-in-git panel is the most useful thing on the page.

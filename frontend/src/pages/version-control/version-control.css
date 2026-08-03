@@ -1,0 +1,117 @@
+/* /version-control — the GitHub guide. Diagrams are hand-authored SVG so they
+   render identically in the dev app and in the single-file artifact (the
+   artifact build stubs mermaid out). */
+
+.vc-figure {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  background: var(--color-background-surface);
+  padding: var(--spacing-4);
+  /* Diagrams have a natural minimum width — scroll the figure, never the page. */
+  overflow-x: auto;
+}
+
+.vc-figure figcaption {
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.vcd {
+  display: block;
+  width: 100%;
+  /* Capped so a diagram does not balloon on a wide monitor — an SVG scaled to
+     1600px turns 11px labels into headlines. */
+  max-width: 940px;
+  min-width: 620px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.vcd-trunk-label,
+.vcd-branch-label,
+.vcd-stage,
+.vcd-repo,
+.vcd-tag,
+.vcd-note {
+  font-family: var(--font-family-code);
+}
+
+.vcd-trunk-label { font-size: 12px; font-weight: 600; }
+.vcd-branch-label { font-size: 11px; }
+.vcd-stage { font-size: 13px; font-weight: 600; }
+.vcd-repo { font-size: 10.5px; }
+.vcd-tag { font-size: 11px; }
+.vcd-note { font-size: 10px; }
+
+/* ── In-git / not-in-git ──────────────────────────────────────── */
+
+.vc-boundary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.vc-boundary-head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.vc-boundary-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  flex: none;
+}
+
+.vc-tone-in .vc-boundary-icon,
+.vc-boundary-head.vc-tone-in .vc-boundary-icon {
+  color: var(--color-text-green);
+  border: 1px solid var(--color-text-green);
+}
+
+.vc-tone-out .vc-boundary-icon,
+.vc-boundary-head.vc-tone-out .vc-boundary-icon {
+  color: var(--color-text-red);
+  border: 1px solid var(--color-text-red);
+}
+
+.vc-boundary-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.vc-boundary-list li {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 6px var(--spacing-3);
+  border-left: 2px solid var(--color-border);
+}
+
+.vc-boundary-list li.vc-tone-in { border-left-color: var(--color-text-green); }
+.vc-boundary-list li.vc-tone-out { border-left-color: var(--color-text-red); }
+
+/* ── Principle and reason cards ───────────────────────────────── */
+
+.vc-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.vc-point {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vc-scroll {
+  overflow-x: auto;
+}
