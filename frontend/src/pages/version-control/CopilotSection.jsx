@@ -85,7 +85,7 @@ export function CopilotSection({ Figure }) {
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>
         GitHub Copilot in the loop
       </Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-3)' }}>
+      <Text color="secondary" className="vc-lede">
         Copilot is already the assistant in DEWA&rsquo;s IDEs, so the question is not whether to adopt
         it but what governs it and what it reports back. It reads from the same repositories described
         above, and everything it helps write re-enters through the same pull request gate.
@@ -100,7 +100,7 @@ export function CopilotSection({ Figure }) {
       </div>
 
       <Heading level={3} size="md" style={{ marginTop: 'var(--spacing-5)' }}>What makes it governable</Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-2)' }}>
+      <Text color="secondary" className="vc-lede">
         <code className="mono">copilot-instructions.md</code> is the highest-leverage file in the
         repository: it is committed, reviewed and versioned like any other, and it puts DEWA&rsquo;s
         standards and the owning Quality Procedure into every suggestion made in that repo.
@@ -112,7 +112,7 @@ export function CopilotSection({ Figure }) {
       <Heading level={3} size="md" style={{ marginTop: 'var(--spacing-5)' }}>
         What is pulled back into the Control Tower
       </Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-3)' }}>
+      <Text color="secondary" className="vc-lede">
         {INTEGRATION_NOTES.direction} {INTEGRATION_NOTES.boundary}
       </Text>
       <Figure caption={INTEGRATION_NOTES.identity}>

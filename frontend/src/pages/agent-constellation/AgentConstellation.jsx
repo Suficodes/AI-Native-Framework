@@ -58,7 +58,9 @@ export default function AgentConstellation() {
   )
 
   return (
-    <div>
+    // --wide because the canvas sits between two 264px rails; page-band itself
+    // is the shared page gutter every route uses.
+    <div className="page-band page-band--wide">
       <Heading level={1} size="xl">Agent Constellation</Heading>
       <Text color="secondary">
         Every AI agent DEWA runs, the division that owns it, and the processes and Quality

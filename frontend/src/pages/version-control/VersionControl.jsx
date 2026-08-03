@@ -82,17 +82,21 @@ const GATE_COLUMNS = [
 
 export default function VersionControl() {
   return (
-    <div>
+    // page-band is the shared page gutter every route uses — without it the
+    // content sits flush against the SideNav. --wide matches every other
+    // Control Tower module and keeps the heading aligned with the breadcrumb;
+    // the prose is capped separately by .vc-lede so it stays readable.
+    <div className="page-band page-band--wide">
       <span className="eyebrow">Control Tower</span>
       <Heading level={1} size="xl">Version Control &amp; GitHub</Heading>
-      <Text color="secondary">
+      <Text color="secondary" className="vc-lede">
         How DEWA&rsquo;s AI projects are kept under source control — what is committed, how dozens of
         projects are organised, how a change reaches <code className="mono">main</code>, how a
         release is promoted to production, and how GitHub Copilot connects to all of it.
       </Text>
 
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>Why it matters</Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-3)' }}>
+      <Text color="secondary" className="vc-lede">
         An agent is software. The moment one makes a decision that affects a customer or a control,
         the question stops being &ldquo;does it work&rdquo; and becomes &ldquo;can you prove what it
         was doing on the day it ran&rdquo;.
@@ -100,7 +104,7 @@ export default function VersionControl() {
       <Points points={WHY_IT_MATTERS} />
 
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>What actually gets pushed</Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-3)' }}>
+      <Text color="secondary" className="vc-lede">
         The most common and most expensive misconception: source control carries <strong>definitions,
         not data</strong>. Everything operational is referenced by name or version and lives in the
         system built to hold it.
@@ -108,7 +112,7 @@ export default function VersionControl() {
       <BoundaryPanel />
 
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>Many projects, one organization</Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-3)' }}>
+      <Text color="secondary" className="vc-lede">
         One GitHub organization, one repository per AI initiative, and a shared platform and
         capability layer underneath that delivery repos depend on rather than copy. This is the same
         reuse argument the AI Capability Library makes, expressed in repository structure.
@@ -129,7 +133,7 @@ export default function VersionControl() {
       </div>
 
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>The gate on main</Heading>
-      <Text color="secondary" style={{ display: 'block', marginBottom: 'var(--spacing-3)' }}>
+      <Text color="secondary" className="vc-lede">
         Every check below runs automatically on the pull request. This is where governance stops
         being a document and starts being enforced.
       </Text>

@@ -115,3 +115,12 @@
 .vc-scroll {
   overflow-x: auto;
 }
+
+/* Running text is capped to a readable measure. The page itself is
+   page-band--wide so its heading lines up with the breadcrumb and with every
+   other Control Tower module, but prose set to 1440px is unreadable. */
+.vc-lede {
+  display: block;
+  max-width: 82ch;
+  margin-bottom: var(--spacing-3);
+}

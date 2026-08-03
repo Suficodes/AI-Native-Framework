@@ -36,7 +36,9 @@ export default function CapabilityLibrary() {
   const { skills, memory, connectors, totals } = library
 
   return (
-    <div>
+    // --wide because the library table carries eight columns; page-band itself
+    // is the shared page gutter every route uses.
+    <div className="page-band page-band--wide">
       <span className="eyebrow">Control Tower</span>
       <Heading level={1} size="xl">AI Capability Library</Heading>
       <Text color="secondary">
