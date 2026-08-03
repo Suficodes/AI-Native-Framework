@@ -52,13 +52,14 @@ function TokenBar({ breakdown, total }) {
 export function BuildContext({ build }) {
   if (!build) return null
   const { model, tokens, mcp, memory, skills } = build
+  // The MCP card only earns its place if a server was actually called.
+  const usedMcp = mcp?.used ?? []
 
   return (
     <>
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>Tokens</Heading>
       <Text color="secondary">
-        {full(tokens.total)} tokens across {tokens.sessions} sessions, {tokens.prompts} prompts and{' '}
-        {full(tokens.model_calls)} model calls.
+        {full(tokens.total)} tokens across {tokens.sessions} sessions and {full(tokens.model_calls)} model calls.
       </Text>
       <Card padding={4} style={{ marginTop: 'var(--spacing-3)' }}>
         <TokenBar breakdown={tokens.breakdown} total={tokens.total} />
@@ -80,18 +81,20 @@ export function BuildContext({ build }) {
           </VStack>
         </Card>
 
-        <Card padding={4}>
-          <VStack gap={2}>
-            <Text size="sm" color="secondary" weight="medium">MCP servers</Text>
-            <div className="kpi-value">{mcp.used.length === 0 ? 'None used' : mcp.used.join(', ')}</div>
-            <div className="vc-chips">
-              {mcp.available.map((server) => (
-                <Badge key={server} label={`${server} · unused`} variant="neutral" />
-              ))}
-            </div>
-            <Text size="xs" color="secondary">{mcp.note}</Text>
-          </VStack>
-        </Card>
+        {usedMcp.length > 0 && (
+          <Card padding={4}>
+            <VStack gap={2}>
+              <Text size="sm" color="secondary" weight="medium">MCP servers</Text>
+              <div className="kpi-value">{usedMcp.length}</div>
+              <div className="vc-chips">
+                {usedMcp.map((server) => (
+                  <Badge key={server} label={server} variant="neutral" />
+                ))}
+              </div>
+              <Text size="xs" color="secondary">{mcp.note}</Text>
+            </VStack>
+          </Card>
+        )}
 
         <Card padding={4}>
           <VStack gap={2}>

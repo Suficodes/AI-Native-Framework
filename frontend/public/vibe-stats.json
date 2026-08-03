@@ -1,12 +1,10 @@
 {
   "sessions": 4,
-  "total_prompts": 52,
   "total_lines_written": 24698,
   "source_lines": 22710,
   "files": 216,
   "modules": 17,
   "tests": 138,
   "commits": 25,
-  "total_cost_usd": "Not tracked",
   "updated_at": "2026-08-03"
 }

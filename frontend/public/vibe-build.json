@@ -12,20 +12,39 @@
   "tokens": {
     "total": 747485388,
     "breakdown": [
-      { "label": "Cache reads", "value": 736265743, "note": "the project context re-read on every turn" },
-      { "label": "Cache writes", "value": 9239525, "note": "context committed to the cache" },
-      { "label": "Output", "value": 1924898, "note": "everything Claude actually wrote" },
-      { "label": "Fresh input", "value": 55222, "note": "uncached prompt text" }
+      {
+        "label": "Cache reads",
+        "value": 736265743,
+        "note": "the project context re-read on every turn"
+      },
+      {
+        "label": "Cache writes",
+        "value": 9239525,
+        "note": "context committed to the cache"
+      },
+      {
+        "label": "Output",
+        "value": 1924898,
+        "note": "everything Claude actually wrote"
+      },
+      {
+        "label": "Fresh input",
+        "value": 55222,
+        "note": "uncached prompt text"
+      }
     ],
     "model_calls": 1903,
     "sessions": 4,
-    "prompts": 52,
     "note": "98.5% of the total is cache reads — the same project context re-read each turn, billed at a fraction of fresh input. The 1.92M output tokens are the number that maps to work produced."
   },
   "mcp": {
     "used": [],
-    "available": ["Figma", "Context7", "Google Drive"],
-    "note": "No MCP server was ever called. The prototype has no external data source, no design file to sync and no live docs dependency, so every input stayed local."
+    "available": [
+      "Figma",
+      "Context7",
+      "Google Drive"
+    ],
+    "note": "No MCP server was called on this project. The card only appears when one is."
   },
   "memory": {
     "entries": 0,
