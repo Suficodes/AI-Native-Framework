@@ -1,0 +1,84 @@
+/* /capability-library — the reuse-and-leverage view over the skills library. */
+
+.cl-callout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--spacing-4);
+  align-items: center;
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  background: var(--color-background-surface);
+}
+
+/* Astryx <Text> is inline, so the label and the body need stacking explicitly
+   or they run together on one line. */
+.cl-callout-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cl-callout-figure {
+  text-align: right;
+}
+
+.cl-callout-figure .kpi-value {
+  white-space: nowrap;
+}
+
+.cl-memory {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.cl-memory-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.cl-memory-figures {
+  display: flex;
+  gap: var(--spacing-5);
+  flex-wrap: wrap;
+}
+
+.cl-memory-figures > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.cl-figure {
+  font-family: var(--font-family-code);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-lg);
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+.cl-recall-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  margin-bottom: 4px;
+}
+
+/* Tables carry a lot of columns — let them scroll rather than the page body. */
+.cl-scroll {
+  overflow-x: auto;
+}
+
+@media (max-width: 720px) {
+  .cl-callout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cl-callout-figure {
+    text-align: left;
+  }
+}

@@ -16,6 +16,8 @@ _2026-07-31_ — scaffolded via `dak init`, then converted from the DAK default 
 
 _2026-08-01_ — **Complete.** All 16 modules real, all 12 build steps done, all 12 deliverables produced. Verified end to end: typecheck, production build, 108 data-layer tests, 45 automated UI checks across every step, the full Section 24 UX checklist, zero accessibility findings on 12 routes, and no horizontal overflow from 1680px down to 390px.
 
+_2026-08-03_ — **AI Capability Library added** (`/capability-library`), an 18th module: reusable skills with call volume and rebuild cost avoided, four shared memory stores, and eight MCP connectors. 149 data-layer tests, zero accessibility findings on 14 routes.
+
 _2026-08-02_ — **Agent Constellation added** (`/agent-constellation`), a 17th module: a presentation-first radial/neural view of the agent workforce, built on its own tested graph and geometry layer. 138 data-layer tests, zero accessibility findings on 13 routes.
 
 ## Goals
@@ -217,3 +219,21 @@ Deliberately a **separate route from `/enterprise-map`** rather than an eleventh
 - **A bug that was invisible in the mode it was written for.** The core cluster was rendered at the viewport origin rather than at its laid-out position. In radial mode the core *is* the origin, so it looked perfect; switching to neural put it in the top-left corner instead of the bottom. Two layouts over one renderer is what exposed it — a single-layout view would have shipped the bug.
 - **Neural mode across all four divisions degenerated into an unreadable 5:1 strip.** The reference's tree view only ever shows one domain at a time, which turned out to be a constraint rather than a stylistic choice. Neural now implies focus and defaults to the busiest division.
 - Sparse graphs need explicit structure. With 15 agents rather than the reference's 37, the tiers did not read as rings from the marks alone — faint labelled guide circles make the structure legible without faking density.
+
+
+### Phase 4 — AI Capability Library (2026-08-03)
+
+The platform-leverage story a CAIO presentation needs: what the enterprise builds once and reuses everywhere, and what that avoids.
+
+**Built on data that already existed.** The twelve `ReusableSkill` records — with `category`, `maturity`, `usedByHarnessIds` and `avgTokenCostPerCall` — were seeded back in Step 2 but surfaced only as section 15 of 15 inside the AI Playbook, visible after picking a scope. No new skill data was invented; `data/capabilityLibrary.ts` adds the leverage view over them.
+
+**The cost model.** Reuse-versus-rebuild: each harness that embeds a skill would otherwise have built its own, so every reuse instance past the first is a build avoided. Build cost scales by category (a Validation skill approved for high autonomy carries more assurance work than a Retrieval one) and by maturity. Run cost is priced at **AED 30 per million tokens — the same default rate `tokenUsage.seed.ts` uses**, so this module can never quote a token cost that contradicts Token Economics. A test pins that constant.
+
+**What it shows:** 12 skills, 219 calls this quarter, 35 reuse instances, ~AED 1.53M in rebuilds avoided against AED 33 of tokens to actually run them; four memory stores (101,390 entries, 79% recall hit rate, 86M tokens of re-retrieval avoided); eight MCP connectors across ~19,900 calls.
+
+**Lessons**
+
+- **The most persuasive number was the contrast, not the total.** Running the whole library for a quarter costs AED 33 in tokens while rebuilding it would have cost AED 1.53M. Token spend is the number everyone instruments; build-versus-reuse is where the money actually is. The page leads with that comparison rather than a single savings figure.
+- **A period metric and a lifetime metric are not the same metric.** The seeded `reuseCount` runs 10–120 (lifetime). Quarterly call volume needed to sit in a 15–20 band. Overwriting the seed would have silently changed the AI Playbook's section 15 and its tests, so `callsThisQuarter` was added alongside rather than replacing it.
+- **Three Astryx API mismatches cost a round-trip each**, all caught by rendering rather than by types: `Table` takes `data`/`idKey` (not `rows`/`getRowId`), `Banner` takes `status`/`description` (not `variant`/children), and `ProgressBar` has no label props. `.jsx` UI with untyped props means the browser is the type checker — worth remembering before adding a fourth graph library or component wrapper.
+- **Astryx `<Text>` is inline.** Two stacked `<Text>` elements ran together into one paragraph until the wrapper got `display: flex; flex-direction: column`. Easy to miss in code review, obvious in a screenshot.

@@ -4,7 +4,7 @@ A high-fidelity, interactive prototype of a CAIO-facing console for DEWA. It sho
 
 > organization → job → activity → Quality Procedure → process → human/agent allocation → AI initiative → agent harness → D2D delivery → performance → value realization → token economics → strategic outcomes
 
-Built against `Protoype_requirements.docx`. All 17 navigation modules are real — there are no placeholder screens.
+Built against `Protoype_requirements.docx`. All 18 navigation modules are real — there are no placeholder screens.
 
 ---
 
@@ -23,7 +23,7 @@ npm run dev          # http://localhost:3400
 | `npm run build:artifact` | One self-contained `frontend/dist-artifact/artifact.html` — the whole prototype in a single file, no external requests (see `scripts/artifact/`) |
 | `npm run preview` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` over the TypeScript data layer |
-| `npx vitest run` | 138 data-layer tests |
+| `npx vitest run` | 149 data-layer tests |
 | `npm run verify:all` | 5 browser-driven suites: 45 step checks, the UX checklist, accessibility, responsiveness, keyboard (needs `npm run dev` running) |
 | `npm run validate:journey` | Validate `public/journey-data.json` |
 
@@ -148,9 +148,10 @@ Both required examples render through the same generic pages as everything else:
 | 12 | Token Economics | `/token-economics` | 11 KPIs, 9-level drill-down, 8 charts |
 | 13 | Observability | `/observability` | Ops view, traces, logs, harness versions |
 | 14 | Strategic Alignment | `/strategic-alignment` | Strategy map + 8 AI Rooms |
-| 15 | **Agent Constellation** | `/agent-constellation` | Radial + neural views of the agent workforce, per-division focus |
-| 16 | **AI-Native Enterprise Map** | `/enterprise-map` | Full-screen, 10 lenses, Story Mode |
-| 17 | Administration | `/administration` | 19 master-data screens |
+| 15 | **AI Capability Library** | `/capability-library` | Reusable skills, call volume, shared memory, MCP connectors, rebuild cost avoided |
+| 16 | **Agent Constellation** | `/agent-constellation` | Radial + neural views of the agent workforce, per-division focus |
+| 17 | **AI-Native Enterprise Map** | `/enterprise-map` | Full-screen, 10 lenses, Story Mode |
+| 18 | Administration | `/administration` | 19 master-data screens |
 
 Plus four project pages: `/journey`, `/architecture`, `/vibe-code`, `/pm-log`.
 

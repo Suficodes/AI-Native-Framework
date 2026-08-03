@@ -2,10 +2,10 @@
   "schema_version": 1,
   "project_name": "AI-Native Enterprise Control Tower",
   "tagline": "A CAIO-facing console that connects org structure, the human and agent workforce, Quality Procedures, processes, AI initiatives, harness engineering, D2D delivery, value realization and token economics into one product.",
-  "updated_at": "2026-08-02T00:00:00Z",
+  "updated_at": "2026-08-03T00:00:00Z",
   "hero_stats": [
     {
-      "value": 17,
+      "value": 18,
       "label": "navigation modules, all real"
     },
     {
@@ -13,7 +13,7 @@
       "label": "lenses over one shared graph"
     },
     {
-      "value": 138,
+      "value": 149,
       "label": "data-layer tests"
     },
     {
@@ -113,6 +113,11 @@
       "number": 15,
       "title": "Agent Constellation",
       "body": "A second, presentation-first view of the agent workforce: an enterprise core wrapped in concentric rings of divisions, the AI agents each division runs, and the processes and Quality Procedures those agents touch. Two layouts over one graph (radial, and a top-down neural tree), per-division focus with a carousel, branch highlighting on hover, live search, and a detail panel that hands off to the module owning each record. The radial sectors are weighted by division population, which is what surfaced that Generation & Production runs no AI agents at all — a coverage gap the view now states outright rather than hiding."
+    },
+    {
+      "number": 16,
+      "title": "AI Capability Library",
+      "body": "The platform-leverage view: what DEWA builds once and reuses everywhere. The twelve reusable skills were already in the dataset but buried at section 15 of the AI Playbook — this module gives them their own surface with call volume, the reuse multiplier taken from real harness usage, and the rebuild cost each reuse avoids. Plus the four shared memory stores agents recall from and the eight governed MCP connectors they reach enterprise systems through."
     }
   ],
   "features": [
@@ -135,6 +140,10 @@
     {
       "title": "Agent Constellation",
       "description": "Radial and neural views of every AI agent, its owning division, and the work it touches — geometry is a pure tested function, all motion is CSS so headless verification stays deterministic."
+    },
+    {
+      "title": "AI Capability Library",
+      "description": "Reusable skills, shared memory and MCP connectors, with rebuild cost avoided priced at the same token rate Token Economics uses."
     }
   ]
 }
