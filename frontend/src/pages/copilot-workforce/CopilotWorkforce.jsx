@@ -41,6 +41,11 @@ export default function CopilotWorkforce() {
         <span className="eyebrow">Control Tower</span>
         <Heading level={1} type="display-3">Copilot & Workforce</Heading>
         <Text color="secondary" size="lg">Microsoft Copilot adoption and the Work Contribution Ledger.</Text>
+        <Text color="secondary" size="sm" style={{ display: 'block', marginTop: 'var(--spacing-2)' }}>
+          These are adoption and contribution measures. For how GitHub Copilot connects to the
+          repositories, what governs it, and where these numbers are pulled from, see{' '}
+          <a href="#/version-control">Version Control &amp; GitHub</a>.
+        </Text>
       </div>
 
       {!copilotUsage ? (

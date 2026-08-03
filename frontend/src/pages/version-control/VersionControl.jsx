@@ -11,6 +11,7 @@ import { Badge } from '@astryxdesign/core/Badge'
 import { Banner } from '@astryxdesign/core/Banner'
 import { Table, proportional, pixel } from '@astryxdesign/core/Table'
 import { BoundaryPanel } from './BoundaryPanel.jsx'
+import { CopilotSection } from './CopilotSection.jsx'
 import { BranchDiagram } from './diagrams/BranchDiagram.jsx'
 import { RepoTopologyDiagram } from './diagrams/RepoTopologyDiagram.jsx'
 import { PromotionDiagram } from './diagrams/PromotionDiagram.jsx'
@@ -86,8 +87,8 @@ export default function VersionControl() {
       <Heading level={1} size="xl">Version Control &amp; GitHub</Heading>
       <Text color="secondary">
         How DEWA&rsquo;s AI projects are kept under source control — what is committed, how dozens of
-        projects are organised, how a change reaches <code className="mono">main</code>, and how a
-        release is promoted to production.
+        projects are organised, how a change reaches <code className="mono">main</code>, how a
+        release is promoted to production, and how GitHub Copilot connects to all of it.
       </Text>
 
       <Heading level={2} size="lg" style={{ marginTop: 'var(--spacing-6)' }}>Why it matters</Heading>
@@ -141,11 +142,13 @@ export default function VersionControl() {
         <PromotionDiagram />
       </Figure>
 
+      <CopilotSection Figure={Figure} />
+
       <div style={{ marginTop: 'var(--spacing-6)' }}>
         <Banner
           status="info"
           title="Reference practice, not a DEWA policy document."
-          description="Repository names, owners and gate definitions here are an illustrative model for how AI initiatives would be managed under source control. They are intended as a starting point for DEWA's own engineering standards, not a statement of existing policy."
+          description="Repository names, owners, gate definitions and the Copilot integration described here are an illustrative model for how AI initiatives would be managed under source control. The GitHub and Copilot capabilities referenced — instructions files, content exclusion, the Metrics API, audit logs — are real product features; how DEWA configures them is a decision for DEWA's own engineering standards, not a statement of existing policy."
         />
       </div>
     </div>

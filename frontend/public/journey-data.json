@@ -123,6 +123,11 @@
       "number": 17,
       "title": "Version Control & GitHub",
       "body": "A short guide to how DEWA's AI projects are kept under source control: what gets committed (definitions, never operational data), how dozens of initiatives sit under one GitHub organization over a shared platform and capability layer, the branching model, the checks that gate main, and how one tagged build is promoted to production unchanged. All four diagrams are hand-authored SVG rather than mermaid, because the artifact build stubs mermaid out and diagrams would have shipped as source blocks."
+    },
+    {
+      "number": 18,
+      "title": "GitHub Copilot integration",
+      "body": "How the IDE DEWA already uses connects to everything else: what context Copilot is given and what it never receives, the controls that make it governable (repo instructions files, content exclusion, org policy, audit log), and the six GitHub sources read back into the Control Tower on a schedule. Only metrics and metadata cross the boundary — source code never does."
     }
   ],
   "features": [

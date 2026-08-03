@@ -16,7 +16,7 @@ _2026-07-31_ — scaffolded via `dak init`, then converted from the DAK default 
 
 _2026-08-01_ — **Complete.** All 16 modules real, all 12 build steps done, all 12 deliverables produced. Verified end to end: typecheck, production build, 108 data-layer tests, 45 automated UI checks across every step, the full Section 24 UX checklist, zero accessibility findings on 12 routes, and no horizontal overflow from 1680px down to 390px.
 
-_2026-08-03_ — **Version Control & GitHub added** (`/version-control`), a 19th module: a source-control guide for DEWA's AI projects, with four hand-authored SVG diagrams.
+_2026-08-03_ — **Version Control & GitHub added** (`/version-control`), a 19th module: a source-control guide for DEWA's AI projects plus the GitHub Copilot integration — six hand-authored SVG diagrams.
 
 _2026-08-03_ — **AI Capability Library added** (`/capability-library`), an 18th module: reusable skills with call volume and rebuild cost avoided, four shared memory stores, and eight MCP connectors. 149 data-layer tests, zero accessibility findings on 14 routes.
 
@@ -252,3 +252,18 @@ Six sections: why it matters, what actually gets pushed, many projects under one
 - **The artifact build stubs mermaid out, which decided the whole approach.** Mermaid pulls ~3.4MB of lazy diagram chunks that a single-file page would have to inline, so `scripts/artifact/mermaid.js` replaces it with a stub that renders fences as source blocks — fine for `/pm-log`, fatal for a section whose entire point is diagrams. All four diagrams are therefore hand-authored SVG components: no dependency, identical output in the dev app and the artifact, theme-aware through `chartColors`, and better-looking than mermaid's defaults. Worth checking what a build strips before designing around a library.
 - **An SVG scaled to container width turns 11px labels into headlines.** The diagrams needed an explicit `max-width` — without one they filled a 1680px monitor and the type read as a poster. Capped at 940px and centred.
 - **The correction the section exists to make:** "how does data get pushed to GitHub" has the answer "it does not". Source control carries definitions; secrets go to a vault, PII to the data platform, weights to a model registry, logs to observability. The in-git / never-in-git panel is the most useful thing on the page.
+
+
+### Phase 6 — GitHub Copilot integration (2026-08-03)
+
+Added to `/version-control` rather than a new module: Copilot is a GitHub product sitting on the repositories that section already describes, so it completes that story — repos, branching, gates, promotion, and now the IDE layer where engineers actually work.
+
+Deliberately **not** put in `/copilot-workforce`. That module measures adoption (eligible / licensed / active users, license utilisation per division) for a workforce audience. This is integration architecture for an engineering audience. Mixing them would dilute both, so the two are cross-linked instead.
+
+Three parts: where Copilot sits and what context it is given (with a facing panel for what it never receives), the controls that make it governable, and what is pulled back into the Control Tower.
+
+**Lessons**
+
+- **The most useful answer was a boundary, not a pipeline.** The question was "how does data get pulled from Copilot into the project". The honest answer is that only metrics and metadata cross — source code never does, and findings link back to the commit on GitHub instead. Stating that plainly is more valuable than any diagram of the transport.
+- **`copilot-instructions.md` is the governance hook worth pointing at.** It is committed, reviewed and versioned like any other file, and it puts DEWA's standards and the owning Quality Procedure into every suggestion in that repo — the same "controls as code" argument the merge-gate section makes, applied one layer earlier.
+- **Text in a fixed-viewBox SVG has no reflow.** Three labels overflowed their boxes or the canvas edge and were only visible in a screenshot — `viewBox` clipping does not throw, warn, or fail a test. Anything drawn by hand needs looking at, not just rendering.
