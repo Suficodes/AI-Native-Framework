@@ -16,6 +16,12 @@ _2026-07-31_ — scaffolded via `dak init`, then converted from the DAK default 
 
 _2026-08-01_ — **Complete.** All 16 modules real, all 12 build steps done, all 12 deliverables produced. Verified end to end: typecheck, production build, 108 data-layer tests, 45 automated UI checks across every step, the full Section 24 UX checklist, zero accessibility findings on 12 routes, and no horizontal overflow from 1680px down to 390px.
 
+_2026-08-03_ — **Version Control & GitHub added** (`/version-control`), a 19th module: a source-control guide for DEWA's AI projects plus the GitHub Copilot integration — six hand-authored SVG diagrams.
+
+_2026-08-03_ — **AI Capability Library added** (`/capability-library`), an 18th module: reusable skills with call volume and rebuild cost avoided, four shared memory stores, and eight MCP connectors. 149 data-layer tests, zero accessibility findings on 14 routes.
+
+_2026-08-02_ — **Agent Constellation added** (`/agent-constellation`), a 17th module: a presentation-first radial/neural view of the agent workforce, built on its own tested graph and geometry layer. 138 data-layer tests, zero accessibility findings on 13 routes.
+
 ## Goals
 
 - Demonstrate the full AI-native transformation chain (org → QP → process → agent → harness → D2D → value → tokens → strategy) as one coherent, navigable product — not a set of disconnected dashboards.
@@ -189,3 +195,75 @@ The refinement step, plus the full end-to-end verification of steps 1–12.
 - **Astryx's `CommandPalette` does not forward its `label` to the input it renders**, leaving global search with no accessible name on every page. Labelled from the app side, since fixing it properly needs a design-system change.
 - Three pages jumped `h1 → h3`, and Administration had no `h1` at all.
 - Verification is now scripted and repeatable: `verify.mjs` (45 checks across all 12 steps), `uxcheck.mjs` (the Section 24 checklist and both worked examples), `a11y.mjs`, `responsive.mjs` and `keyboard.mjs`.
+
+### Phase 3 — Agent Constellation (2026-08-02)
+
+A new section, requested from a reference recording of the "Optimal Engine" agent-company visualization: an enterprise core wrapped in concentric rings of divisions → AI agents → the processes and Quality Procedures those agents touch, plus a second top-down "neural" tree over the same graph and a per-division focus mode with a carousel.
+
+Deliberately a **separate route from `/enterprise-map`** rather than an eleventh lens on it. The Enterprise Map is the analytical surface — nineteen entity kinds, ten lenses, Story Mode. This is the presentation surface: one question, one screen, readable across a room. They share the dataset, not the graph.
+
+**What's done**
+
+- `data/constellationGraph.ts` — a strict four-tier tree over `dataset` (48 nodes / 47 links), memoized, with 9 invariant tests. Leaves are namespaced per agent (`proc:PROC-x@AGT-y`) so an agent-shared process still yields exactly one parent per node.
+- `lib/constellationLayout.js` — `radialLayout` and `neuralLayout` as pure deterministic functions returning positions plus a camera `viewBox`; 13 tests covering tier radii, sector containment, sibling separation, framing and determinism.
+- `pages/agent-constellation/` — hand-rolled SVG canvas, directory panel (counts, live search, per-division bars), legend + 15-agent roster, detail side panel that hands off to `/agents/:id`, `/processes/agenticity/:id` and `/processes/quality-procedures/:id`, and a fullscreen toggle.
+- Colours come from the existing validated `lib/chartColors.js`; divisions take categorical slots, leaves take the status ramp by agenticity. Works in light and dark mode.
+- `/agent-constellation` added to `scripts/a11y.mjs` and `scripts/responsive.mjs`.
+
+**Stack notes**
+
+- **Not `@xyflow/react`**, unlike the other three graph views. xyflow owns layout and targets pannable DOM-node editors; this view is fixed polar geometry whose whole interaction is an animated camera. Using it would have meant fighting it for no gain.
+- **Not `framer-motion`**, though it was offered. Every animation here is CSS. The repo's verification scripts screenshot in headless Chrome, where `--virtual-time-budget` does not reliably advance rAF-driven animation (the Step 3 lesson that broke recharts entrance animations and NumberFlow) — declarative CSS keeps the canvas deterministic under those checks.
+
+**Lessons**
+
+- **The data was lopsided in a way the design had to answer.** Agents distribute 0 / 2 / 7 / 6 across the four divisions, and 5 of the 15 agents have no assigned processes or QPs. Equal 90° sectors would have left a visibly empty quadrant that reads as a rendering bug. Fixed by weighting each sector by its division's population with a per-domain floor — and by stating the gap outright ("Generation & Production runs no AI agents yet — a coverage gap, not a rendering error"). The honest version is also the more useful one for a CAIO.
+- **A bug that was invisible in the mode it was written for.** The core cluster was rendered at the viewport origin rather than at its laid-out position. In radial mode the core *is* the origin, so it looked perfect; switching to neural put it in the top-left corner instead of the bottom. Two layouts over one renderer is what exposed it — a single-layout view would have shipped the bug.
+- **Neural mode across all four divisions degenerated into an unreadable 5:1 strip.** The reference's tree view only ever shows one domain at a time, which turned out to be a constraint rather than a stylistic choice. Neural now implies focus and defaults to the busiest division.
+- Sparse graphs need explicit structure. With 15 agents rather than the reference's 37, the tiers did not read as rings from the marks alone — faint labelled guide circles make the structure legible without faking density.
+
+
+### Phase 4 — AI Capability Library (2026-08-03)
+
+The platform-leverage story a CAIO presentation needs: what the enterprise builds once and reuses everywhere, and what that avoids.
+
+**Built on data that already existed.** The twelve `ReusableSkill` records — with `category`, `maturity`, `usedByHarnessIds` and `avgTokenCostPerCall` — were seeded back in Step 2 but surfaced only as section 15 of 15 inside the AI Playbook, visible after picking a scope. No new skill data was invented; `data/capabilityLibrary.ts` adds the leverage view over them.
+
+**The cost model.** Reuse-versus-rebuild: each harness that embeds a skill would otherwise have built its own, so every reuse instance past the first is a build avoided. Build cost scales by category (a Validation skill approved for high autonomy carries more assurance work than a Retrieval one) and by maturity. Run cost is priced at **AED 30 per million tokens — the same default rate `tokenUsage.seed.ts` uses**, so this module can never quote a token cost that contradicts Token Economics. A test pins that constant.
+
+**What it shows:** 12 skills, 219 calls this quarter, 35 reuse instances, ~AED 1.53M in rebuilds avoided against AED 33 of tokens to actually run them; four memory stores (101,390 entries, 79% recall hit rate, 86M tokens of re-retrieval avoided); eight MCP connectors across ~19,900 calls.
+
+**Lessons**
+
+- **The most persuasive number was the contrast, not the total.** Running the whole library for a quarter costs AED 33 in tokens while rebuilding it would have cost AED 1.53M. Token spend is the number everyone instruments; build-versus-reuse is where the money actually is. The page leads with that comparison rather than a single savings figure.
+- **A period metric and a lifetime metric are not the same metric.** The seeded `reuseCount` runs 10–120 (lifetime). Quarterly call volume needed to sit in a 15–20 band. Overwriting the seed would have silently changed the AI Playbook's section 15 and its tests, so `callsThisQuarter` was added alongside rather than replacing it.
+- **Three Astryx API mismatches cost a round-trip each**, all caught by rendering rather than by types: `Table` takes `data`/`idKey` (not `rows`/`getRowId`), `Banner` takes `status`/`description` (not `variant`/children), and `ProgressBar` has no label props. `.jsx` UI with untyped props means the browser is the type checker — worth remembering before adding a fourth graph library or component wrapper.
+- **Astryx `<Text>` is inline.** Two stacked `<Text>` elements ran together into one paragraph until the wrapper got `display: flex; flex-direction: column`. Easy to miss in code review, obvious in a screenshot.
+
+
+### Phase 5 — Version Control & GitHub (2026-08-03)
+
+A concise guide to how the projects DEWA runs are kept under source control — deliberately *not* about how this prototype was built, which is `/vibe-code`'s job.
+
+Six sections: why it matters, what actually gets pushed, many projects under one organization, branching, the gate on `main`, and promotion to production. Content lives in `data/versionControlGuide.ts` rather than in JSX.
+
+**Lessons**
+
+- **The artifact build stubs mermaid out, which decided the whole approach.** Mermaid pulls ~3.4MB of lazy diagram chunks that a single-file page would have to inline, so `scripts/artifact/mermaid.js` replaces it with a stub that renders fences as source blocks — fine for `/pm-log`, fatal for a section whose entire point is diagrams. All four diagrams are therefore hand-authored SVG components: no dependency, identical output in the dev app and the artifact, theme-aware through `chartColors`, and better-looking than mermaid's defaults. Worth checking what a build strips before designing around a library.
+- **An SVG scaled to container width turns 11px labels into headlines.** The diagrams needed an explicit `max-width` — without one they filled a 1680px monitor and the type read as a poster. Capped at 940px and centred.
+- **The correction the section exists to make:** "how does data get pushed to GitHub" has the answer "it does not". Source control carries definitions; secrets go to a vault, PII to the data platform, weights to a model registry, logs to observability. The in-git / never-in-git panel is the most useful thing on the page.
+
+
+### Phase 6 — GitHub Copilot integration (2026-08-03)
+
+Added to `/version-control` rather than a new module: Copilot is a GitHub product sitting on the repositories that section already describes, so it completes that story — repos, branching, gates, promotion, and now the IDE layer where engineers actually work.
+
+Deliberately **not** put in `/copilot-workforce`. That module measures adoption (eligible / licensed / active users, license utilisation per division) for a workforce audience. This is integration architecture for an engineering audience. Mixing them would dilute both, so the two are cross-linked instead.
+
+Three parts: where Copilot sits and what context it is given (with a facing panel for what it never receives), the controls that make it governable, and what is pulled back into the Control Tower.
+
+**Lessons**
+
+- **The most useful answer was a boundary, not a pipeline.** The question was "how does data get pulled from Copilot into the project". The honest answer is that only metrics and metadata cross — source code never does, and findings link back to the commit on GitHub instead. Stating that plainly is more valuable than any diagram of the transport.
+- **`copilot-instructions.md` is the governance hook worth pointing at.** It is committed, reviewed and versioned like any other file, and it puts DEWA's standards and the owning Quality Procedure into every suggestion in that repo — the same "controls as code" argument the merge-gate section makes, applied one layer earlier.
+- **Text in a fixed-viewBox SVG has no reflow.** Three labels overflowed their boxes or the canvas edge and were only visible in a screenshot — `viewBox` clipping does not throw, warn, or fail a test. Anything drawn by hand needs looking at, not just rendering.

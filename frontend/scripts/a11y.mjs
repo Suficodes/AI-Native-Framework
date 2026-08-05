@@ -1,12 +1,14 @@
-import puppeteer from 'puppeteer-core'
-const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--no-sandbox'] })
+import { launch, requireServer, BASE_URL } from './browser.mjs'
+await requireServer()
+const browser = await launch()
 const page = await browser.newPage()
 await page.setViewport({ width: 1440, height: 950 })
 const ROUTES = ['/', '/organization', '/processes/agenticity', '/agents', '/agents/AGT-D2D-DOC-01', '/ai-playbook',
-  '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/administration', '/performance/agents']
+  '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/administration', '/performance/agents',
+  '/agent-constellation', '/capability-library', '/version-control']
 let total = 0
 for (const r of ROUTES) {
-  await page.goto(`http://localhost:3400/#${r}`, { waitUntil: 'networkidle0' })
+  await page.goto(`${BASE_URL}/#${r}`, { waitUntil: 'networkidle0' })
   await new Promise(x => setTimeout(x, 900))
   const a = await page.evaluate(() => {
     const problems = []
@@ -43,7 +45,7 @@ for (const r of ROUTES) {
 }
 console.log(`\ntotal a11y findings: ${total}`)
 // keyboard: does Tab reach the skip link first?
-await page.goto('http://localhost:3400/#/', { waitUntil: 'networkidle0' })
+await page.goto(BASE_URL + '/#/', { waitUntil: 'networkidle0' })
 await new Promise(x => setTimeout(x, 700))
 await page.keyboard.press('Tab')
 const first = await page.evaluate(() => document.activeElement?.className + ' | ' + document.activeElement?.textContent?.slice(0,40))

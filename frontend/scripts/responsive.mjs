@@ -1,13 +1,14 @@
-import puppeteer from 'puppeteer-core'
-const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--no-sandbox'] })
+import { launch, requireServer, BASE_URL } from './browser.mjs'
+await requireServer()
+const browser = await launch()
 const VIEWPORTS = [[1680,1050,'desktop-xl'],[1280,900,'desktop'],[1024,800,'laptop'],[768,1024,'tablet'],[390,844,'mobile']]
-const ROUTES = ['/', '/organization', '/agents', '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/ai-playbook', '/administration']
+const ROUTES = ['/', '/organization', '/agents', '/value-realization', '/token-economics', '/observability', '/strategic-alignment', '/ai-playbook', '/administration', '/agent-constellation', '/capability-library', '/version-control']
 for (const [w,h,name] of VIEWPORTS) {
   const page = await browser.newPage()
   await page.setViewport({ width: w, height: h })
   const issues = []
   for (const r of ROUTES) {
-    await page.goto(`http://localhost:3400/#${r}`, { waitUntil: 'networkidle0' })
+    await page.goto(`${BASE_URL}/#${r}`, { waitUntil: 'networkidle0' })
     await new Promise(x => setTimeout(x, 900))
     const res = await page.evaluate(() => {
       const de = document.documentElement

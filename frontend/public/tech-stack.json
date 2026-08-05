@@ -1,33 +1,46 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-01",
   "categories": {
     "languages": { "label": "Languages", "color": "#3B82F6" },
     "frontend": { "label": "Frontend", "color": "#8B5CF6" },
-    "backend": { "label": "Backend", "color": "#10B981" },
-    "database": { "label": "Database", "color": "#F59E0B" },
-    "ai": { "label": "AI / ML", "color": "#EC4899" },
-    "infra": { "label": "Infrastructure", "color": "#6B7280" },
-    "tools": { "label": "Build Tools", "color": "#14B8A6" }
+    "design": { "label": "Design system", "color": "#007560" },
+    "dataviz": { "label": "Data visualization", "color": "#EC4899" },
+    "data": { "label": "Data layer", "color": "#F59E0B" },
+    "testing": { "label": "Testing & verification", "color": "#10B981" },
+    "tools": { "label": "Build tools", "color": "#14B8A6" }
   },
   "projects": [
     {
       "id": "ai-native-control-tower",
-      "name": "ai-native-control-tower",
-      "path": "",
-      "purpose": "",
+      "name": "AI-Native Enterprise Control Tower",
+      "path": "frontend",
+      "purpose": "CAIO-facing console connecting organization, workforce, processes, agents, harnesses, D2D delivery, value realization, token economics and strategy into one product.",
       "category": "Application",
       "status": "running",
-      "ports": {},
+      "ports": { "dev": 3400 },
       "stack": {
-        "languages": ["Python", "JavaScript"],
-        "frontend": ["Vue 3", "Vue Router"],
-        "backend": ["FastAPI", "SQLAlchemy", "Pydantic"],
-        "database": ["PostgreSQL"],
-        "infra": ["Docker"],
-        "tools": ["Vite"]
+        "languages": ["TypeScript", "JavaScript (JSX)", "CSS"],
+        "frontend": ["React 19", "React Router 7 (hash router)"],
+        "design": ["Astryx (@astryxdesign/core)", "DEWA theme", "Figtree", "JetBrains Mono"],
+        "dataviz": ["recharts", "@xyflow/react", "@dagrejs/dagre"],
+        "data": ["In-memory mock dataset", "Seeded PRNG (mulberry32)", "No backend", "No database"],
+        "testing": ["vitest", "tsc --noEmit", "Puppeteer verification scripts"],
+        "tools": ["Vite 8", "npm"]
       }
     }
   ],
-  "tech_details": {}
+  "tech_details": {
+    "React 19": "UI runtime. Components are .jsx; the data and logic layer is TypeScript.",
+    "React Router 7 (hash router)": "createHashRouter, so the prototype serves from any static path without server rewrites.",
+    "Astryx (@astryxdesign/core)": "MIT design system, themed with DEWA green #007560 via data-astryx-theme.",
+    "recharts": "Every chart. Marks use the dataviz reference palette, not brand hex — brand colours fail perceptual distinctness for chart series.",
+    "@xyflow/react": "Node-link graphs: org chart, harness designer, strategy map, and the 403-node Enterprise Map.",
+    "@dagrejs/dagre": "Auto-layout for every graph, shared through one helper (pages/organization/orgLayout.ts).",
+    "In-memory mock dataset": "14 seed files in strict foreign-key order, served through data/mockApi.ts — the only data door the UI may use.",
+    "Seeded PRNG (mulberry32)": "Seed 42, so every run, screenshot and test is reproducible.",
+    "No backend": "Deliberate. The requirements doc mandates a frontend-only first prototype: no API keys, no paid dependencies.",
+    "vitest": "108 data-layer tests covering graph integrity, lens purity, formulas and foreign keys.",
+    "Puppeteer verification scripts": "frontend/scripts/*.mjs — 45 UI checks plus the UX checklist, accessibility, responsiveness and keyboard navigation."
+  }
 }

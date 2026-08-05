@@ -6,27 +6,35 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:artifact": "node scripts/build-artifact.mjs",
     "preview": "vite preview --host 0.0.0.0 --port 3400",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "validate:journey": "node scripts/validate-journey.mjs"
+    "validate:journey": "node scripts/validate-journey.mjs",
+    "verify": "node scripts/verify.mjs",
+    "verify:ux": "node scripts/uxcheck.mjs",
+    "verify:a11y": "node scripts/a11y.mjs",
+    "verify:responsive": "node scripts/responsive.mjs",
+    "verify:keyboard": "node scripts/keyboard.mjs",
+    "verify:all": "npm run verify && npm run verify:ux && npm run verify:a11y && npm run verify:responsive && npm run verify:keyboard"
   },
   "dependencies": {
     "@astryxdesign/core": "^0.1.2",
     "@dagrejs/dagre": "^1.1.4",
     "@number-flow/react": "^0.6.1",
     "@xyflow/react": "^12.11.2",
+    "marked": "^14.0.0",
+    "mermaid": "^11.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
-    "recharts": "^3.10.1",
-    "marked": "^14.0.0",
-    "mermaid": "^11.0.0"
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.3",
+    "puppeteer-core": "^25.4.0",
     "typescript": "^5.7.3",
     "vite": "^8.1.1",
     "vitest": "^3.0.0"
