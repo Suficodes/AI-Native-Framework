@@ -69,3 +69,9 @@ logs/
 # Docker
 .docker/
 dist-artifact/
+
+# Agent skills installed via `npx skills add` — payload is reproducible from
+# skills-lock.json, so the lock file is committed and the 3MB of vendored
+# docs is not. Re-install with: npx skills install
+.agents/
+.claude/skills/
